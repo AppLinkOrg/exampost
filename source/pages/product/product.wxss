@@ -1,0 +1,33 @@
+/* pages/product/product.wxss */
+.cover{
+  width: 100vw;
+  height: 80vw;
+}
+.cover image{
+  width: 100vw;
+  height: 80vw;
+}
+.name{
+  color:#666;
+}
+.summary{
+  margin-top: 10rpx;
+}
+video{
+  width: 100%;
+}
+
+
+.info-icon-big{
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.bg{
+  background-color:rgba(0,0,0,0.5);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}

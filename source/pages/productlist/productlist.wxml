@@ -1,0 +1,42 @@
+<!--pages/goodscat/goodscat.wxml-->
+<view >
+  <navigator url='/pages/search/search' class="searchbar white-block flex-row flex-center">
+    <view class="flex-1 h5 txt-gray">我想要找一下最新的考研资料</view>
+    <view class=" text-right line-height-0" >
+      <image src='{{uploadpath}}resource/search.png' class='icon'></image>
+    </view>
+  </navigator>
+</view>
+<view class='flex-row  '>
+  <view style='width:170rpx;margin-right:4rpx;' class='white-block'>
+    <scroll-view scroll-y style='height:calc( 100vh - 100rpx );width:100%' class='text-center'>
+      <view wx:for="{{catlist}}" wx:key="k" wx:for-index="idx" class='padding-20 {{item.active=="Y"?"txt-primary txt-bold":"h5"}}' id="{{idx}}" bindtap='catclick'>
+        {{item.name}}
+      </view>
+    </scroll-view>
+  </view>
+  <view class='flex-1 white-block'>
+    <scroll-view scroll-y style='height:calc( 100vh - 100rpx );width:100%' scroll-with-animation="{{true}}">
+      <view wx:for="{{catlist}}" wx:key="k" wx:for-index="idx" id="cat_{{idx}}">
+        <block wx:if="{{item.active=='Y'}}">
+          <view class='text-center' wx:if="{{item.productlist.length==0}}">
+            <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+            <view class='h6 txt-gray'>暂时没有～～～</view>
+          </view>
+          <navigator url='/pages/product/product?id={{subitem.id}}' wx:for="{{item.productlist}}" wx:key="k" wx:for-item="subitem" wx:for-index='idx' class='{{item.productlist.length-1==idx?"":"border-bottom"}} white-block padding-20 flex-row '>
+            <view class='flex-1'>
+              <view class='title h5'>{{subitem.name}}</view>
+              <view class='flex-row flex-bottom' style='margin-top:4rpx;'>
+                <view class='flex-1 h6 txt-gray'>{{subitem.published_date_formatting}}</view>
+                <view class='h6 txt-gray' style='margin-right:10rpx;'>{{subitem.ref}}</view>
+              </view>
+            </view>
+            <view>
+              <image class='cover' src='{{uploadpath}}product/{{subitem.cover}}' mode="aspectFill"></image>
+            </view>
+          </navigator>
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+</view>

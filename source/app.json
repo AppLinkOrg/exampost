@@ -1,0 +1,59 @@
+{
+  "pages":[
+    "pages/home/home",
+    "pages/search/search",
+    "pages/viewhistory/viewhistory",
+    "pages/member/member",
+    "pages/product/product",
+    "pages/productlist/productlist",
+    "pages/auth/auth",
+    "pages/success/success",
+    "pages/signup/signup",
+    "pages/news/news",
+    "pages/service/service",
+    "pages/newslist/newslist",
+    "pages/aboutuslist/aboutuslist",
+    "pages/aboutus/aboutus",
+    "pages/index/index",
+    "pages/servicelist/servicelist",
+    "pages/content/content",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "white",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1a237e",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/home/home",
+        "iconPath": "images/icons/home-o.png",
+        "selectedIconPath": "images/icons/home.png"
+      },
+      {
+        "text": "分类",
+        "pagePath": "pages/productlist/productlist",
+        "iconPath": "images/icons/cat-o.png",
+        "selectedIconPath": "images/icons/cat.png"
+      },
+      {
+        "text": "圈子",
+        "pagePath": "pages/aboutuslist/aboutuslist",
+        "iconPath": "images/icons/quan-o.png",
+        "selectedIconPath": "images/icons/quan.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/member/member",
+        "iconPath": "images/icons/member-o.png",
+        "selectedIconPath": "images/icons/member.png"
+      }
+    ]
+  }
+}

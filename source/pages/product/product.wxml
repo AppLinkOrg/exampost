@@ -1,0 +1,84 @@
+<!--pages/product/product.wxml-->
+<import src="../../wxParse/wxParse.wxml" />
+
+<view class='white-block padding-20 h3'>
+  {{name}}
+</view>
+<view class='white-block padding-20'>
+  <template is="wxParse" data="{{wxParseData:content.nodes}}" />
+</view>
+<view class='white-block flex-row padding-20'>
+  <view class='h6 txt-gray margin-right-10'>{{published_date_formatting}}</view>
+  <view class='h6 txt-gray flex-1'>下载次数：{{downloadcount}}次</view>
+  <view class='h6 txt-gray margin-right-10'>{{ref}}</view>
+  <view class='h6 txt-gray'>{{cat_id_name}}</view>
+</view>
+<view class='flex-row padding-20 white-block text-center'>
+  <view class='flex-1' wx:if="{{copycontent!=''}}" bindtap='copycontent' data-content='{{copycontent}}'>
+    <button size='mini'>复制链接</button>
+  </view>
+  <view class='flex-1 ' wx:if="{{attachment!=''}}">
+    <button type='primary' size='mini' bindtap='mydownload'>下载资料</button>
+  </view>
+</view>
+<view class='padding-20 white-block'>
+  <text class='h6 txt-gray'>{{instinfo.downloaddesc}}</text>
+</view>
+<view class='margin-top white-block'>
+
+  <view class='padding-20 flex-row flex-center'>
+    <view class=' txt-gray margin-right-10'>留言评论
+      <block wx:if="{{commentlist.length>0}}">({{commentlist.length}})</block>
+    </view>
+    <view class='line-height-0' bindtap='loadcomment'>
+      <image src='{{uploadpath}}resource/refresh.png' class='icon'></image>
+    </view>
+    <view class='flex-1 text-right line-height-0'>
+      <image src='{{uploadpath}}resource/comment.png' class='icon' bindtap='showincomment'></image>
+    </view>
+  </view>
+
+  <view wx:if="{{commentlist.length==0}}" class='text-center padding-20'>
+    <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+    <view class='txt-gray h6'>暂无评论</view>
+    <view class='padding-20'></view>
+  </view>
+  <view class='padding-20'>
+
+    <view class='flex-row {{commentlist.length-1!=idx?"border-bottom":""}}' wx:for="{{commentlist}}" wx:key="k" wx:for-index="idx">
+      <view class='padding-20'>
+        <image src='{{item.member_avatarUrl}}' class='icon-50 border-radius-50'> </image>
+      </view>
+      <view class='flex-1 padding-20'>
+        <view class='flex-row '>
+
+          <view class='flex-1 txt-gray h6 '>{{item.member_nickName}}</view>
+          <view class='txt-gray h6 '>#{{commentlist.length-idx}}</view>
+        </view>
+
+        <view class='margin-top-10'>
+          <text>{{item.comment}}</text>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+</view>
+
+<view wx:if="{{incomment==true}}">
+  <view class='bg' bindtap='hideincomment'>
+
+  </view>
+  <view class='fixedbottom white-block'>
+    <view class='padding-20'>
+      <view class='flex-row'>
+        <view class='flex-1 h5 txt-gray' bindtap='hideincomment'>取消</view>
+        <view class='flex-1 txt-primary h5 text-right' bindtap='comment'>发表</view>
+      </view>
+      <view class='margin-top-10'>
+        <textarea class='fullimg h6' placeholder='发表我对这个资料的评价' value='{{commenttext}}' bindinput='commenttextchange'></textarea>
+      </view>
+    </view>
+  </view>
+</view>

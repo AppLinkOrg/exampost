@@ -1,0 +1,28 @@
+<!--pages/member/member.wxml-->
+<view class='text-center white-block'>
+  <view class='padding-20'>
+    <image class='icon-70 border-radius-50' src='{{UserInfo.avatarUrl}}' ></image>
+  </view>
+  <view class='padding-20' >
+    {{UserInfo.nickName}}
+  </view>
+  <view class='padding-10'></view>
+</view>
+
+<view class='padding-20 white-block margin-top flex-row flex-center'>
+  <view class='line-height-0 margin-right-10'>
+    <image class='hisicon' src='{{uploadpath}}resource/history.png' ></image>
+  </view>
+  <view class='flex-1'>
+    浏览记录
+  </view>
+  <view class='line-height-0 margin-right-10'>
+    <image class='icon' src='{{uploadpath}}resource/right.png' ></image>
+  </view>
+</view>
+
+
+<view class='txt-gray h6 text-center padding-20 margin-top'>
+  丁迩考研版权所有
+</view>
+

@@ -1,0 +1,38 @@
+<view>
+  <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:420rpx;'>
+    <swiper-item wx:for="{{indexbanner}}" wx:key="k">
+      <navigator url='{{item.objs_path}}'>
+        <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
+      </navigator>
+    </swiper-item>
+  </swiper>
+</view>
+
+<view >
+  <navigator url='/pages/search/search' class="searchbar white-block flex-row flex-center">
+    <view class="flex-1 h5 txt-gray">我想要找一下最新的考研资料</view>
+    <view class=" text-right line-height-0" >
+      <image src='{{uploadpath}}resource/search.png' class='icon'></image>
+    </view>
+  </navigator>
+</view>
+<view class="padding-20 h4 border-top">
+  最新发布
+</view>
+<navigator url='/pages/product/product?id={{item.id}}' wx:for="{{productlist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
+  <view class='flex-1'>
+    <view class='title'>{{item.name}}</view>
+    <view class='margin-top flex-row flex-bottom'>
+      <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
+      <view class='h6 txt-gray' style='margin-right:10rpx;' >{{item.ref}}</view>
+      <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+    </view>
+  </view>
+  <view>
+    <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
+  </view>
+</navigator>
+<view wx:if="{{reachmore==true}}" class='txt-gray h6 text-center padding-20'>
+  加载中
+</view>
+

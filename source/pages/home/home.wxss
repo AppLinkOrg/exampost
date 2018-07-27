@@ -1,0 +1,22 @@
+/* pages/home/home.wxss */
+
+.searchbar {
+  border-radius: 30px;
+  margin: 20rpx;
+  padding: 10rpx;
+  padding-left: 25rpx;
+  padding-right: 25rpx;
+}
+
+.title {
+  height: 82rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.cover{
+  margin-left: 30rpx;
+  width: 200rpx;
+  height:156rpx;
+}

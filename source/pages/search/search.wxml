@@ -1,0 +1,52 @@
+<!--pages/search/search.wxml-->
+
+<view class="weui-search-bar">
+  <view class="weui-search-bar__form">
+    <view class="weui-search-bar__box">
+      <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+      <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" confirm-type='search' bindconfirm='search' />
+      <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+        <icon type="clear" size="14"></icon>
+      </view>
+    </view>
+    <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+      <icon class="weui-icon-search" type="search" size="14"></icon>
+      <view class="weui-search-bar__text">搜索</view>
+    </label>
+  </view>
+  <view class="weui-search-bar__cancel-btn txt-primary" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+</view>
+  <view style='height:95rpx;'></view>
+  <block wx:if="{{inputVal==''}}">
+    <block wx:if="{{history.length>0}}">
+      <view class='keywordtitle'>历史搜索</view>
+      <view class='flex-row' style='flex-wrap: wrap;padding-left:30rpx;'>
+        <view wx:for="{{history}}" wx:key="k" class='keyword' id="{{item.keyword}}" bindtap='searchKeyword'>{{item.keyword}}</view>
+      </view>
+    </block>
+    <block wx:if="{{hotest.length>0}}">
+      <view class='keywordtitle' style='margin-top:40rpx;'>热门搜索</view>
+      <view class='flex-row' style='flex-wrap: wrap;padding-left:30rpx;'>
+        <view wx:for="{{hotest}}" wx:key="k" class='keyword' id="{{item.keyword}}" bindtap='searchKeyword'>{{item.keyword}}</view>
+      </view>
+    </block>
+  </block>
+  <block wx:else>
+    <view class='text-center margin-top' wx:if="{{searchresult.length==0}}">
+  <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+  <view class='h6 txt-gray'>没有搜索到记录</view>
+</view>
+<navigator url='/pages/product/product?id={{item.id}}' wx:for="{{searchresult}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
+  <view class='flex-1'>
+    <view class='title'>{{item.name}}</view>
+    <view class='margin-top flex-row flex-bottom'>
+      <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
+      <view class='h6 txt-gray' style='margin-right:10rpx;'>{{item.ref}}</view>
+      <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+    </view>
+  </view>
+  <view>
+    <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
+  </view>
+</navigator>
+  </block>

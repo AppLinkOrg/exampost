@@ -1,0 +1,23 @@
+
+
+
+.title {
+  height: 78rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.cover{
+  margin-left: 15rpx;
+  width: 150rpx;
+  height:114rpx;
+}
+
+.searchbar {
+  border-radius: 30px;
+  margin: 20rpx;
+  padding: 10rpx;
+  padding-left: 25rpx;
+  padding-right: 25rpx;
+}
