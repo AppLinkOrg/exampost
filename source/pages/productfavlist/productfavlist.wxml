@@ -1,0 +1,18 @@
+<!--pages/productfavlist/productfavlist.wxml-->
+<view class='text-center margin-top' wx:if="{{productlist.length==0}}">
+  <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+  <view class='h6 txt-gray'>还没有开始浏览</view>
+</view>
+<navigator url='/pages/product/product?id={{item.id}}' wx:for="{{productlist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
+  <view class='flex-1'>
+    <view class='title'>{{item.name}}</view>
+    <view class='margin-top flex-row flex-bottom'>
+      <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
+      <view class='h6 txt-gray' style='margin-right:10rpx;'>{{item.ref}}</view>
+      <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+    </view>
+  </view>
+  <view>
+    <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
+  </view>
+</navigator>

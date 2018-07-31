@@ -14,9 +14,11 @@ class Content extends AppBase {
     this.Base.Page = this;
     this.Base.pagetitle = "";
     super.onLoad(options);
-    this.Base.setMyData({ commentlist:[],commenttext:""});
+    this.Base.setMyData({ commentlist:[],commenttext:"",audio:"",video:""});
   }
   onMyShow() {
+    audioctx=wx.createAudioContext('myAudio');
+    videoctx = wx.createVideoContext('myVideo')
     var that = this;
     var instapi = new InstApi();
     instapi.product({id:this.Base.options.id}, (product) => {
@@ -91,7 +93,30 @@ class Content extends AppBase {
       this.Base.setMyData({commentlist:commentlist});
     });
   }
+  videoplay(){
+    audioctx.pause();
+  }
+  audioplay() {
+    videoctx.pause();
+  }
+  fav(){
+    var fav=this.Base.getMyData().fav;
+    var api=new ProductApi();
+    api.fav({"product_id":this.Base.options.id},(ret)=>{
+
+      if (fav == "Y") {
+        this.Base.setMyData({ fav: "N" });
+        this.Base.toast("取消收藏成功");
+      }else{
+
+        this.Base.setMyData({ fav: "Y" });
+        this.Base.toast("收藏成功");
+      }
+    });
+  }
 }
+var audioctx=null;
+var videoctx=null;
 var content = new Content();
 var body = content.generateBodyJson();
 body.onLoad = content.onLoad; 
@@ -100,7 +125,10 @@ body.mydownload = content.mydownload;
 body.showincomment = content.showincomment;
 body.hideincomment = content.hideincomment; 
 body.comment = content.comment;
-body.commenttextchange = content.commenttextchange;
+body.commenttextchange = content.commenttextchange; 
 body.loadcomment = content.loadcomment;
+body.videoplay = content.videoplay; 
+body.audioplay = content.audioplay;
+body.fav = content.fav;
 
 Page(body)

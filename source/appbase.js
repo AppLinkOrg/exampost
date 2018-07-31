@@ -11,7 +11,7 @@ export class AppBase {
 
   static UserInfo = {};
   unicode = "deky";
-  needauth = false;
+  needauth = true;
   pagetitle=null;
   app = null;
   options = null;
@@ -701,6 +701,14 @@ export class AppBase {
           })
         }
       }
+    })
+  }
+  toast(msg){
+
+    wx.showToast({
+      title: msg,
+      icon: 'none',
+      duration: msg.length*500
     })
   }
 } 

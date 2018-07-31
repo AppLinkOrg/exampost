@@ -1,0 +1,17 @@
+/* pages/member/member.wxss */
+/* pages/member/member.wxss *//* pages/member/member.wxss */
+.photo{
+  position: absolute;
+  margin-top: -70rpx;
+  width: 750rpx;
+}
+.photo image{
+  width:140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  margin-left: 20rpx;
+}
+.photo button{
+  margin-top: 90rpx;
+  margin-right: 40rpx;
+}

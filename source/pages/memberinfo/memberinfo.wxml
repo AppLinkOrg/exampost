@@ -1,0 +1,107 @@
+<!--pages/member/member.wxml-->
+<view class='line-height-0'>
+  <image class='fullimg' src='{{uploadpath}}resource/membertopbanner.png' style='height:200rpx;' ></image>
+</view>
+<view class='photo flex-row'>
+  <view class='flex-1'>
+    <image class='fullimg' src='{{memberinfo.avatarUrl}}' ></image>
+  </view>
+  <view>
+    <button class='btn-primary-line' size='mini' bindtap='gotochatroom' >发消息</button>
+  </view>
+  <view>
+    <button type='primary' size='mini' bindtap='addfriend' wx:if="{{memberinfo.followed==false}}"  >加关注</button>
+    <button type='primary' size='mini' wx:if="{{memberinfo.followed==true}}" bindtap='removefriend' >取消关注</button>
+  </view>
+</view>
+<view class='padding-20 white-block border-bottom'>
+  <view class='h5' style='margin-top:70rpx;'>
+    {{memberinfo.nickName}}
+  </view>
+  <view class='margin-top-10 flex-row' >
+    <view class='h6' style='margin-right:10rpx;'>{{memberinfo.followcount}} </view>
+    <view class='txt-gray h6'>关注</view>
+    <view class='h6' style='margin-left:40rpx;margin-right:10rpx;'>{{memberinfo.fanscount}} </view>
+    <view class='txt-gray h6'>粉丝</view>
+  </view>
+</view>
+
+<view class='flex-row tabs'>
+  <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="0">
+    <view class='flex-1'></view>
+    <view class='txt-light tabtext  {{currenttab==0?"active":""}}'>发布</view>
+    <view class='flex-1'></view>
+  </view>
+  <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="1">
+    <view class='flex-1'></view>
+    <view class='txt-light tabtext  {{currenttab==1?"active":""}}'>收藏</view>
+    <view class='flex-1'></view>
+  </view>
+</view>
+
+  <swiper indicator-dots="{{false}}" class='bottomtabs ' current='{{currenttab}}' bindchange="changeCurrentTab" class="maintab">
+    <swiper-item>
+      <scroll-view scroll-y style='height:100%'>
+        <view class='text-center' wx:if="{{listMy.length==0}}">
+          <view>
+          <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+          </view>
+          <view class='txt-gray h6'>
+            暂未发布
+          </view>
+        </view>
+
+        <view class='white-block'>
+        <navigator url='/pages/info/info?id={{item.id}}' wx:for="{{listMy}}" wx:key="k" class='flex-row rowitem'>
+          <view>
+            <image src='{{uploadpath}}post/{{item.cover}}' class='imgcover' mode='aspectFill'></image>
+          </view>
+          <view class='flex-1'>
+            <view class='headtitle'>{{item.title}}</view>
+            <view class='headdescription'>
+              {{item.address}}
+            </view>
+            <view class='headdescription'>
+              发布时间：{{item.post_time_formatting}}
+            </view>
+          </view>
+        </navigator>
+      </view>
+
+
+      </scroll-view>
+    </swiper-item>
+    <swiper-item>
+      <scroll-view scroll-y style='height:100%'>
+
+        <view class='text-center' wx:if="{{listFollow.length==0}}">
+          <view>
+          <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+          </view>
+          <view class='txt-gray h6'>
+            暂未发布
+          </view>
+        </view>
+
+
+        <view class='white-block'>
+        <navigator url='/pages/info/info?id={{item.id}}' wx:for="{{listFollow}}" wx:key="k" class='flex-row rowitem'>
+          <view>
+            <image src='{{uploadpath}}post/{{item.cover}}' class='imgcover' mode='aspectFill'></image>
+          </view>
+          <view class='flex-1'>
+            <view class='headtitle'>{{item.title}}</view>
+            <view class='headdescription'>
+              {{item.address}}
+            </view>
+            <view class='headdescription'>
+              发布时间：{{item.post_time_formatting}}
+            </view>
+          </view>
+        </navigator>
+      </view>
+
+
+      </scroll-view>
+    </swiper-item>
+  </swiper>

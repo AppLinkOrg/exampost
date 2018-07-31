@@ -1,10 +1,13 @@
 {
   "pages":[
     "pages/home/home",
+    "pages/times/times",
+    "pages/post/post",
+    "pages/member/member",
+    "pages/productfavlist/productfavlist",
+    "pages/product/product",
     "pages/search/search",
     "pages/viewhistory/viewhistory",
-    "pages/member/member",
-    "pages/product/product",
     "pages/productlist/productlist",
     "pages/auth/auth",
     "pages/success/success",
@@ -44,7 +47,7 @@
       },
       {
         "text": "圈子",
-        "pagePath": "pages/aboutuslist/aboutuslist",
+        "pagePath": "pages/times/times",
         "iconPath": "images/icons/quan-o.png",
         "selectedIconPath": "images/icons/quan.png"
       },

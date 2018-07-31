@@ -9,7 +9,18 @@
   <view class='padding-10'></view>
 </view>
 
-<view class='padding-20 white-block margin-top flex-row flex-center'>
+<navigator url='/pages/productfavlist/productfavlist' class='padding-20 white-block margin-top flex-row flex-center'>
+  <view class='line-height-0 margin-right-10'>
+    <image class='icon' src='{{uploadpath}}resource/fav.png' ></image>
+  </view>
+  <view class='flex-1'>
+    我的收藏
+  </view>
+  <view class='line-height-0 margin-right-10'>
+    <image class='icon-15' src='{{uploadpath}}resource/right.png' ></image>
+  </view>
+</navigator>
+<navigator url='/pages/viewhistory/viewhistory' class='padding-20 white-block border-top flex-row flex-center'>
   <view class='line-height-0 margin-right-10'>
     <image class='hisicon' src='{{uploadpath}}resource/history.png' ></image>
   </view>
@@ -17,9 +28,9 @@
     浏览记录
   </view>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon' src='{{uploadpath}}resource/right.png' ></image>
+    <image class='icon-15' src='{{uploadpath}}resource/right.png' ></image>
   </view>
-</view>
+</navigator>
 
 
 <view class='txt-gray h6 text-center padding-20 margin-top'>

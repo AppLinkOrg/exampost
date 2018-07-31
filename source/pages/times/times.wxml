@@ -1,0 +1,68 @@
+<!--pages/times/times.wxml-->
+<view class='text-center' wx:if="{{list.length==0}}">
+  <view>
+    <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+  </view>
+  <view class='txt-gray h6'>
+
+  </view>
+</view>
+<view class='white-block padding-20 flex-row border-bottom' wx:for="{{list}}" wx:key="k" wx:for-index="idx">
+  <view url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}'>
+    <image class='icon-40' style='border-radius:50%;' src='{{item.member_avatarUrl}}'></image>
+  </view>
+  <view class='flex-1' style='margin-left:30rpx;margin-right:20rpx;'>
+    <view class='h5 txt-primary' url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}' >{{item.member_nickName}}</view>
+    <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
+      <view class='margin-top-10'>{{item.title}}</view>
+    </view>
+    <block wx:if="{{item.video!=''}}">
+      <view class='margin-top-10'>
+        <video style='width:80%;' src='{{uploadpath}}post/{{item.video}}'></video>
+      </view>
+    </block>
+    <block wx:if="{{item.images.length>0}}">
+      <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
+        <view class='margin-top-10' wx:if="{{item.images.length==1}}">
+          <image src='{{uploadpath}}post/{{item.images[0]}}' style='max-width:400rpx;' mode='widthFix'></image>
+        </view>
+        <view class='flex-row flex-wrap margin-top-10' wx:if="{{item.images.length>1}}">
+          <view wx:for="{{item.images}}" wx:key="k">
+            <image class='icon-40' src='{{uploadpath}}post/{{item}}' style='width:180rpx;height:180rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill'></image>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view class='margin-top-10 txt-gray flex-row flex-bottom'>
+      <view class='h6 txt-gray'>
+      {{item.timeduration}}
+      </view>
+      <view class='flex-1 text-right ' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}" >
+        <image class='icon' src='{{uploadpath}}resource/like.png'></image>
+      </view>
+      <view class='flex-1 text-right ' style='margin-right:30rpx;' id="{{item.id}}" wx:if="{{item.like=='Y'}}" >
+        <image class='icon' src='{{uploadpath}}resource/like-a.png'></image>
+      </view>
+      <view class='' bindtap='gotoOntype' id="{{item.id}}">
+        <image class='icon' src='{{uploadpath}}resource/comment.png'></image>
+      </view>
+    </view>
+    <view url='/pages/info/info?id=shownext=Y&showcomment=Y&id={{item.id}}' class='margin-top padding-10' wx:if="{{item.commentlist.length>0||item.likelist.length>0}}" style="background-color:#eee;border-radius:4rpx;">
+      <view wx:if="{{item.likelist.length>0}}" class="flex-row flex-center flex-wrap " style="margin-bottom:10rpx;" >
+        <view class='line-height-0'><image src='{{uploadpath}}resource/xin.png' class='icon-15'></image></view><view wx:for="{{item.likelist}}" class='h6 txt-primary' style='margin-left:10rpx;'>{{item.nickName}}</view>
+      </view>
+      <view wx:for="{{item.commentlist}}" wx:key="ke" class=''>
+        <text class='h6 line-height-0 txt-primary' >{{item.nickName}}：</text>
+        <text class='h6 line-height-0'>{{item.comment}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<navigator url='/pages/post/post' class='fixfabu'>
+  <image class='icon-50' src='{{uploadpath}}resource/fabu.png'></image>
+</navigator>
+
+<view class='fixedbottom white-block padding-20' hidden='{{ontype==false}}'>
+<input class='fullimg' focus='{{ontype==true}}' bindblur='unontype' value='{{commenttext}}' bindinput='changecommenttext' bindconfirm='comment' type='text' maxlength='30' confirm-type="发送"></input>
+</view>

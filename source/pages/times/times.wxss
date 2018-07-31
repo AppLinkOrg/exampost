@@ -1,0 +1,6 @@
+/* pages/times/times.wxss */
+.fixfabu{
+  position: fixed;
+  bottom: 34rpx;
+  right: 34rpx;
+}

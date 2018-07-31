@@ -1,8 +1,8 @@
 <view>
-  <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:420rpx;'>
+  <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:220rpx;'>
     <swiper-item wx:for="{{indexbanner}}" wx:key="k">
       <navigator url='{{item.objs_path}}'>
-        <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
+        <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:220rpx;' mode="aspectFill"></image>
       </navigator>
     </swiper-item>
   </swiper>

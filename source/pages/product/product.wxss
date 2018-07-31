@@ -31,3 +31,13 @@ video{
   top: 0px;
   left: 0px;
 }
+
+
+.triangle_border_up{
+    width:0;
+    height:0;
+    border-width:0 10px 10px;
+    border-style:solid;
+    border-color:transparent transparent #f2f2f2;/*透明 透明  灰*/
+    position:relative;
+}
