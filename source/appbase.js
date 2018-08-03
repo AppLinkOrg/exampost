@@ -10,6 +10,7 @@ import { MemberApi } from "apis/member.api";
 export class AppBase {
 
   static UserInfo = {};
+  static NEEDRELOADTIMES=false;
   unicode = "deky";
   needauth = true;
   pagetitle=null;
@@ -174,7 +175,10 @@ export class AppBase {
                 console.log(AppBase.UserInfo);
                 ApiConfig.SetToken(data.openid);
                 console.log("goto update info");
-                memberapi.update(AppBase.UserInfo);
+                memberapi.update(AppBase.UserInfo,(ret)=>{
+                  console.log("member update");
+                  console.log(ret);
+                });
 
 
                 console.log(AppBase.UserInfo);

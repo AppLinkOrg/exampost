@@ -16,6 +16,10 @@ class Content extends AppBase {
   }
   onMyShow() {
     var that = this;
+    if(AppBase.NEEDRELOADTIMES==true){
+      this.Base.setMyData({ list: [], ontype: false, commenttext: "" });
+      AppBase.NEEDRELOADTIMES=false;
+    }
     this.loaddata();
   }
   
@@ -128,8 +132,13 @@ class Content extends AppBase {
       var UserInfo = this.Base.getMyData().UserInfo;
       for(var i=0;i<list.length;i++){
         if(list[i].id==id){
-          list[i].likelist.push(UserInfo);
-          list[i].like="Y";
+          if (list[i].like=='N'){
+            list[i].likelist.push(UserInfo);
+            list[i].like = "Y";
+          }else{
+            list[i].likelist.pop();
+            list[i].like = "N";
+          }
         }
       }
       this.Base.setMyData({ list});
@@ -168,6 +177,30 @@ class Content extends AppBase {
   changecommenttext(e){
     var commenttext=e.detail.value;
     this.Base.setMyData({ commenttext});
+  }
+  deletemypost(e){
+    var that=this;
+    var id=e.currentTarget.id;
+    wx.showModal({
+      title: '提示',
+      content: '确定删除吗？',
+      success(res){
+        if(res.confirm){
+          var postapi=new PostApi();
+          postapi._delete({"idlist":id},(ret)=>{
+            
+            var list=[];
+            var olist=that.Base.getMyData().list;
+            for(var i=0;i<olist.length;i++){
+              if(olist[i].id!=id){
+                list.push(olist[i]);
+              }
+            }
+            that.Base.setMyData({list});
+          })
+        }
+      }
+    })
   }
 }
 var count = 0;
@@ -215,7 +248,8 @@ body.loaddata = content.loaddata;
 body.like = content.like; 
 body.gotoOntype = content.gotoOntype;
 body.unontype = content.unontype; 
-body.comment = content.comment;
+body.comment = content.comment; 
 body.changecommenttext = content.changecommenttext;
+body.deletemypost = content.deletemypost;
 
 Page(body)

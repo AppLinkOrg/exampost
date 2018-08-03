@@ -62,7 +62,10 @@ view,navigator,input,text,textarea{
   background: white;
 }
 .gray-block{
-  background: #f2f2f2;
+  background: #fafafa;
+}
+.border-gray{
+  border:4rpx rgba(221, 221, 221, 0.5) solid;
 }
 .primary-block{
   background: #1a237e;
@@ -71,7 +74,9 @@ view,navigator,input,text,textarea{
 .bg-primary{
   background: #1a237e;
 }
-
+.txt-light-primary{
+  color:#656987;
+}
 .txt-primary{
   color:#1a237e;
 }
@@ -160,6 +165,12 @@ button[disabled][type=primary] {
 }
 .height-40{
   height: 40rpx;
+}
+.margin-left-10{
+  margin-left: 20rpx;
+}
+.margin-right-10{
+  margin-right: 20rpx;
 }
 .margin-top-10{
   margin-top:20rpx;

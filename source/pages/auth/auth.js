@@ -5,13 +5,13 @@ const app = getApp()
 Page({
   //事件处理函数
   bindViewTap: function () {
-    wx.navigateBack({
-      
+    wx.switchTab({
+      url: '/pages/home/home',
     })
   },
   getUserInfo: function (e) {
-    wx.navigateBack({
-
+    wx.switchTab({
+      url: '/pages/home/home',
     })
   }
 })

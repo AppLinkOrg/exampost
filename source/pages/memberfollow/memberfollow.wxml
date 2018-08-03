@@ -1,0 +1,9 @@
+<!--pages/memberfollow/memberfollow.wxml-->
+<navigator url='/pages/memberinfo/memberinfo?id={{item.follow_member_id}}' wx:for="{{list}}" wx:key="k" class='white-block flex-row flex-center border-bottom padding-20'>
+  <view>
+    <image class='icon-40' style='border-radius:50%' src='{{item.followmember_avatarUrl}}'></image>
+  </view>
+  <view class='flex-1' style='margin-left:10rpx;'>
+    {{item.followmember_nickName}}
+  </view>
+</navigator>

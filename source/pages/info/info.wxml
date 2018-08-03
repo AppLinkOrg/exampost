@@ -1,0 +1,359 @@
+<!--pages/info/info.wxml-->
+<view class='padding white-block border-bottom' wx:if="{{id}}">
+  <view class='flex-row flex-center'>
+    <view class='line-height-0 margin-right-10'>
+      <image class='icon-50' style='border-radius:50%;' src='{{member_avatarUrl}}'></image>
+    </view>
+    <view class='margin-left-10'>
+      <view class='h5 txt-light-primary'>{{member_nickName}}</view>
+      <view class='margin-top-10 flex-row '>
+        <view class='h6 txt-gray'>{{post_time_formatting}}</view>
+        <view class='h6 txt-light-primary' wx:if="{{mycreated=='Y'}}" style='margin-left:30rpx;' id="{{id}}" bindtap='deletemypost'>
+          删除
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='margin-top'>
+    {{title}}
+  </view>
+  <view class='margin-top'>
+    <block wx:if="{{video!=''}}">
+      <view class='margin-top-10'>
+        <video style='width:80%;' src='{{uploadpath}}post/{{video}}'></video>
+      </view>
+    </block>
+    <block wx:if="{{images.length>0}}">
+      <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
+        <view class='margin-top-10' wx:if="{{images.length==1}}">
+          <image src='{{uploadpath}}post/{{images[0]}}' style='width:80%;' mode='widthFix' bindtap='viewPhoto' id="{{uploadpath}}post/{{images[0]}}"></image>
+        </view>
+        <view class='flex-row flex-wrap margin-top-10' wx:if="{{images.length>1}}">
+          <view wx:for="{{images}}" wx:key="k">
+            <image class='icon-40' src='{{uploadpath}}post/{{item}}' style='width:180rpx;height:180rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill' bindtap='viewPhotos' id="{{item}}"></image>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class='margin-top-10 txt-gray flex-row flex-center'>
+    <view class='line-height-0' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
+      <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
+    </view>
+    <view class='line-height-0' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
+      <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
+    </view>
+    <view class='txt-gray' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
+      {{likelist.length>0?likelist.length:"赞"}}
+    </view>
+    <view class='txt-light-primary' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
+      {{likelist.length>0?likelist.length:"赞"}}
+    </view>
+    <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='line-height-0' style='margin-right:30rpx;margin-left:80rpx;'>
+      <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
+    </navigator>
+    <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='txt-gray' style='margin-right:30rpx;'>
+      {{comments.length>0?comments.length:"评论"}}
+    </navigator>
+
+
+  </view>
+
+</view>
+<view class='padding h5'>
+  评论列表
+</view>
+<view class='flex-row flex-center white-block' wx:if="{{comments.length==0}}">
+  <view style='height:400rpx;'></view>
+  <view class='flex-1 text-center h5 txt-gray'>还没有人回复</view>
+  <view></view>
+</view>
+<view class='white-block' wx:if="{{comments.length>0}}">
+  <view class='padding white-block border-top' wx:for="{{comments}}" wx:key="k" wx:for-index="idx">
+    <view class='flex-row'>
+      <view class='line-height-0 margin-right-10'>
+        <image class='icon-50' style='border-radius:50%;' src='{{item.member_avatarUrl}}'></image>
+      </view>
+      <view class='margin-left-10 flex-1'>
+        <view class=' flex-row flex-center'>
+          <view class='flex-1 h5 txt-light-primary'>{{item.member_nickName}}</view>
+          <view class='line-height-0 margin-right-10'  bindtap='likeComment' id="{{idx}}" >
+            <image class='icon' src='{{uploadpath}}resource/like2.png'  wx:if="{{item.iliked=='N'}}"></image>
+            <image class='icon' src='{{uploadpath}}resource/like2-a.png'  wx:if="{{item.iliked=='Y'}}"></image>
+          </view>
+          <view class='line-height-0'  bindtap='likeComment' id="{{idx}}">
+            <text class='txt-gray'  wx:if="{{item.iliked=='N'}}">{{item.likecount}}</text>
+            <text class='txt-light-primary'  wx:if="{{item.iliked=='Y'}}">{{item.likecount}}</text>
+          </view>
+        </view>
+        <view class='margin-top-10 flex-row '>
+          <view class='h6 txt-gray'>{{item.comment_time_formatting}}</view>
+          <view class='h6 txt-light-primary' wx:if="{{item.mycreated=='Y'}}" style='margin-left:30rpx;' id="{{idx}}" bindtap='deletecomment'>
+            删除
+          </view>
+        </view>
+        <view class='margin-top-10' wx:if="{{item.mycreated=='Y'}}">
+          {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
+        </view>
+        <navigator url='/pages/comment/comment?id={{id}}&reply_member_id={{item.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{item.member_nickName}}' class='margin-top-10' wx:if="{{item.mycreated=='N'}}">
+          {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
+        </navigator>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view style='height:104rpx;'></view>
+
+<view class='fixedbottom gray-block border-top'>
+  <view class=' padding flex-row flex-center'>
+
+    <view class='flex-1 flex-row flex-center'>
+      <view class='line-height-0 flex-1 text-right' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
+        <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
+      </view>
+      <view class='line-height-0 flex-1 text-right' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
+        <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
+      </view>
+      <view class='txt-gray flex-1' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
+        赞
+      </view>
+      <view class='txt-light-primary flex-1' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
+        已赞
+      </view>
+
+    </view>
+    <view style='width:2rpx;height:20rpx;background:#8a8a8a;'></view>
+    <view class='flex-1 flex-row flex-center'>
+      <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='line-height-0 flex-1 text-right' style='margin-right:30rpx;'>
+        <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
+      </navigator>
+      <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='txt-gray flex-1 '>
+        评论
+      </navigator>
+
+    </view>
+  </view>
+</view>
+<!--
+<view wx:if="{{id}}">
+  <view class='line-height-0'>
+    <video class='topobj' wx:if="{{video!=''}}" src='{{uploadpath}}post/{{video}}'></video>
+    <swiper class='topobj' wx:if="{{video==''}}" indicator-dots="true" autoplay="{{true}}" interval="5000">
+      <block wx:for="{{images}}" wx:key="k">
+        <swiper-item>
+          <image class='topobj' src="{{uploadpath}}post/{{item}}" mode='aspectFill' bindtap='viewPhotos' id="{{item}}"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class='flex-row tabs'>
+    <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="0">
+      <view class='flex-1'></view>
+      <view class='txt-light tabtext  {{currenttab==0?"active":""}}'>简介</view>
+      <view class='flex-1'></view>
+    </view>
+    <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="1">
+      <view class='flex-1'></view>
+      <view class='txt-light tabtext  {{currenttab==1?"active":""}}'>评论 {{comments.length>0?comments.length:""}}</view>
+      <view class='flex-1'></view>
+    </view>
+    <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="2" wx:if="{{video!=''}}">
+      <view class='flex-1'></view>
+      <view class='txt-light tabtext  {{currenttab==2?"active":""}}'>更多图片</view>
+      <view class='flex-1'></view>
+    </view>
+  </view>
+
+  <swiper indicator-dots="{{false}}" class='bottomtabs ' current='{{currenttab}}' bindchange="changeCurrentTab" class="maintab">
+    <swiper-item>
+      <scroll-view scroll-y style='height:100%'>
+        <view class='white-block padding-20 flex-row'>
+          <view class='flex-1'>
+            <view class='h4'>{{title}}</view>
+            <view class='h6 txt-gray margin-top'>{{summary}}</view>
+            <view class='h6 txt-gray margin-top'>发布时间：{{post_time_formatting}}</view>
+          </view>
+          <view class='padding-20' wx:if="{{status=='A'&&ismy==true}}">
+              <button size='mini' class='btn-primary-line' bindtap='fix'>删除</button>
+          </view>
+        </view>
+        <view class='white-block padding-20 flex-row flex-center border-bottom text-center'>
+          <view class='flex-1'>
+            <view wx:if="{{liked==false}}" bindtap='like'>
+              <image class='icon-30' src='{{uploadpath}}resource/zan.png'></image>
+            </view>
+            <view wx:if="{{liked==true}}">
+              <image class='icon-30' src='{{uploadpath}}resource/zaned.png'></image>
+            </view>
+            <view class='txt-gray h6'>
+              {{likelist.length==0?"赞一下":likelist.length+"人"}}
+            </view>
+          </view>
+          <view class='flex-1'>
+            <view bindtap='follow'>
+              <image class='icon-30' src='{{uploadpath}}resource/follow.png' wx:if="{{followed==false}}"></image>
+              <image class='icon-30' src='{{uploadpath}}resource/followed.png' wx:if="{{followed==true}}"></image>
+            </view>
+            <view class='txt-gray h6'>
+              {{followcount==0?"收藏":followcount+"人"}}
+            </view>
+          </view>
+          <view class='flex-1'>
+            <view>
+              <image class='icon-30' src='{{uploadpath}}resource/view.png'></image>
+            </view>
+            <view class='txt-gray h6'>
+              {{viewcount}}人
+            </view>
+          </view>
+          <view class='flex-1'>
+            <view>
+              <image class='icon-30' src='{{uploadpath}}resource/friend.png'></image>
+            </view>
+            <view class='txt-gray h6'>
+              分享
+            </view>
+            <button open-type='share' class='clear-button' style='width:100rpx;height:100rpx;position:absolute;margin-top:-100rpx;margin-left:20rpx;'></button>
+          </view>
+          <view class='flex-1' bindtap='poster'>
+            <view>
+              <image class='icon-30' src='{{uploadpath}}resource/quan.png'></image>
+            </view>
+            <view class='txt-gray h6'>
+              朋友圈
+            </view>
+          </view>
+        </view>
+        <view class='padding-20 white-block border-bottom' wx:if="{{likelist.length>0}}">
+          <image wx:for="{{likelist}}" wx:key="k" src='{{item.member_avatarUrl}}' class='icon border-raidus-50' ></image>
+        </view>
+        <navigator url='/pages/memberinfo/memberinfo?id={{member_id}}' class='white-block padding-20 flex-row flex-center border-bottom'>
+          <view style='margin-right:20rpx'>
+            <image class='icon' style='border-radius:50%' src='{{member_avatarUrl}}'></image>
+          </view>
+          <view class='flex-1' >
+            <view>{{member_nickName}}</view>
+          </view>
+        </navigator>
+        <view class='white-block padding-20 flex-row border-bottom'  wx:if="{{post_cat_needinfo=='Y'}}">
+          <view style='margin-right:20rpx'>
+            <image class='icon' src='{{uploadpath}}resource/phone.png'></image>
+          </view>
+          <view class='flex-1' bindtap='phoneCall' id="{{mobile}}">
+            <view>{{mobile}}</view>
+          </view>
+        </view>
+        <view class='white-block padding-20 flex-row flex-center' wx:if="{{post_cat_needinfo=='Y'}}">
+          <view style='margin-right:20rpx'>
+            <image class='icon' src='{{uploadpath}}resource/location.png'></image>
+          </view>
+          <view class='flex-1' bindtap='openMap' id="{{address}}">
+            <view>{{addresstitle}}</view>
+            <view class='h6 txt-gray'>{{address}}</view>
+          </view>
+        </view>
+
+        <view class='taplist'>
+          <view class='tap'>
+            <image src='{{uploadpath}}resource/home-o.png' bindtap='backHome'></image>
+          </view>
+          <view class='tap' wx:if="{{options.shownext=='Y'}}">
+            <image src='{{uploadpath}}resource/right-o.png' bindtap='next'></image>
+          </view>
+        </view>
+
+
+      </scroll-view>
+    </swiper-item>
+    <swiper-item>
+      <scroll-view scroll-y style='height:100%;' scroll-into-view="{{into_comment_id}}" >
+        <view wx:if="{{comments.length==0}}" class='text-center'>
+          <image style='width:200rpx;height:233rpx;margin-top:50rpx;margin-bottom:40rpx;' src='{{uploadpath}}resource/egg.png'></image>
+        </view>
+        <view wx:if="{{comments.length==0}}" class='text-center txt-gray h6'>
+          暂无评论
+        </view>
+        <view wx:for="{{comments}}" wx:key="k" class='flex-row comments padding-20 white-block border-bottom' wx:for-index="idx">
+          <view class='padding-20' style='padding-top:0rpx;'>
+            <image class='photo' src='{{item.member_avatarUrl}}'></image>
+          </view>
+          <view class='flex-1'>
+            <view class='flex-row'>
+              <view class='commentname h6'>{{item.member_nickName}}</view>
+              <view class='commentname h6 text-right flex-1'>#{{comments.length-idx}}</view>
+            </view>
+            <view class='commenttext ' bindtap='reply' id="{{idx}}" ><text class=' h5'>{{item.comment}}</text></view>
+            <view class='commentname flex-row flex-center margin-top-10'  id="comment_{{item.id}}">
+              <view>
+                <image class='icon-15' src='{{uploadpath}}resource/like-l.png' bindtap='likeComment' id="{{idx}}" wx:if="{{item.iliked=='N'}}" ></image>
+                <image class='icon-15' src='{{uploadpath}}resource/like-r.png'  wx:if="{{item.iliked=='Y'}}" ></image>
+              </view>
+              <view wx:if="{{item.likecount>0}}" style='margin-left:10rpx;margin-right:rpx;' class='h6 txt-gray'>{{item.likecount}}</view>
+              <view style='margin-left:20rpx;'>
+                <image class='icon-15' src='{{uploadpath}}resource/zhuan2.png' id="{{idx}}"  ></image>
+                <button class='clear-button' style='height:30rpx;width:30rpx;position:absolute;margin-top:-35rpx;' open-type='share' data-comment="{{item.comment}}" ></button>
+              </view>
+              <view class='flex-1  h6 text-right txt-gray' >{{item.comment_time_formatting}}</view>
+            </view>
+            <view wx:for="{{item.subcomments}}" wx:key='s' wx:for-item="subitem" wx:for-index='sidx' class='border-top margin-top-10'>
+              <view class='margin-top-10 flex-row flex-center'>
+                <view class='h5 txt-gray' style='margin-right:10rpx;'>{{subitem.member_nickName}} </view>
+                <view class='txt-gray h6'>{{subitem.comment_time_formatting}}</view>
+              </view>
+              <view class='margin-top-10' bindtap='subreply' id="{{idx}}_{{sidx}}" >
+                <text wx:if="{{subitem.reply_member_id!=item.member_id}}" class='h6'>回复<text class='txt-blue h6'>@{{subitem.reply_member_nickName}}：</text></text><text>{{subitem.comment}}</text>
+              </view>
+
+            <view class='commentname flex-row flex-center margin-top-10'  id="comment_{{subitem.id}}">
+              <view>
+                <image class='icon-15' src='{{uploadpath}}resource/like-l.png' bindtap='likeSubComment' id="{{idx}}_{{sidx}}" wx:if="{{subitem.iliked=='N'}}" ></image>
+                <image class='icon-15' src='{{uploadpath}}resource/like-r.png'  wx:if="{{subitem.iliked=='Y'}}" ></image>
+              </view>
+              <view wx:if="{{subitem.likecount>0}}" style='margin-left:10rpx;margin-right:rpx;' class='h6 txt-gray'>{{subitem.likecount}}</view>
+              <view style='margin-left:20rpx;'>
+                <image class='icon-15' src='{{uploadpath}}resource/zhuan2.png'   ></image>
+                <button class='clear-button' style='height:30rpx;width:30rpx;position:absolute;margin-top:-35rpx;' open-type='share' data-comment="{{subitem.comment}}" ></button>
+              </view>
+            </view>
+            
+            </view>
+          </view>
+        </view>
+        <view class='block-100'></view>
+        <form bindsubmit="sendComment" bindreset="formReset" report-submit="{{true}}">
+          <view class='bottomin  white-block'>
+          
+          <view wx:if="{{reply!=null}}" class='flex-row flex-center padding-20' style='padding-bottom:0rpx;' >
+            <view style='margin-right:10rpx;' bindtap='clearReply'>
+              <image src='{{uploadpath}}resource/close2.png' class='icon-15'></image>
+            </view>
+            <view class='txt-gray h6'>
+            回复<text class='txt-blue h6'>@{{reply.member_nickName}}</text>：
+            </view>
+          </view>
+          <view class='flex-row flex-center ' style='padding:20rpx;padding-top:10rpx '>
+            <view style='flex:4;font-size:28rpx;'>
+              <textarea type='text' placeholder='我也要说点什么' name="comment" value='{{comment}}' maxlength='250' focus='{{reply!=null}}' auto-height='{{true}}' class='fullimg'></textarea>
+            </view>
+            <view class='text-center' style='flex:1'>
+              <button class='btn-primary-line' size='mini' formType="submit">发送</button>
+            </view>
+          </view>
+          </view>
+        </form>
+
+
+
+      </scroll-view>
+    </swiper-item>
+    <swiper-item wx:if="{{video!=''}}">
+      <scroll-view scroll-y style='height:100%'>
+        <view class='white-block padding-20' wx:for="{{images}}" wx:key="k">
+          <image class='fullimg' src='{{uploadpath}}post/{{item}}' mode='widthFix' bindtap='viewPhotos' id="{{item}}" ></image>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+
+</view>-->

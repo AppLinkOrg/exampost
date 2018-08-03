@@ -1,0 +1,14 @@
+<!--pages/comment/comment.wxml-->
+<form  bindsubmit="confirm" bindreset="formReset" report-submit="{{true}}">
+<view class='padding white-block'>
+  <textarea placeholder='{{options.reply_member_id>0?"回复"+options.reply_member_name+"...":"写评论..."}}' name="comment" class='fullimg' ></textarea>
+</view>
+<view class='flex-row flex-center'>
+  <view class='padding-20 flex-1'>
+    <button bindtap='backPage'>取消</button>
+  </view>
+  <view  class='padding-20 flex-1'>
+    <button type='primary' form-type='submit'>发送</button>
+  </view>
+</view>
+</form>

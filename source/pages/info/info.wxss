@@ -1,0 +1,47 @@
+/* pages/info/info.wxss */
+.topobj{
+  width: 100vw;
+  height: 74.4vw;
+}
+.maintab{
+  height: calc( 100vh - 74.4vw - 80rpx );
+}
+
+
+.comments{
+  border-bottom: 2rpx rgba(211, 211, 211, 0.5) solid;
+
+}
+.bottomin{
+  position: fixed;
+  bottom: 0rpx;
+  width: 750rpx;
+}
+.comments .photo{
+  height:70rpx;
+  width:70rpx;
+  border-radius: 50%;
+}
+.comments .commentname{
+  color:#999;
+}
+.comments .commenttext{
+  margin-top: 20rpx; 
+}
+
+.taplist{
+  position: fixed;
+  bottom: 30rpx;
+  right: 30rpx;
+}
+.tap{
+  background: #F04848;
+  padding:10rpx;
+  border-radius: 50%;
+  margin-bottom:10rpx;
+  line-height: 0rpx;
+}
+.tap image{
+  width: 60rpx;
+  height: 60rpx;
+}

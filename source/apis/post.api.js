@@ -525,6 +525,69 @@ export class PostApi
                 ApiConfig.CloseLoading();
             }
           })
+  }
+
+  //获取机构的基础信息
+  _delete(json, callback, showLoading = true) {
+
+    if (showLoading)
+      ApiConfig.ShowLoading();
+
+    var header = ApiConfig.GetHeader();
+    console.log(header);
+    wx.request({
+      url: ApiConfig.GetApiUrl() + 'post/delete',
+      data: json,
+      method: 'POST',
+      dataType: 'json',
+      header: header,
+      success: function (res) {
+        if (callback != null) {
+          callback(res.data);
         }
+      },
+      fail: function (res) {
+        console.log(res);
+        callback(false);
+      },
+      complete: function (res) {
+        console.log(res);
+
+        if (showLoading)
+          ApiConfig.CloseLoading();
+      }
+    })
+  }
+  //获取机构的基础信息
+  deletepost(json, callback, showLoading = true) {
+
+    if (showLoading)
+      ApiConfig.ShowLoading();
+
+    var header = ApiConfig.GetHeader();
+    console.log(header);
+    wx.request({
+      url: ApiConfig.GetApiUrl() + 'post/deletepost',
+      data: json,
+      method: 'POST',
+      dataType: 'json',
+      header: header,
+      success: function (res) {
+        if (callback != null) {
+          callback(res.data);
+        }
+      },
+      fail: function (res) {
+        console.log(res);
+        callback(false);
+      },
+      complete: function (res) {
+        console.log(res);
+
+        if (showLoading)
+          ApiConfig.CloseLoading();
+      }
+    })
+  }
 }
 

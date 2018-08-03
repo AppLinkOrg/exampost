@@ -20,6 +20,9 @@
   最新发布
 </view>
 <navigator url='/pages/product/product?id={{item.id}}' wx:for="{{productlist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
+  <view>
+    <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
+  </view>
   <view class='flex-1'>
     <view class='title'>{{item.name}}</view>
     <view class='margin-top flex-row flex-bottom'>
@@ -27,9 +30,6 @@
       <view class='h6 txt-gray' style='margin-right:10rpx;' >{{item.ref}}</view>
       <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
     </view>
-  </view>
-  <view>
-    <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
   </view>
 </navigator>
 <view wx:if="{{reachmore==true}}" class='txt-gray h6 text-center padding-20'>

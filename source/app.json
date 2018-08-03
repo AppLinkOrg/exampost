@@ -1,6 +1,11 @@
 {
   "pages":[
     "pages/home/home",
+    "pages/memberinfo/memberinfo",
+    "pages/memberfans/memberfans",
+    "pages/memberfollow/memberfollow",
+    "pages/info/info",
+    "pages/comment/comment",
     "pages/times/times",
     "pages/post/post",
     "pages/member/member",

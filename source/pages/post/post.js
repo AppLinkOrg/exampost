@@ -81,9 +81,17 @@ class Content extends AppBase {
       video:video
     },(ret)=>{
       if(ret.code==0){
-        this.Base.setMyData({ noticesuccess:true,post_id:ret.return});
-      }else{
-        this.Base.info(ret.result);
+        const wxCurrPage = getCurrentPages();//获取当前页面的页面栈
+        const wxPrevPage = wxCurrPage[wxCurrPage.length - 2];//获取上级页面的page对象
+        if (wxPrevPage) {
+          //修改上级页面的数据
+          wxPrevPage.setData({
+            list: [],//baseData为上级页面的某个数据
+          })
+        }
+        wx.navigateBack({
+          
+        })
       }
     });
   }
