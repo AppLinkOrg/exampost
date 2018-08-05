@@ -68,7 +68,7 @@
 </view>
 
 <navigator url='/pages/post/post' class='fixfabu white-block padding-20 border-radius-50 line-height-0 text-center'>
-  <image class='icon-30' style='margin:10rpx;' src='{{uploadpath}}resource/fabu2.png'></image>
+  <image class='icon-50' style='margin:10rpx;' src='{{uploadpath}}resource/fabu2.png'></image>
 </navigator>
 
 <view class='fixedbottom white-block padding-20' hidden='{{ontype==false}}'>

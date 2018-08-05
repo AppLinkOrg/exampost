@@ -237,7 +237,7 @@ button[disabled][type=primary] {
   border:2rpx solid #dcdcdc;
 }
 .border-radius-10{
-  border-radius: 10%;
+  border-radius: 10rpx;
 }
 
 .fixedbottom{

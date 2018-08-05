@@ -698,7 +698,36 @@ export class AppBase {
                   filePath: savedFilePath,
                 });
               }
+              console.log(savedFilePath);
               if(callback!=null){
+                callback(savedFilePath);
+              }
+            }
+          })
+        }
+      }
+    })
+  }
+
+  downloadImage(url, callback, open = false) {
+    wx.downloadFile({
+      url: url, //仅为示例，并非真实的资源
+      success: function (res) {
+        // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+        if (res.statusCode === 200) {
+          var tempFilePath = res.tempFilePath;
+          console.log(tempFilePath);
+          wx.saveImageToPhotosAlbum({
+            filePath: tempFilePath,
+            success: function (res) {
+              var savedFilePath = res.savedFilePath;
+              if (open == true) {
+                wx.openDocument({
+                  filePath: savedFilePath,
+                });
+              }
+              console.log(savedFilePath);
+              if (callback != null) {
                 callback(savedFilePath);
               }
             }

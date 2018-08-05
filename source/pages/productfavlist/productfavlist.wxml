@@ -1,7 +1,7 @@
 <!--pages/productfavlist/productfavlist.wxml-->
 <view class='text-center margin-top' wx:if="{{productlist.length==0}}">
   <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
-  <view class='h6 txt-gray'>还没有开始浏览</view>
+  <view class='h6 txt-gray'>还没有收藏的资料</view>
 </view>
 <navigator url='/pages/product/product?id={{item.id}}' wx:for="{{productlist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
   <view class='flex-1'>

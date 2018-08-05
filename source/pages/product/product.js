@@ -14,24 +14,43 @@ class Content extends AppBase {
     this.Base.Page = this;
     this.Base.pagetitle = "";
     super.onLoad(options);
-    this.Base.setMyData({ commentlist:[],commenttext:"",audio:"",video:""});
+    this.Base.setMyData({ commentlist: [], commenttext: "", audio: "", audio_value:0, video: "",audio_duration:0});
   }
   onMyShow() {
-    audioctx=wx.createAudioContext('myAudio');
-    videoctx = wx.createVideoContext('myVideo')
+
+    audioctx = wx.createAudioContext('myAudio');
+    videoctx = wx.createVideoContext('myVideo');
+
     var that = this;
     var instapi = new InstApi();
     instapi.product({id:this.Base.options.id}, (product) => {
       that.Base.setMyData(product);
+
+
       that.Base.pagetitle = product.name;
+
       wx.setNavigationBarTitle({
         title: product.name
       });
-
       WxParse.wxParse('content', 'html', product.content, that, 10);
     });
     this.loadcomment();
   } 
+  audioPlay() {
+    videoctx.pause();
+  }
+  audiotimeupdate(e){
+
+    var that = this;
+    that.Base.setMyData({ audio_duration: e.detail.duration,audio_value:e.detail.currentTime });
+  }
+  aduio_slider(e) {
+    var that = this;
+    console.log(e);
+    var currentTime = e.detail.value;
+    audioctx.seek(currentTime );
+    that.Base.setMyData({ audio_value:currentTime });
+  }
   mydownload() {
     var that=this;
     var id = this.Base.getMyData().id;
@@ -97,7 +116,6 @@ class Content extends AppBase {
     audioctx.pause();
   }
   audioplay() {
-    videoctx.pause();
   }
   fav(){
     var fav=this.Base.getMyData().fav;
@@ -117,6 +135,7 @@ class Content extends AppBase {
 }
 var audioctx=null;
 var videoctx=null;
+var catc=null;
 var content = new Content();
 var body = content.generateBodyJson();
 body.onLoad = content.onLoad; 
@@ -128,7 +147,9 @@ body.comment = content.comment;
 body.commenttextchange = content.commenttextchange; 
 body.loadcomment = content.loadcomment;
 body.videoplay = content.videoplay; 
-body.audioplay = content.audioplay;
 body.fav = content.fav;
+body.audioPlay = content.audioPlay;
+body.audiotimeupdate = content.audiotimeupdate;
+body.aduio_slider = content.aduio_slider;
 
 Page(body)

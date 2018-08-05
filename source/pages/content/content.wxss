@@ -1,1 +1,7 @@
 /* pages/content/content.wxss */
+
+view,navigator,input,text,textarea{
+  font-size: unset;
+  font-weight: unset;
+  color: unset;
+}

@@ -1,0 +1,13 @@
+<!--pages/photodownload/photodownload.wxml-->
+<view class='bg flex-row flex-center' style='background-image:url({{uploadpath}}resource/bg.png)'>
+  <view style='width:20vw'></view>
+  <view class='flex-1'>
+    <view>
+      <image src="{{uploadpath}}{{model}}/{{file}}" class='fullimg border-radius-10' mode='widthFix'></image>
+    </view>
+    <view class='margin-top text-center'>
+      <button class='' size='mini' bindtap='downloadphoto'>保存到手机</button>
+    </view>
+  </view>
+  <view style='width:20vw'></view>
+</view>

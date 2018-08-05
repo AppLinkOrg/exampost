@@ -1,6 +1,9 @@
 {
   "pages":[
     "pages/home/home",
+    "pages/member/member",
+    "pages/photodownload/photodownload",
+    "pages/product/product",
     "pages/memberinfo/memberinfo",
     "pages/memberfans/memberfans",
     "pages/memberfollow/memberfollow",
@@ -8,9 +11,7 @@
     "pages/comment/comment",
     "pages/times/times",
     "pages/post/post",
-    "pages/member/member",
     "pages/productfavlist/productfavlist",
-    "pages/product/product",
     "pages/search/search",
     "pages/viewhistory/viewhistory",
     "pages/productlist/productlist",
@@ -51,7 +52,7 @@
         "selectedIconPath": "images/icons/cat.png"
       },
       {
-        "text": "圈子",
+        "text": "研友圈",
         "pagePath": "pages/times/times",
         "iconPath": "images/icons/quan-o.png",
         "selectedIconPath": "images/icons/quan.png"

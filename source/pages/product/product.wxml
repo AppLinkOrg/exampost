@@ -16,7 +16,9 @@
   </view>
 </view>
 <view wx:if="{{audio!=''}}" class='white-block text-center padding-20'>
-  <audio class='fullimg' poster="{{uploadpath}}product/{{audiocover}}" name="{{audioname}}" author="{{audioauthor}}" src="{{uploadpath}}product/{{audio}}" id="myAudio" controls loop  bindplay="audioplay"></audio>
+  <audio class='fullimg' poster="{{uploadpath}}product/{{audiocover}}" name="{{audioname}}" author="{{audioauthor}}" src="{{uploadpath}}product/{{audio}}" id="myAudio" controls="{{true}}" loop bindtimeupdate='audiotimeupdate' bindplay='audioPlay' >
+</audio>
+ <slider bindchange="slider3change"  block-size='12' min='0' max='{{audio_duration}}' step='1' value='{{audio_value}}' bindchange='aduio_slider' />
 </view>
 <view class='white-block padding-20'>
   <template is="wxParse" data="{{wxParseData:content.nodes}}" />
@@ -80,7 +82,7 @@
         <view class='flex-1 txt-primary h5 text-right' bindtap='comment'>发表</view>
       </view>
       <view class='margin-top-10'>
-        <textarea class='fullimg h6' placeholder='发表我对这个资料的评价' value='{{commenttext}}' bindinput='commenttextchange'></textarea>
+        <textarea class='fullimg h6' placeholder='发表我对这个资料的评价' value='{{commenttext}}' bindinput='commenttextchange' focus='{{incomment==true}}' fixed='{{true}}' auto-focus></textarea>
       </view>
     </view>
   </view>
@@ -101,7 +103,7 @@
       <button size='mini' open-type='share' >转发好友</button>
     </view>
     <view class='flex-1 text-center'  >
-      <button size='mini' >分享资料</button>
+      <button size='mini'  >分享资料</button>
     </view>
   </view>
 </view>

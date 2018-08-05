@@ -15,6 +15,9 @@ class Content extends AppBase {
   onShow() {
     var keycode = this.Base.options.keycode;
     var title = this.Base.options.title;
+    wx.setNavigationBarTitle({
+      title: title,
+    })
     var contentapi = new ContentApi();
     var that = this;
     contentapi.get({ keycode: keycode }, function (data) {
@@ -23,6 +26,9 @@ class Content extends AppBase {
         that.setData({ title: title });
       } else {
 
+        wx.setNavigationBarTitle({
+          title: data.title,
+        })
         data.content = that.Base.util.HtmlDecode(data.content);
         WxParse.wxParse('content', 'html', data.content, that, 10);
         that.setData({ title: data.name });
