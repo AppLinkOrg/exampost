@@ -34,6 +34,8 @@ class Content extends AppBase {
       });
       WxParse.wxParse('content', 'html', product.content, that, 10);
     });
+    
+
     this.loadcomment();
   } 
   audioPlay() {
@@ -132,6 +134,16 @@ class Content extends AppBase {
       }
     });
   }
+  sharetotimes(){
+
+    var papi = new ProductApi();
+    papi.poster({ product_id: this.Base.options.id },(ret)=>{
+      var url = "https://cmsdev.app-link.org/Users/alucard263096/deky/upload/poster/" + this.Base.options.id+".png";
+      wx.navigateTo({
+        url:"/pages/photodownload/photodownload?url="+url,
+      })
+    });
+  }
 }
 var audioctx=null;
 var videoctx=null;
@@ -149,7 +161,8 @@ body.loadcomment = content.loadcomment;
 body.videoplay = content.videoplay; 
 body.fav = content.fav;
 body.audioPlay = content.audioPlay;
-body.audiotimeupdate = content.audiotimeupdate;
+body.audiotimeupdate = content.audiotimeupdate; 
 body.aduio_slider = content.aduio_slider;
+body.sharetotimes = content.sharetotimes;
 
 Page(body)

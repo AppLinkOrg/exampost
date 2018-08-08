@@ -103,7 +103,7 @@
       <button size='mini' open-type='share' >转发好友</button>
     </view>
     <view class='flex-1 text-center'  >
-      <button size='mini'  >分享资料</button>
+      <button size='mini' bindtap='sharetotimes'  >分享资料</button>
     </view>
   </view>
 </view>
