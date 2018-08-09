@@ -26,67 +26,105 @@
 <view wx:if="{{video!=''}}" class='white-block text-center padding-20'>
   <video id="myVideo" src="{{uploadpath}}product/{{video}}"  controls poster="{{uploadpath}}product/{{videocover}}" bindplay="videoplay"></video>
 </view>
-<view class='margin-top white-block'>
 
-  <view class='padding-20 flex-row flex-center'>
-    <view class=' txt-gray margin-right-10'>留言评论
-      <block wx:if="{{commentlist.length>0}}">({{commentlist.length}})</block>
-    </view>
-    <view class='line-height-0' bindtap='loadcomment'>
-      <image src='{{uploadpath}}resource/refresh.png' class='icon'></image>
-    </view>
-    <view class='flex-1 text-right line-height-0'>
-      <image src='{{uploadpath}}resource/comment.png' class='icon' bindtap='showincomment'></image>
-    </view>
-  </view>
+<ad unit-id="adunit-8dd882856e2ed548" class="white-block"></ad>
 
-  <view wx:if="{{commentlist.length==0}}" class='text-center padding-20'>
-    <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
-    <view class='txt-gray h6'>暂无评论</view>
-    <view class='padding-20'></view>
-  </view>
-  <view class='padding-20'>
-
-    <view class='flex-row {{commentlist.length-1!=idx?"border-bottom":""}}' wx:for="{{commentlist}}" wx:key="k" wx:for-index="idx">
-      <view class='padding-20'>
-        <image src='{{item.member_avatarUrl}}' class='icon-50 border-radius-50'> </image>
-      </view>
-      <view class='flex-1 padding-20'>
-        <view class='flex-row '>
-          <view class='flex-1 txt-gray h6 '>{{item.member_nickName}}</view>
-          <view class='txt-gray h6 '>#{{commentlist.length-idx}}</view>
-        </view>
-
-        <view class='margin-top-10'>
-          <text>{{item.comment}}</text>
-        </view>
-        <view class='margin-top-10' wx:if="{{item.reply!=''}}">
-          <view class='triangle_border_up' style='margin-left:30rpx;'></view>
-          <view class='gray-block h6 txt-gray padding-20 ' style='border-radius:10rpx;'><text class='txt-primary h6'>回复：</text>{{item.reply}}</view>
-        </view>
-      </view>
-    </view>
-
-  </view>
-
+<view class='padding h5'>
+  评论列表
 </view>
-
-<view wx:if="{{incomment==true}}">
-  <view class='bg' bindtap='hideincomment'>
-
-  </view>
-  <view class='fixedbottom white-block'>
-    <view class='padding-20'>
-      <view class='flex-row'>
-        <view class='flex-1 h5 txt-gray' bindtap='hideincomment'>取消</view>
-        <view class='flex-1 txt-primary h5 text-right' bindtap='comment'>发表</view>
+<view class='flex-row flex-center white-block' wx:if="{{comments.length==0}}">
+  <view style='height:400rpx;'></view>
+  <view class='flex-1 text-center h5 txt-gray'>还没有人评论</view>
+  <view></view>
+</view>
+<view class='white-block' wx:if="{{comments.length>0}}">
+  <view class='padding white-block border-top' wx:for="{{comments}}" wx:key="k" wx:for-index="idx">
+    <view class='flex-row'>
+      <view class='line-height-0 margin-right-10'>
+        <image class='icon-50' style='border-radius:50%;' src='{{item.member_avatarUrl}}'></image>
       </view>
-      <view class='margin-top-10'>
-        <textarea class='fullimg h6' placeholder='发表我对这个资料的评价' value='{{commenttext}}' bindinput='commenttextchange' focus='{{incomment==true}}' fixed='{{true}}' auto-focus></textarea>
+      <view class='margin-left-10 flex-1'>
+        <view class=' flex-row flex-center'>
+          <view class='flex-1 h5 txt-light-primary'>{{item.member_nickName}}</view>
+          <view class='line-height-0 margin-right-10'  bindtap='likeComment' id="{{idx}}" >
+            <image class='icon' src='{{uploadpath}}resource/like2.png'  wx:if="{{item.iliked=='N'}}"></image>
+            <image class='icon' src='{{uploadpath}}resource/like2-a.png'  wx:if="{{item.iliked=='Y'}}"></image>
+          </view>
+          <view class='line-height-0'  bindtap='likeComment' id="{{idx}}">
+            <text class='txt-gray'  wx:if="{{item.iliked=='N'}}">{{item.likecount}}</text>
+            <text class='txt-light-primary'  wx:if="{{item.iliked=='Y'}}">{{item.likecount}}</text>
+          </view>
+        </view>
+        <view class='margin-top-10 flex-row '>
+          <view class='h6 txt-gray'>{{item.comment_time_formatting}}</view>
+          <view class='h6 txt-light-primary' wx:if="{{item.mycreated=='Y'}}" style='margin-left:30rpx;' id="{{idx}}" bindtap='deletecomment'>
+            删除
+          </view>
+        </view>
+        <view class='margin-top-10' wx:if="{{item.mycreated=='Y'}}">
+          {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
+        </view>
+        <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id={{item.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{item.member_nickName}}' class='margin-top-10' wx:if="{{item.mycreated=='N'}}">
+          {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
+        </navigator>
       </view>
     </view>
   </view>
 </view>
+
+<view style='height:104rpx;'></view>
+
+<view class='fixedbottom gray-block border-top'>
+  <view class=' padding flex-row flex-center'>
+
+    <view class='flex-1 flex-row flex-center'>
+      <view class='txt-gray flex-1 text-center' id="{{id+snumber}}" bindtap='like' wx:if="{{like=='N'}}">
+        赞
+      </view>
+      <view class='txt-light-primary flex-1 text-center' id="{{id+snumber}}" bindtap='like' wx:if="{{like=='Y'}}">
+        已赞
+      </view>
+    </view>
+    <view style='width:2rpx;height:20rpx;background:#8a8a8a;'></view>
+    <view class='flex-1 flex-row flex-center'>
+      <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id=0&reply_comment_id=0' class='txt-gray flex-1  text-center'>
+        评论
+      </navigator>
+
+    </view>
+    <block  wx:if="{{copycontent!=''}}">
+    <view style='width:2rpx;height:20rpx;background:#8a8a8a;'></view>
+    <view class='flex-1 flex-row flex-center'>
+      <view class='txt-gray flex-1  text-center' bindtap='copycontent' data-content='{{copycontent}}' >
+        复制内容
+      </view>
+    </view>
+    </block>
+    <block  wx:if="{{attachment!=''}}">
+    <view style='width:2rpx;height:20rpx;background:#8a8a8a;'></view>
+    <view class='flex-1 flex-row flex-center'>
+      <view class='txt-gray flex-1  text-center' bindtap='mydownload' >
+        下载资料
+      </view>
+    </view>
+    </block>
+    <view style='width:2rpx;height:20rpx;background:#8a8a8a;'></view>
+    <view class='flex-1 flex-row flex-center'>
+      <view class='txt-gray flex-1  text-center'  >
+        <button open-type='share' class='clear-button' style='position:absolute;width:150rpx;height:50rpx;' ></button>转发
+      </view>
+    </view>
+    <view style='width:2rpx;height:20rpx;background:#8a8a8a;'></view>
+    <view class='flex-1 flex-row flex-center'>
+      <view class='txt-gray flex-1  text-center' bindtap='mydownload' >
+        <button class='clear-button'  bindtap='sharetotimes' style='position:absolute;width:150rpx;height:50rpx;' ></button>分享
+      </view>
+    </view>
+  </view>
+</view>
+
+
+
 <view style='height:100rpx;'>
 
 </view>
@@ -97,7 +135,7 @@
       <button size='mini'>复制内容</button>
     </view>
     <view class='flex-1 text-center' wx:if="{{attachment!=''}}" >
-      <button size='mini' type='primary'>下载资料</button>
+      <button size='mini' type='primary' bindtap='download'>下载资料</button>
     </view>
     <view class='flex-1 text-center'  >
       <button size='mini' open-type='share' >转发好友</button>

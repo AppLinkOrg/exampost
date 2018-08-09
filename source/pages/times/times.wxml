@@ -1,4 +1,14 @@
 <!--pages/times/times.wxml-->
+<view>
+  <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:320rpx;'>
+    <swiper-item wx:for="{{indexbanner}}" wx:key="k">
+      <view id="{{item.product_id}}" bindtap='gotoProduct'>
+        <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:320rpx;' mode="aspectFill"></image>
+      </view>
+    </swiper-item>
+  </swiper>
+</view>
+
 <view class='text-center' wx:if="{{list.length==0}}">
   <view>
     <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
@@ -12,10 +22,10 @@
     <image class='icon-50' style='border-radius:50%;' src='{{item.member_avatarUrl}}'></image>
   </navigator>
   <view class='flex-1' style='margin-left:30rpx;margin-right:20rpx;'>
-    <view class='h5 txt-light-primary' url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}' >{{item.member_nickName}}</view>
-    <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
+    <navigator class='h5 txt-light-primary' url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}'>{{item.member_nickName}}</navigator>
+    <navigator url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
       <view class='margin-top-10'>{{item.title}}</view>
-    </view>
+    </navigator>
     <block wx:if="{{item.video!=''}}">
       <view class='margin-top-10'>
         <video style='width:80%;' src='{{uploadpath}}post/{{item.video}}'></video>
@@ -24,46 +34,43 @@
     <block wx:if="{{item.images.length>0}}">
       <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
         <view class='margin-top-10' wx:if="{{item.images.length==1}}">
-          <image src='{{uploadpath}}post/{{item.images[0]}}' style='max-width:400rpx;' mode='widthFix' bindtap='viewPhoto' id="{{uploadpath}}post/{{item.images[0]}}" ></image>
+          <image src='{{uploadpath}}post/{{item.images[0]}}' style='max-width:400rpx;' mode='widthFix' bindtap='viewPhoto' id="{{uploadpath}}post/{{item.images[0]}}"></image>
         </view>
         <view class='flex-row flex-wrap margin-top-10' wx:if="{{item.images.length>1}}">
           <view wx:for="{{item.images}}" wx:key="k">
-            <image class='icon-40' src='{{uploadpath}}post/{{item}}' style='width:180rpx;height:180rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill'  bindtap='viewPhoto' id="{{uploadpath}}post/{{item}}" ></image>
+            <image class='icon-40' src='{{uploadpath}}post/{{item}}' style='width:180rpx;height:180rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill' bindtap='viewPhoto' id="{{uploadpath}}post/{{item}}"></image>
           </view>
         </view>
       </view>
     </block>
     <view class='margin-top-10 txt-gray flex-row flex-bottom'>
       <view class='h5 txt-gray'>
-      {{item.timeduration}}
+        {{item.timeduration}}
       </view>
       <view class='h5 txt-light-primary' wx:if="{{item.mycreated=='Y'}}" style='margin-left:30rpx;' id="{{item.id}}" bindtap='deletemypost'>
-      删除
+        删除
       </view>
     </view>
     <view class='margin-top-10 txt-gray flex-row flex-center'>
-      <view class='line-height-0' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}" >
+      <view class='line-height-0' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}">
         <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
       </view>
-      <view class='line-height-0' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like'  wx:if="{{item.like=='Y'}}" >
+      <view class='line-height-0' style='padding-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='Y'}}">
         <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
       </view>
-      <view class='txt-gray' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}" >
+      <view class='txt-gray' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}">
         {{item.likelist.length>0?item.likelist.length:"赞"}}
       </view>
-      <view class='txt-light-primary' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like'  wx:if="{{item.like=='Y'}}" >
+      <view class='txt-light-primary' style='padding-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='Y'}}">
         {{item.likelist.length>0?item.likelist.length:"赞"}}
       </view>
-      <navigator url='/pages/info/info?id={{item.id}}' class='line-height-0' style='margin-right:30rpx;margin-left:80rpx;'   >
+      <navigator url='/pages/info/info?id={{item.id}}' class='line-height-0' style='margin-right:30rpx;margin-left:80rpx;'>
         <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
       </navigator>
-      <navigator url='/pages/info/info?id={{item.id}}' class='txt-gray' style='margin-right:30rpx;'   >
+      <navigator url='/pages/info/info?id={{item.id}}' class='txt-gray' style='margin-right:30rpx;'>
         {{item.commentlist.length>0?item.commentlist.length:"评论"}}
       </navigator>
-
-
     </view>
-
   </view>
 </view>
 
@@ -72,5 +79,5 @@
 </navigator>
 
 <view class='fixedbottom white-block padding-20' hidden='{{ontype==false}}'>
-<input class='fullimg' focus='{{ontype==true}}' bindblur='unontype' value='{{commenttext}}' bindinput='changecommenttext' bindconfirm='comment' type='text' maxlength='30' confirm-type="发送"></input>
+  <input class='fullimg' focus='{{ontype==true}}' bindblur='unontype' value='{{commenttext}}' bindinput='changecommenttext' bindconfirm='comment' type='text' maxlength='30' confirm-type="发送"></input>
 </view>

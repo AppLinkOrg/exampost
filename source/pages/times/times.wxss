@@ -2,5 +2,5 @@
 .fixfabu{
   position: fixed;
   bottom: 34rpx;
-  right: 34rpx;
+  right: 16rpx;
 }

@@ -89,12 +89,21 @@ export class AppBase {
       closePage: base.closePage,
       gotoPage: base.gotoPage, 
       navtoPage: base.navtoPage, 
-      openContent: base.openContent,
-      copycontent: base.copycontent
+      openContent: base.openContent, 
+      copycontent: base.copycontent,
+      gotoProduct: base.gotoProduct
     }
   }
   log() {
     console.log("yeah!");
+  }
+  gotoProduct(e){
+    var id = parseInt(e.currentTarget.id);
+    if(id>0){
+      wx.navigateTo({
+        url: '/pages/product/product?id='+id,
+      })
+    }
   }
   onLoad(options) {
     this.Base.options = options;

@@ -1,5 +1,5 @@
 <!--pages/member/member.wxml-->
-<view class='line-height-0 backimg' style='background-image:url({{uploadpath}}inst/{{instinfo.poster}});'>
+<view class='line-height-0 backimg'>
 
   <view class='padding'>
     <view class='text-center'>
@@ -9,15 +9,15 @@
       {{memberinfo.nickName}}
       <image class='icon-15' style='margin-left:10rpx;' src='{{uploadpath}}resource/sex-{{memberinfo.gender}}.png'></image>
     </view>
-  <view class='margin-top-10 text-center'>
-    <button style='font-size:20rpx;' type='primary' size='mini' bindtap='addfriend' wx:if="{{memberinfo.followed==false}}">加关注</button>
-    <button style='font-size:20rpx;' type='primary' size='mini' wx:if="{{memberinfo.followed==true}}" bindtap='removefriend'>取消关注</button>
-  </view>
-    <view class='flex-row flex-center margin-top-10' >
-      <navigator url='/pages/memberfollow/memberfollow?id={{id}}'  class='flex-1 text-right' style='margin-right:30rpx;'>
+    <view class='margin-top-10 text-center'>
+      <button style='font-size:20rpx;' type='primary' size='mini' bindtap='addfriend' wx:if="{{memberinfo.followed==false}}">加关注</button>
+      <button style='font-size:20rpx;' type='primary' size='mini' wx:if="{{memberinfo.followed==true}}" bindtap='removefriend'>取消关注</button>
+    </view>
+    <view class='flex-row flex-center margin-top-10'>
+      <navigator url='/pages/memberfollow/memberfollow?id={{id}}' class='flex-1 text-right' style='margin-right:30rpx;'>
         <text class='h6 txt-white'>关注  {{memberinfo.followcount}}</text>
       </navigator>
-      <view >
+      <view>
         <view style='width:2rpx;height:20rpx;background:white;margin-top:10rpx;'></view>
       </view>
       <navigator url='/pages/memberfans/memberfans?id={{id}}' class='flex-1' style='margin-left:30rpx;'>
@@ -28,70 +28,120 @@
   </view>
 </view>
 
-
-
-
-<view class='text-center' wx:if="{{list.length==0}}">
-  <view>
-    <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+<view class='flex-row tabs'>
+  <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="0">
+    <view class='flex-1'></view>
+    <view class='tabtext {{currenttab==0?"active":""}}'>发布</view>
+    <view class='flex-1'></view>
   </view>
-  <view class='txt-gray h6'>
-
+  <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="1">
+    <view class='flex-1'></view>
+    <view class='tabtext {{currenttab==1?"active":""}}'>评论</view>
+    <view class='flex-1'></view>
+  </view>
+  <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="2">
+    <view class='flex-1'></view>
+    <view class='tabtext {{currenttab==2?"active":""}}'>赞</view>
+    <view class='flex-1'></view>
   </view>
 </view>
-<view class='white-block padding-20 flex-row border-bottom' style='padding-bottom:30rpx;' wx:for="{{list}}" wx:key="k" wx:for-index="idx">
-  <view class='flex-1' style='margin-left:30rpx;margin-right:20rpx;'>
-    
-    <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
-      <view class='margin-top-10'>{{item.title}}</view>
-    </view>
-    <block wx:if="{{item.video!=''}}">
-      <view class='margin-top-10'>
-        <video style='width:80%;' src='{{uploadpath}}post/{{item.video}}'></video>
-      </view>
-    </block>
-    <block wx:if="{{item.images.length>0}}">
-      <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
-        <view class='margin-top-10' wx:if="{{item.images.length==1}}">
-          <image src='{{uploadpath}}post/{{item.images[0]}}' style='max-width:400rpx;' mode='widthFix' bindtap='viewPhoto' id="{{uploadpath}}post/{{item.images[0]}}" ></image>
+
+
+<swiper indicator-dots="{{false}}" current='{{currenttab}}' bindchange="changeCurrentTab" class="maintab">
+  <swiper-item>
+    <scroll-view scroll-y style='height:100%'>
+
+      <view class='text-center' wx:if="{{list.length==0}}">
+        <view>
+          <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
         </view>
-        <view class='flex-row flex-wrap margin-top-10' wx:if="{{item.images.length>1}}">
-          <view wx:for="{{item.images}}" wx:key="k">
-            <image class='icon-40' src='{{uploadpath}}post/{{item}}' style='width:180rpx;height:180rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill'  bindtap='viewPhoto' id="{{uploadpath}}post/{{item}}" ></image>
+        <view class='txt-gray h6'>
+
+        </view>
+      </view>
+      <view class='white-block padding-20 flex-row border-bottom' style='padding-bottom:30rpx;' wx:for="{{list}}" wx:key="k" wx:for-index="idx">
+        <view class='flex-1' style='margin-left:30rpx;margin-right:20rpx;'>
+
+          <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
+            <view class='margin-top-10'>{{item.title}}</view>
           </view>
+          <block wx:if="{{item.video!=''}}">
+            <view class='margin-top-10'>
+              <video style='width:80%;' src='{{uploadpath}}post/{{item.video}}'></video>
+            </view>
+          </block>
+          <block wx:if="{{item.images.length>0}}">
+            <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
+              <view class='margin-top-10' wx:if="{{item.images.length==1}}">
+                <image src='{{uploadpath}}post/{{item.images[0]}}' style='max-width:400rpx;' mode='widthFix' bindtap='viewPhoto' id="{{uploadpath}}post/{{item.images[0]}}"></image>
+              </view>
+              <view class='flex-row flex-wrap margin-top-10' wx:if="{{item.images.length>1}}">
+                <view wx:for="{{item.images}}" wx:key="k">
+                  <image class='icon-40' src='{{uploadpath}}post/{{item}}' style='width:180rpx;height:180rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill' bindtap='viewPhoto' id="{{uploadpath}}post/{{item}}"></image>
+                </view>
+              </view>
+            </view>
+          </block>
+          <view class='margin-top-10 txt-gray flex-row flex-bottom'>
+            <view class='h5 txt-gray'>
+              {{item.timeduration}}
+            </view>
+            <view class='h5 txt-light-primary' wx:if="{{item.mycreated=='Y'}}" style='margin-left:30rpx;' id="{{item.id}}" bindtap='deletemypost'>
+              删除
+            </view>
+          </view>
+          <view class='margin-top-10 txt-gray flex-row flex-center'>
+            <view class='line-height-0' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}">
+              <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
+            </view>
+            <view class='line-height-0' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='Y'}}">
+              <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
+            </view>
+            <view class='txt-gray' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}">
+              {{item.likelist.length>0?item.likelist.length:"赞"}}
+            </view>
+            <view class='txt-light-primary' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='Y'}}">
+              {{item.likelist.length>0?item.likelist.length:"赞"}}
+            </view>
+            <navigator url='/pages/info/info?id={{item.id}}' class='line-height-0' style='margin-right:30rpx;margin-left:80rpx;'>
+              <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
+            </navigator>
+            <navigator url='/pages/info/info?id={{item.id}}' class='txt-gray' style='margin-right:30rpx;'>
+              {{item.commentlist.length>0?item.commentlist.length:"评论"}}
+            </navigator>
+          </view>
+
         </view>
       </view>
-    </block>
-    <view class='margin-top-10 txt-gray flex-row flex-bottom'>
-      <view class='h5 txt-gray'>
-      {{item.timeduration}}
-      </view>
-      <view class='h5 txt-light-primary' wx:if="{{item.mycreated=='Y'}}" style='margin-left:30rpx;' id="{{item.id}}" bindtap='deletemypost'>
-      删除
-      </view>
-    </view>
-    <view class='margin-top-10 txt-gray flex-row flex-center'>
-      <view class='line-height-0' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}" >
-        <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
-      </view>
-      <view class='line-height-0' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like'  wx:if="{{item.like=='Y'}}" >
-        <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
-      </view>
-      <view class='txt-gray' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}" >
-        {{item.likelist.length>0?item.likelist.length:"赞"}}
-      </view>
-      <view class='txt-light-primary' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like'  wx:if="{{item.like=='Y'}}" >
-        {{item.likelist.length>0?item.likelist.length:"赞"}}
-      </view>
-      <navigator url='/pages/info/info?id={{item.id}}' class='line-height-0' style='margin-right:30rpx;margin-left:80rpx;'   >
-        <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
-      </navigator>
-      <navigator url='/pages/info/info?id={{item.id}}' class='txt-gray' style='margin-right:30rpx;'   >
-        {{item.commentlist.length>0?item.commentlist.length:"评论"}}
-      </navigator>
 
 
-    </view>
+    </scroll-view>
+  </swiper-item>
+  <swiper-item>
+    <scroll-view scroll-y style='height:100%'>
+      <view class='text-center' wx:if="{{allmycomment.length==0}}">
+        <view>
+          <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+        </view>
+        <view class='txt-gray h6'>
+        </view>
+      </view>
+      <view class='padding white-block border-top' wx:for="{{allmycomment}}" wx:key='k' wx:for-index='idx'>
+        <view><block wx:if="{{item.reply=='Y'}}">回复<text class='txt-light-primary'>{{item.replymember}}</text>：</block>{{item.comment}}</view>
+        <view class='margin-top-10 triangle_border_up'></view>
+        <view class='gray-deep-block padding  border-radius-10'>
+         <navigator class='h6 txt-gray' url='/pages/info/info?id={{item.id}}' wx:if="{{item.ispost=='Y'}}">{{item.title}}</navigator>
+         <navigator class='h6 txt-gray' url='/pages/product/product?id={{item.id}}' wx:if="{{item.ispost=='N'}}">{{item.title}}</navigator>
+        </view>
+        <view class='h6 txt-gray text-right margin-top-10'>{{item.comment_time_ago}}</view>
+      </view>
 
-  </view>
-</view>
+
+    </scroll-view>
+  </swiper-item>
+  <swiper-item>
+    <scroll-view scroll-y style='height:100%'>
+
+    </scroll-view>
+  </swiper-item>
+</swiper>

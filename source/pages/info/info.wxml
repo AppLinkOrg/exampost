@@ -1,11 +1,12 @@
 <!--pages/info/info.wxml-->
+
 <view class='padding white-block border-bottom' wx:if="{{id}}">
   <view class='flex-row flex-center'>
-    <view class='line-height-0 margin-right-10'>
-      <image class='icon-50' style='border-radius:50%;' src='{{member_avatarUrl}}'></image>
-    </view>
+    <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{member_id}}' class='line-height-0 margin-right-10'>
+      <image  class='icon-50' style='border-radius:50%;' src='{{member_avatarUrl}}'></image>
+    </navigator>
     <view class='margin-left-10'>
-      <view class='h5 txt-light-primary'>{{member_nickName}}</view>
+      <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{member_id}}' class='h5 txt-light-primary'>{{member_nickName}}</navigator>
       <view class='margin-top-10 flex-row '>
         <view class='h6 txt-gray'>{{post_time_formatting}}</view>
         <view class='h6 txt-light-primary' wx:if="{{mycreated=='Y'}}" style='margin-left:30rpx;' id="{{id}}" bindtap='deletemypost'>

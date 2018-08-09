@@ -1,10 +1,10 @@
 {
   "pages":[
+    "pages/memberinfo/memberinfo",
     "pages/home/home",
     "pages/member/member",
     "pages/photodownload/photodownload",
     "pages/product/product",
-    "pages/memberinfo/memberinfo",
     "pages/memberfans/memberfans",
     "pages/memberfollow/memberfollow",
     "pages/info/info",

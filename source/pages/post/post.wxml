@@ -5,7 +5,7 @@
       <textarea class='fullimg' placeholder='分享什么新鲜事？' name="title"></textarea>
     </view>
     <view class='margin-top-10' wx:if="{{images.length==0&&video==''}}">
-      <view class='imgbg_border'  bindtap='selectupload'>
+      <view class='imgbg_border' bindtap='selectupload'>
         <image class='addimg' src='{{uploadpath}}resource/add.png'></image>
       </view>
     </view>
@@ -13,29 +13,29 @@
       <view class='imgbg' wx:for="{{images}}" wx:key="k" wx:for-index="idx">
         <image src='{{uploadpath}}post/{{item}}' bindtap='minusImg' id="{{idx}}"></image>
       </view>
-      <view class='imgbg'  wx:if="{{video!=''}}">
-        <video  controls='{{false}}' src='{{uploadpath}}post/{{video}}'  bindtap='minusVideo' ></video>
+      <view class='imgbg' wx:if="{{video!=''}}">
+        <video controls='{{false}}' src='{{uploadpath}}post/{{video}}' bindtap='minusVideo'></video>
       </view>
     </view>
-    
+
     <view class='flex-row  flex-center  margin-top padding-20'>
-    <view class=''>
-       <picker bindchange="catchange" value="{{catindex}}" range="{{catlist}}" range-key="name">
-      <view class="picker">
-        {{catlist[catindex].name}}
+      <view class=''>
+        <picker bindchange="catchange" value="{{catindex}}" range="{{catlist}}" range-key="name">
+          <view class="picker">
+            {{catlist[catindex].name}}
+          </view>
+        </picker>
       </view>
-  </picker>
     </view>
-  </view>
 
   </view>
 
   <view class='flex-row flex-center margin-top'>
     <view class='flex-1 text-center padding'>
-      <button bindtap='back' >取消</button>
+      <button bindtap='back'>取消</button>
     </view>
     <view class='flex-1 text-center padding'>
-      <button  type='primary' form-type='submit'>发布</button>
+      <button type='primary' form-type='submit'>发布</button>
     </view>
   </view>
 

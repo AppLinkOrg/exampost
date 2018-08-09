@@ -13,7 +13,7 @@ class Content extends AppBase {
     //options.id=5;
     super.onLoad(options);
     this.Base.setMyData({
-      inputShowed: false,
+      inputShowed: true,
       inputVal: ""
     });
   }

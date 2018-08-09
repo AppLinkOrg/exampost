@@ -3,6 +3,7 @@ import { AppBase } from "../../appbase";
 import { ApiConfig } from "../../apis/apiconfig";
 import { InstApi } from "../../apis/inst.api.js";
 import { ProductApi } from "../../apis/product.api.js";
+import { PostApi } from "../../apis/post.api.js";
 var WxParse = require('../../wxParse/wxParse');
 
 class Content extends AppBase {
@@ -11,10 +12,17 @@ class Content extends AppBase {
   }
   onLoad(options) {
     //options.id=1;
+    options.id=parseInt(options.id);
     this.Base.Page = this;
     this.Base.pagetitle = "";
     super.onLoad(options);
-    this.Base.setMyData({ commentlist: [], commenttext: "", audio: "", audio_value:0, video: "",audio_duration:0});
+    this.Base.setMyData({ comments: [], commenttext: "", audio: "", audio_value: 0, video: "", audio_duration: 0, snumber: snumber});
+
+    this.Base.setMyData({
+      currenttab: 0,
+      reply: null,
+      likelist: []
+    });
   }
   onMyShow() {
 
@@ -24,9 +32,8 @@ class Content extends AppBase {
     var that = this;
     var instapi = new InstApi();
     instapi.product({id:this.Base.options.id}, (product) => {
+      product.id = parseInt(product.id);
       that.Base.setMyData(product);
-
-
       that.Base.pagetitle = product.name;
 
       wx.setNavigationBarTitle({
@@ -37,7 +44,25 @@ class Content extends AppBase {
     
 
     this.loadcomment();
-  } 
+    this.loadlikelist();
+  }
+  loadcomment() {
+    var api = new PostApi();
+    api.commentlist({ post_id: this.Base.options.id }, (commentlist) => {
+      if (this.Base.options.comment_id != undefined) {
+        this.Base.setMyData({
+          comments: commentlist,
+          into_comment_id: "comment_" + this.Base.options.comment_id
+        });
+        this.Base.options.comment_id = undefined;
+      } else {
+
+        this.Base.setMyData({
+          comments: commentlist
+        });
+      }
+    });
+  }
   audioPlay() {
     videoctx.pause();
   }
@@ -108,10 +133,21 @@ class Content extends AppBase {
       this.Base.setMyData({ incomment: false, commenttext:"" });
     });
   }
-  loadcomment(){
-    var api = new ProductApi();
-    api.commentlist({ product_id: this.Base.options.id},(commentlist)=>{
-      this.Base.setMyData({commentlist:commentlist});
+  loadcomment() {
+    var api = new PostApi();
+    api.commentlist({ post_id: this.Base.options.id+snumber }, (commentlist) => {
+      if (this.Base.options.comment_id != undefined) {
+        this.Base.setMyData({
+          comments: commentlist,
+          into_comment_id: "comment_" + this.Base.options.comment_id
+        });
+        this.Base.options.comment_id = undefined;
+      } else {
+
+        this.Base.setMyData({
+          comments: commentlist
+        });
+      }
     });
   }
   videoplay(){
@@ -144,7 +180,113 @@ class Content extends AppBase {
       })
     });
   }
+
+  likeComment(e) {
+    console.log("like?");
+    var that = this;
+    var seq = e.currentTarget.id;
+    var comments = this.Base.getMyData().comments;
+    var comment = comments[seq];
+    console.log(comment);
+    var api = new PostApi();
+    api.commentlike({ comment_id: comment.id, post_id: comment.post_id }, (ret) => {
+      if (comments[seq].iliked == 'Y') {
+
+        comments[seq].iliked = 'N';
+        comments[seq].likecount = parseInt(comments[seq].likecount) - 1;
+      } else {
+
+        comments[seq].iliked = 'Y';
+        comments[seq].likecount = parseInt(comments[seq].likecount) + 1;
+      }
+      that.Base.setMyData({ comments });
+    });
+  }
+  likeSubComment(e) {
+    console.log("sublike?");
+    var that = this;
+    var seq = e.currentTarget.id.split("_");
+    var seq_1 = seq[0];
+    var seq_2 = seq[1];
+    var comments = this.Base.getMyData().comments;
+    var comment = comments[seq_1].subcomments[seq_2];
+    console.log(comment);
+    var api = new PostApi();
+    api.commentlike({ comment_id: comment.id, post_id: comment.post_id }, (ret) => {
+      comments[seq_1].subcomments[seq_2].iliked = 'Y';
+      comments[seq_1].subcomments[seq_2].likecount = parseInt(comments[seq_1].subcomments[seq_2].likecount) + 1;
+      that.Base.setMyData({ comments });
+    });
+  }
+  reply(e) {
+    var seq = e.currentTarget.id;
+    var comments = this.Base.getMyData().comments;
+    var comment = comments[seq];
+    this.Base.setMyData({ reply: comment });
+  }
+  subreply(e) {
+    var seq = e.currentTarget.id.split("_");
+    var seq_1 = seq[0];
+    var seq_2 = seq[1];
+
+    var comments = this.Base.getMyData().comments;
+    var comment = comments[seq_1].subcomments[seq_2];
+    comment.id = comments[seq_1].id;
+    this.Base.setMyData({ reply: comment });
+  }
+  clearReply() {
+    this.Base.setMyData({ reply: null });
+  }
+  loadlikelist() {
+    var api = new PostApi();
+    api.likelist({ post_id: this.Base.options.id }, (likelist) => {
+      this.Base.setMyData({ likelist });
+    });
+  }
+
+  deletecomment(e) {
+    var seq = e.currentTarget.id;
+    var comments = [];
+    var that = this;
+    comments = this.Base.getMyData().comments;
+    var comment = comments[seq];
+    wx.showModal({
+      title: '提示',
+      content: '是否确定删除',
+      success(res) {
+        if (res.confirm) {
+
+          var api = new PostApi();
+          api.deletepost({ idlist: comment.id }, (ret) => {
+            comments.splice(seq, 1);
+            that.Base.setMyData({ comments });
+          });
+        }
+      }
+    })
+  }
+
+
+  like() {
+    var api = new PostApi();
+    var that = this;
+    api.like({ post_id: this.Base.options.id+snumber }, (ret) => {
+      var like = this.Base.getMyData().like;
+      if (like == 'Y') {
+        this.Base.setMyData({ like: "N" });
+      } else {
+        this.Base.setMyData({ like: "Y" });
+      }
+      that.loadlikelist();
+    });
+
+    //var data = this.Base.getMyData();
+    //var like=this.Base.getMyData().like;
+    //this.Base.setMyData({liked:true});
+    //this.loadlikelist();
+  }
 }
+var snumber=100000000;
 var audioctx=null;
 var videoctx=null;
 var catc=null;
@@ -162,7 +304,15 @@ body.videoplay = content.videoplay;
 body.fav = content.fav;
 body.audioPlay = content.audioPlay;
 body.audiotimeupdate = content.audiotimeupdate; 
-body.aduio_slider = content.aduio_slider;
+body.aduio_slider = content.aduio_slider; 
 body.sharetotimes = content.sharetotimes;
+body.deletecomment = content.deletecomment;
+body.likeComment = content.likeComment;
+body.reply = content.reply;
+body.clearReply = content.clearReply;
+body.likeSubComment = content.likeSubComment;
+body.subreply = content.subreply;
+body.loadlikelist = content.loadlikelist;
+body.like = content.like;
 
 Page(body)

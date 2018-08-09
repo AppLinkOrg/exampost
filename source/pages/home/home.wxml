@@ -1,9 +1,9 @@
 <view>
   <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:420rpx;'>
     <swiper-item wx:for="{{indexbanner}}" wx:key="k">
-      <navigator url='{{item.objs_path}}'>
+      <view id="{{item.product_id}}" bindtap='gotoProduct' >
         <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
-      </navigator>
+      </view>
     </swiper-item>
   </swiper>
 </view>
@@ -16,6 +16,7 @@
     </view>
   </navigator>
 </view>
+<ad unit-id="adunit-8dd882856e2ed548" class="white-block"></ad>
 <view class="padding-20 h4 border-top">
   最新发布
 </view>

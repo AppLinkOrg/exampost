@@ -16,7 +16,7 @@ class Content extends AppBase {
   onMyShow() {
     var that = this;
     var instapi=new InstApi();
-    instapi.indexbanner({},(indexbanner)=>{
+    instapi.indexbanner({ displaytype:"home"},(indexbanner)=>{
       that.Base.setMyData({ indexbanner: indexbanner});
     });
     var productlist=this.Base.getMyData().productlist;
@@ -38,6 +38,7 @@ class Content extends AppBase {
     var lastpost = productlist[productlist.length-1];
     var lasttimespan = lastpost.published_date_timespan - 1;
     var lasttimespan_str = this.Base.util.FormatDateTime(new Date(lasttimespan * 1000)) + ".99";
+    console.log(lasttimespan_str);
     instapi.productlist({ published_date_to: lasttimespan_str, orderby: " published_date desc limit 0,10" }, (nproductlist) => {
       for(var i=0;i<nproductlist.length;i++){
         productlist.push(nproductlist[i]);

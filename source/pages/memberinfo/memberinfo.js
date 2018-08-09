@@ -11,10 +11,10 @@ class Content extends AppBase {
   }
   onLoad(options) {
     this.Base.Page = this;
-    //options.id=1;
+    options.id=4;
     super.onLoad(options);
     this.Base.setMyData({
-      currenttab: "0",list:[],id:options.id
+      currenttab: "1",list:[],allmycomment:[],id:options.id
     });
   }
   onMyShow() {
@@ -46,11 +46,12 @@ class Content extends AppBase {
     this.loaddata();
   }
   loaddata(e) {
+    console.log("loaddata");
     var api = new PostApi();
     var that = this;
-    var seq = this.Base.getMyData().currenttab;
+    var seq = parseInt(this.Base.getMyData().currenttab);
     switch (seq) {
-      case "0":
+      case 0:
         api.list({ orderby: " r_main.post_time desc ", status: "A", member_id: this.Base.options.id }, (nlist) => {
           
           for (var i = 0; i < nlist.length; i++) {
@@ -69,12 +70,12 @@ class Content extends AppBase {
           that.Base.setMyData({ list: nlist });
         });
         break;
-      case "1":
-        api.list({ orderby: " r_main.post_time desc ", status: "A,I", "onlyfollow": "Y", member_id: this.Base.options.id  }, (listFollow) => {
-          for (var i = 0; i < listFollow.length; i++) {
-            listFollow[i].cover = listFollow[i].images.split(",")[0];
+      case 1:
+        api.allmycomment({ member_id: this.Base.options.id}, (allmycomment) => {
+          for (var i = 0; i < allmycomment.length; i++) {
+            allmycomment[i].comment_time_ago = time_ago(allmycomment[i].comment_time_timespan);
           }
-          that.Base.setMyData({ listFollow });
+          that.Base.setMyData({ allmycomment });
         });
         break;
     }

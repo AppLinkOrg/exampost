@@ -16,6 +16,14 @@ class Content extends AppBase {
   }
   onMyShow() {
     var that = this;
+
+
+    var instapi = new InstApi();
+    instapi.indexbanner({ displaytype: "times" }, (indexbanner) => {
+      that.Base.setMyData({ indexbanner: indexbanner });
+    });
+
+
     if(AppBase.NEEDRELOADTIMES==true){
       this.Base.setMyData({ list: [], ontype: false, commenttext: "" });
       AppBase.NEEDRELOADTIMES=false;
