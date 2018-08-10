@@ -31,17 +31,17 @@
 <view class='flex-row tabs'>
   <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="0">
     <view class='flex-1'></view>
-    <view class='tabtext {{currenttab==0?"active":""}}'>发布</view>
+    <view class='tabtext {{currenttab==0?"active":""}}'>发布 {{list.length>0?list.length:""}}</view>
     <view class='flex-1'></view>
   </view>
   <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="1">
     <view class='flex-1'></view>
-    <view class='tabtext {{currenttab==1?"active":""}}'>评论</view>
+    <view class='tabtext {{currenttab==1?"active":""}}'>评论 {{allmycomment.length>0?allmycomment.length:""}}</view>
     <view class='flex-1'></view>
   </view>
   <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="2">
     <view class='flex-1'></view>
-    <view class='tabtext {{currenttab==2?"active":""}}'>赞</view>
+    <view class='tabtext {{currenttab==2?"active":""}}'>赞 {{allmylike.length>0?allmylike.length:""}}</view>
     <view class='flex-1'></view>
   </view>
 </view>
@@ -127,11 +127,13 @@
         </view>
       </view>
       <view class='padding white-block border-top' wx:for="{{allmycomment}}" wx:key='k' wx:for-index='idx'>
-        <view><block wx:if="{{item.reply=='Y'}}">回复<text class='txt-light-primary'>{{item.replymember}}</text>：</block>{{item.comment}}</view>
+        <view>
+          <block wx:if="{{item.reply=='Y'}}">回复
+            <text class='txt-light-primary'>{{item.replymember}}</text>：</block>{{item.comment}}</view>
         <view class='margin-top-10 triangle_border_up'></view>
         <view class='gray-deep-block padding  border-radius-10'>
-         <navigator class='h6 txt-gray' url='/pages/info/info?id={{item.id}}' wx:if="{{item.ispost=='Y'}}">{{item.title}}</navigator>
-         <navigator class='h6 txt-gray' url='/pages/product/product?id={{item.id}}' wx:if="{{item.ispost=='N'}}">{{item.title}}</navigator>
+          <navigator class='h6 txt-gray' url='/pages/info/info?id={{item.id}}' wx:if="{{item.ispost=='Y'}}">{{item.title}}</navigator>
+          <navigator class='h6 txt-gray' url='/pages/product/product?id={{item.id}}' wx:if="{{item.ispost=='N'}}">{{item.title}}</navigator>
         </view>
         <view class='h6 txt-gray text-right margin-top-10'>{{item.comment_time_ago}}</view>
       </view>
@@ -141,6 +143,22 @@
   </swiper-item>
   <swiper-item>
     <scroll-view scroll-y style='height:100%'>
+      <view class='text-center' wx:if="{{allmylike.length==0}}">
+        <view>
+          <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
+        </view>
+        <view class='txt-gray h6'>
+        </view>
+      </view>
+      <view class='padding white-block border-top' wx:for="{{allmylike}}" wx:key='k' wx:for-index='idx'>
+        <view>
+          {{item.op}}</view>
+        <view class='margin-top-10 triangle_border_up'></view>
+        <view class='gray-deep-block padding  border-radius-10'>
+          <navigator class='h6 txt-gray' url='/pages/{{item.pg}}/{{item.pg}}?id={{item.id}}' >{{item.ct}}</navigator>
+        </view>
+        <view class='h6 txt-gray text-right margin-top-10'>{{item.comment_time_ago}}</view>
+      </view>
 
     </scroll-view>
   </swiper-item>
