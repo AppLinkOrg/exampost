@@ -22,6 +22,9 @@ page{
 .clear-button::after {
   border: 0;
 } 
+.workbreak{
+  word-break: break-all;
+}
 .btn-primary-line{
   border-color: #1a237e;
   color: #1a237e;
@@ -34,6 +37,7 @@ view,navigator,input,text,textarea{
   font-size: 32rpx;
   font-weight: 350;
   color: #2c2c2c;
+  word-break: break-all;
 }
 .flex-row{
   display: flex;
@@ -200,6 +204,10 @@ button[disabled][type=primary] {
 .icon-30{
   width: 60rpx;
   height: 60rpx;
+}
+.icon-35{
+  width: 70rpx;
+  height: 70rpx;
 }
 .icon-40{
   width: 80rpx;
@@ -518,4 +526,14 @@ display:-webkit-box;
 
 .margin-right-10{
   margin-right: 10rpx;
+}
+
+.bgdark{
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 250;
 }

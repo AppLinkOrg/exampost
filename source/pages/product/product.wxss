@@ -45,3 +45,17 @@ video{
 audio{
   position: relative;
 }
+
+
+.triangle_border_up{
+    width:0;
+    height:0;
+    border-width:0 15rpx 20rpx;
+    border-style:solid;
+    border-color:transparent transparent #ececec;/*透明 透明  灰*/
+    margin-left: 30rpx;
+    position:relative;
+}
+.gray-deep-block{
+  background-color: #ececec;
+}

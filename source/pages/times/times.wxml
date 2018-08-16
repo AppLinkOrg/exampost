@@ -1,10 +1,17 @@
 <!--pages/times/times.wxml-->
 <view>
-  <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:320rpx;'>
+  <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:320rpx;' circular>
     <swiper-item wx:for="{{indexbanner}}" wx:key="k">
+      <block wx:if="{{item.gotosearch_value=='Y'}}">
+      <navigator  url='/pages/search/search'  >
+        <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:320rpx;' mode="aspectFill"></image>
+      </navigator>
+      </block>
+      <block wx:else>
       <view id="{{item.product_id}}" bindtap='gotoProduct'>
         <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:320rpx;' mode="aspectFill"></image>
       </view>
+      </block>
     </swiper-item>
   </swiper>
 </view>
@@ -17,18 +24,24 @@
 
   </view>
 </view>
-<view class='white-block padding-20 flex-row border-bottom' style='padding-bottom:30rpx;' wx:for="{{list}}" wx:key="k" wx:for-index="idx">
+
+
+<view class='white-block padding-20 flex-row border-bottom' style='padding-bottom:30rpx;' wx:for="{{toplist}}" wx:key="k" wx:for-index="idx">
   <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}'>
     <image class='icon-50' style='border-radius:50%;' src='{{item.member_avatarUrl}}'></image>
   </navigator>
   <view class='flex-1' style='margin-left:30rpx;margin-right:20rpx;'>
-    <navigator class='h5 txt-light-primary' url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}'>{{item.member_nickName}}</navigator>
-    <navigator url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
-      <view class='margin-top-10'>{{item.title}}</view>
+    <view class='flex-row flex-center'>
+    <navigator class='h5 txt-light-primary flex-1' url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}'>{{item.member_nickName}}</navigator>
+    <view wx:if="{{item.ontop_value=='Y'}}" >
+    <image style='width:100rpx' mode='widthFix' src='{{uploadpath}}resource/ontop.png'></image>
+    </view>
+    </view>
+    <navigator url='/pages/info/info?id=shownext=Y&id={{item.id}}' class='margin-top-10'> <text style='word-break:break-all;' >{{item.title}}</text> 
     </navigator>
     <block wx:if="{{item.video!=''}}">
       <view class='margin-top-10'>
-        <video style='width:80%;' src='{{uploadpath}}post/{{item.video}}'></video>
+        <video style='width:500rpx;height:280rpx;' src='{{uploadpath}}post/{{item.video}}'></video>
       </view>
     </block>
     <block wx:if="{{item.images.length>0}}">
@@ -37,8 +50,68 @@
           <image src='{{uploadpath}}post/{{item.images[0]}}' style='max-width:400rpx;' mode='widthFix' bindtap='viewPhoto' id="{{uploadpath}}post/{{item.images[0]}}"></image>
         </view>
         <view class='flex-row flex-wrap margin-top-10' wx:if="{{item.images.length>1}}">
-          <view wx:for="{{item.images}}" wx:key="k">
-            <image class='icon-40' src='{{uploadpath}}post/{{item}}' style='width:180rpx;height:180rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill' bindtap='viewPhoto' id="{{uploadpath}}post/{{item}}"></image>
+          <view wx:for="{{item.images}}" wx:key="k" wx:for-item="img" >
+            <image class='icon-35' src='{{uploadpath}}post/{{img}}' style='width:160rpx;height:160rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill' bindtap='viewphotos' data-images="{{item.images}}" id="{{uploadpath}}post/{{img}}"></image>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view class='margin-top-10 txt-gray flex-row flex-bottom'>
+      <view class='h5 txt-gray'>
+        {{item.timeduration}}
+      </view>
+      <view class='h5 txt-light-primary' wx:if="{{item.mycreated=='Y'}}" style='margin-left:30rpx;' id="{{item.id}}" bindtap='deletemypost'>
+        删除
+      </view>
+    </view>
+    <view class='margin-top-10 txt-gray flex-row flex-center'>
+      <view class='line-height-0' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}">
+        <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
+      </view>
+      <view class='line-height-0' style='padding-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='Y'}}">
+        <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
+      </view>
+      <view class='txt-gray' style='margin-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='N'}}">
+        {{item.likelist.length>0?item.likelist.length:"赞"}}
+      </view>
+      <view class='txt-light-primary' style='padding-right:30rpx;' id="{{item.id}}" bindtap='like' wx:if="{{item.like=='Y'}}">
+        {{item.likelist.length>0?item.likelist.length:"赞"}}
+      </view>
+      <navigator url='/pages/info/info?id={{item.id}}' class='line-height-0' style='margin-right:30rpx;margin-left:80rpx;'>
+        <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
+      </navigator>
+      <navigator url='/pages/info/info?id={{item.id}}' class='txt-gray' style='margin-right:30rpx;'>
+        {{item.commentlist.length>0?item.commentlist.length:"评论"}}
+      </navigator>
+    </view>
+  </view>
+</view>
+
+
+<view class='white-block padding-20 flex-row border-bottom' style='padding-bottom:30rpx;' wx:for="{{list}}" wx:key="k" wx:for-index="idx">
+  <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}'>
+    <image class='icon-50' style='border-radius:50%;' src='{{item.member_avatarUrl}}'></image>
+  </navigator>
+  <view class='flex-1' style='margin-left:30rpx;margin-right:20rpx;'>
+    <view class='flex-row flex-center'>
+    <navigator class='h5 txt-light-primary flex-1' url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}'>{{item.member_nickName}}</navigator>
+    </view>
+    <navigator url='/pages/info/info?id=shownext=Y&id={{item.id}}' class='margin-top-10'> 
+    <text style='word-break:break-all;' >{{item.showfulltitle==true?item.title:item.shorttitle+"..."}}</text><text class='txt-primary h6'>查看全部</text> 
+    </navigator>
+    <block wx:if="{{item.video!=''}}">
+      <view class='margin-top-10'>
+        <video style='width:500rpx;height:280rpx;' src='{{uploadpath}}post/{{item.video}}'></video>
+      </view>
+    </block>
+    <block wx:if="{{item.images.length>0}}">
+      <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
+        <view class='margin-top-10' wx:if="{{item.images.length==1}}">
+          <image src='{{uploadpath}}post/{{item.images[0]}}' style='max-width:400rpx;' mode='widthFix' bindtap='viewPhoto' id="{{uploadpath}}post/{{item.images[0]}}"></image>
+        </view>
+        <view class='flex-row flex-wrap margin-top-10' wx:if="{{item.images.length>1}}">
+          <view wx:for="{{item.images}}" wx:key="k" wx:for-item="img" >
+            <image class='icon-35' src='{{uploadpath}}post/{{img}}' style='width:160rpx;height:160rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill' bindtap='viewphotos' data-images="{{item.images}}" id="{{uploadpath}}post/{{img}}"></image>
           </view>
         </view>
       </view>

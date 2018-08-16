@@ -62,6 +62,23 @@ class Content extends AppBase {
     });
     this.search();
   }
+  clearrecord(){
+    var that=this;
+    wx.showModal({
+      title: '提示',
+      content: '是否确定清空我的搜索记录？',
+      success(e){
+        if(e.confirm){
+          that.Base.setMyData({ history: [] });
+
+          var instapi = new InstApi();
+          instapi.clearkeyword({}, (ret) => {
+
+          });
+        }
+      }
+    })
+  }
 }
 var content = new Content();
 var body = content.generateBodyJson();
@@ -71,6 +88,7 @@ body.showInput = content.showInput;
 body.hideInput = content.hideInput;
 body.clearInput = content.clearInput; 
 body.inputTyping = content.inputTyping; 
-body.search = content.search;
+body.search = content.search; 
 body.searchKeyword = content.searchKeyword;
+body.clearrecord = content.clearrecord;
 Page(body)

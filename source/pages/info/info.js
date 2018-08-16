@@ -9,7 +9,7 @@ class Content extends AppBase {
     super();
   }
   onLoad(options) {
-   // options.id=2;
+    //options.id=1;
     this.Base.Page = this;
     //options.showcomment='Y';
     super.onLoad(options);
@@ -18,14 +18,16 @@ class Content extends AppBase {
       this.Base.setMyData({
         currenttab: 1,
         reply:null,
-        likelist:[]
+        likelist:[],
+        showshare: false
       });
     }else{
 
       this.Base.setMyData({
         currenttab: 0,
         reply: null,
-        likelist: []
+        likelist: [],
+        showshare: false
       });
     }
 
@@ -144,7 +146,7 @@ class Content extends AppBase {
       var data = this.Base.getMyData();
       if(ret.return==true){
         console.log("???");
-        this.Base.setMyData({ followed: true, followcount: data.followcount + 1 });
+        this.Base.setMyData({ followed: true, followcount: parseInt(data.followcount) + 1 });
       }else{
 
         this.Base.setMyData({ followed: false, followcount: data.followcount - 1 });
@@ -334,13 +336,33 @@ class Content extends AppBase {
         if(res.confirm){
 
           var api = new PostApi();
-          api.deletepost({ idlist: comment.id }, (ret) => {
+          api.deletecomment({ idlist: comment.id }, (ret) => {
             comments.splice(seq, 1);
             that.Base.setMyData({ comments });
           });
         }
       }
     })
+  }
+  
+  openshare(){
+    this.Base.setMyData({ showshare:true });
+  }
+  closeshare() {
+    this.Base.setMyData({ showshare: false });
+  }
+
+  sharetotimes() {
+
+    var papi = new PostApi();
+    papi.poster({ id: this.Base.options.id }, (ret) => {
+      console.log("???");
+      console.log(ret);
+      var url = "https://cmsdev.app-link.org/Users/alucard263096/deky/upload/post/" + ret.return;
+      wx.navigateTo({
+        url: "/pages/photodownload/photodownload?url=" + url,
+      })
+    });
   }
 }
 var content = new Content();
@@ -366,4 +388,8 @@ body.subreply = content.subreply;
 body.loadlikelist = content.loadlikelist;
 body.deletemypost = content.deletemypost;
 body.deletecomment = content.deletecomment;
+body.openshare = content.openshare; 
+body.closeshare = content.closeshare;
+body.sharetotimes = content.sharetotimes;
+
 Page(body)

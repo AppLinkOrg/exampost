@@ -11,7 +11,7 @@ class Content extends AppBase {
     this.Base.Page = this;
     //options.id=5;
     super.onLoad(options);
-    this.Base.setMyData({productlist:[]});
+    this.Base.setMyData({toplist:[],productlist:[]});
   }
   onMyShow() {
     var that = this;
@@ -21,13 +21,16 @@ class Content extends AppBase {
     });
     var productlist=this.Base.getMyData().productlist;
     if (productlist.length==0){
-      instapi.productlist({orderby:" published_date desc limit 0,15"}, (productlist) => {
+      instapi.productlist({orderby:"published_date desc limit 0,15"}, (productlist) => {
         that.Base.setMyData({ productlist: productlist });
       });
     }
+    instapi.productlist({ontop:"Y", orderby: "published_date desc " }, (toplist) => {
+      that.Base.setMyData({ toplist: toplist });
+    });
   }
   onPullDownRefresh(){
-    this.Base.setMyData({ productlist: [] });
+    this.Base.setMyData({ productlist: [],toplist:[] });
     this.onMyShow();
   }
   onReachBottom(){

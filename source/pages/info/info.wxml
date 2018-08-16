@@ -3,9 +3,9 @@
 <view class='padding white-block border-bottom' wx:if="{{id}}">
   <view class='flex-row flex-center'>
     <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{member_id}}' class='line-height-0 margin-right-10'>
-      <image  class='icon-50' style='border-radius:50%;' src='{{member_avatarUrl}}'></image>
+      <image class='icon-50' style='border-radius:50%;' src='{{member_avatarUrl}}'></image>
     </navigator>
-    <view class='margin-left-10'>
+    <view class='margin-left-10 flex-1'>
       <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{member_id}}' class='h5 txt-light-primary'>{{member_nickName}}</navigator>
       <view class='margin-top-10 flex-row '>
         <view class='h6 txt-gray'>{{post_time_formatting}}</view>
@@ -14,9 +14,15 @@
         </view>
       </view>
     </view>
+    <view class="flex-row" bindtap='openshare'>
+      <view class='line-height-0'>
+        <image class='icon' src='{{uploadpath}}resource/ff.png' style='margin-right:4rpx;'></image>
+      </view>
+      <view>分享</view>
+    </view>
   </view>
   <view class='margin-top'>
-    {{title}}
+    <text class="workbreak">{{title}}</text>
   </view>
   <view class='margin-top'>
     <block wx:if="{{video!=''}}">
@@ -31,7 +37,7 @@
         </view>
         <view class='flex-row flex-wrap margin-top-10' wx:if="{{images.length>1}}">
           <view wx:for="{{images}}" wx:key="k">
-            <image class='icon-40' src='{{uploadpath}}post/{{item}}' style='width:180rpx;height:180rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill' bindtap='viewPhotos' id="{{item}}"></image>
+            <image class='icon-40' src='{{uploadpath}}post/{{item}}' style='width:160rpx;height:160rpx;margin-top:10rpx;margin-right:10rpx;' mode='aspectFill' bindtap='viewPhotos' id="{{item}}"></image>
           </view>
         </view>
       </view>
@@ -61,6 +67,8 @@
   </view>
 
 </view>
+
+<ad unit-id="adunit-2dd329f9775a4d95" class="white-block"></ad>
 <view class='padding h5'>
   评论列表
 </view>
@@ -72,19 +80,19 @@
 <view class='white-block' wx:if="{{comments.length>0}}">
   <view class='padding white-block border-top' wx:for="{{comments}}" wx:key="k" wx:for-index="idx">
     <view class='flex-row'>
-      <view class='line-height-0 margin-right-10'>
+      <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}' class='line-height-0 margin-right-10'>
         <image class='icon-50' style='border-radius:50%;' src='{{item.member_avatarUrl}}'></image>
-      </view>
+      </navigator>
       <view class='margin-left-10 flex-1'>
         <view class=' flex-row flex-center'>
-          <view class='flex-1 h5 txt-light-primary'>{{item.member_nickName}}</view>
-          <view class='line-height-0 margin-right-10'  bindtap='likeComment' id="{{idx}}" >
-            <image class='icon' src='{{uploadpath}}resource/like2.png'  wx:if="{{item.iliked=='N'}}"></image>
-            <image class='icon' src='{{uploadpath}}resource/like2-a.png'  wx:if="{{item.iliked=='Y'}}"></image>
+          <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}' class='flex-1 h5 txt-light-primary'>{{item.member_nickName}}</navigator>
+          <view class='line-height-0 margin-right-10' bindtap='likeComment' id="{{idx}}">
+            <image class='icon' src='{{uploadpath}}resource/like2.png' wx:if="{{item.iliked=='N'}}"></image>
+            <image class='icon' src='{{uploadpath}}resource/like2-a.png' wx:if="{{item.iliked=='Y'}}"></image>
           </view>
-          <view class='line-height-0'  bindtap='likeComment' id="{{idx}}">
-            <text class='txt-gray'  wx:if="{{item.iliked=='N'}}">{{item.likecount}}</text>
-            <text class='txt-light-primary'  wx:if="{{item.iliked=='Y'}}">{{item.likecount}}</text>
+          <view class='line-height-0' bindtap='likeComment' id="{{idx}}">
+            <text class='txt-gray' wx:if="{{item.iliked=='N'}}">{{item.likecount}}</text>
+            <text class='txt-light-primary' wx:if="{{item.iliked=='Y'}}">{{item.likecount}}</text>
           </view>
         </view>
         <view class='margin-top-10 flex-row '>
@@ -99,6 +107,12 @@
         <navigator url='/pages/comment/comment?id={{id}}&reply_member_id={{item.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{item.member_nickName}}' class='margin-top-10' wx:if="{{item.mycreated=='N'}}">
           {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
         </navigator>
+        <block wx:if="{{item.reply_member_id>0}}">
+          <view class='margin-top-10 triangle_border_up'></view>
+        <view class='gray-deep-block padding  border-radius-10'>
+          <view class='h6 txt-gray' >{{item.replycomment_comment}}</view>
+        </view>
+        </block>
       </view>
     </view>
   </view>
@@ -110,10 +124,26 @@
   <view class=' padding flex-row flex-center'>
 
     <view class='flex-1 flex-row flex-center'>
-      <view class='line-height-0 flex-1 text-right' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
+      <view class='line-height-0 flex-1 text-right' style='padding-right:10rpx;' id="{{id}}" bindtap='follow' wx:if="{{followed==false}}">
+        <image class='icon' src='{{uploadpath}}resource/fav.png'></image>
+      </view>
+      <view class='line-height-0 flex-1 text-right' style='padding-right:10rpx;' id="{{id}}" bindtap='follow' wx:if="{{followed==true}}">
+        <image class='icon' src='{{uploadpath}}resource/fav-a.png'></image>
+      </view>
+      <view class='txt-gray flex-1' id="{{id}}" bindtap='follow' wx:if="{{followed==false}}">
+        {{followcount>0?followcount:"收藏"}}
+      </view>
+      <view class='txt-light-primary flex-1' id="{{id}}" bindtap='follow' wx:if="{{followed==true}}">
+        {{followcount>0?followcount:"收藏"}}
+      </view>
+
+    </view>
+    <view style='width:2rpx;height:20rpx;background:#8a8a8a;'></view>
+    <view class='flex-1 flex-row flex-center'>
+      <view class='line-height-0 flex-1 text-right' style='padding-right:10rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
         <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
       </view>
-      <view class='line-height-0 flex-1 text-right' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
+      <view class='line-height-0 flex-1 text-right' style='padding-right:10rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
         <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
       </view>
       <view class='txt-gray flex-1' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
@@ -126,7 +156,7 @@
     </view>
     <view style='width:2rpx;height:20rpx;background:#8a8a8a;'></view>
     <view class='flex-1 flex-row flex-center'>
-      <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='line-height-0 flex-1 text-right' style='margin-right:30rpx;'>
+      <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='line-height-0 flex-1 text-right' style='padding-right:10rpx;'>
         <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
       </navigator>
       <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='txt-gray flex-1 '>
@@ -136,6 +166,35 @@
     </view>
   </view>
 </view>
+
+<view wx:if="{{showshare}}" class='bgdark' bindtap='closeshare'>
+
+</view>
+<view wx:if="{{showshare}}" class='fixedbottom border-top white-block' style='z-index:255;'>
+  <view class='padding margin-top'>
+    <view class='flex-row flex-center text-center'>
+      <view class=' flex-1'>
+        <button class='clear-button' style='width:150rpx;height:150rpx;position:absolute;margin-left:100rpx;' open-type='share' ></button>
+        <view class='line-height-0'>
+          <image src='{{uploadpath}}resource/wechat.png' class='icon-50'></image>
+        </view>
+        <view class='margin-top-10 h5' >
+          转发好友
+        </view>
+      </view>
+      <view class=' flex-1'  bindtap='sharetotimes' >
+        <view class='line-height-0'>
+          <image src='{{uploadpath}}resource/times.png' class='icon-50'></image>
+        </view>
+        <view class='margin-top-10 h5' >
+          生成海报
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+
 <!--
 <view wx:if="{{id}}">
   <view class='line-height-0'>

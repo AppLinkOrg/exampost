@@ -1,9 +1,19 @@
 // pages/content/content.js
-import { AppBase } from "../../appbase";
-import { ApiConfig } from "../../apis/apiconfig";
-import { InstApi } from "../../apis/inst.api.js";
-import { ProductApi } from "../../apis/product.api.js";
-import { PostApi } from "../../apis/post.api.js";
+import {
+  AppBase
+} from "../../appbase";
+import {
+  ApiConfig
+} from "../../apis/apiconfig";
+import {
+  InstApi
+} from "../../apis/inst.api.js";
+import {
+  ProductApi
+} from "../../apis/product.api.js";
+import {
+  PostApi
+} from "../../apis/post.api.js";
 var WxParse = require('../../wxParse/wxParse');
 
 class Content extends AppBase {
@@ -11,12 +21,21 @@ class Content extends AppBase {
     super();
   }
   onLoad(options) {
-    //options.id=1;
-    options.id=parseInt(options.id);
+   // options.id = 5;
+    options.id = parseInt(options.id);
     this.Base.Page = this;
     this.Base.pagetitle = "";
     super.onLoad(options);
-    this.Base.setMyData({ comments: [], commenttext: "", audio: "", audio_value: 0, video: "", audio_duration: 0, snumber: snumber});
+    this.Base.setMyData({
+      audioplay:false,
+      comments: [],
+      commenttext: "",
+      audio: "",
+      audio_value: 0,
+      video: "",
+      audio_duration: 0,
+      snumber: snumber
+    });
 
     this.Base.setMyData({
       currenttab: 0,
@@ -31,24 +50,42 @@ class Content extends AppBase {
 
     var that = this;
     var instapi = new InstApi();
-    instapi.product({id:this.Base.options.id}, (product) => {
+    instapi.product({
+      id: this.Base.options.id
+    }, (product) => {
       product.id = parseInt(product.id);
+      var uploadpath = that.Base.getMyData().uploadpath;
+
       that.Base.setMyData(product);
       that.Base.pagetitle = product.name;
+      if (product.audio != "") {
+        //innerAudioContext.autoplay = true;
+        innerAudioContext.src = uploadpath + "product/" + product.audio;
+
+        innerAudioContext.onPlay(that.audioPlay);
+        innerAudioContext.onPause(that.audioPause);
+        innerAudioContext.onTimeUpdate(that.audiotimeupdate);
+        innerAudioContext.onCanplay(that.audiotimeupdate);
+
+      }
 
       wx.setNavigationBarTitle({
         title: product.name
       });
+      product.content = this.Base.util.HtmlDecode(product.content);
       WxParse.wxParse('content', 'html', product.content, that, 10);
     });
-    
+
 
     this.loadcomment();
     this.loadlikelist();
   }
   loadcomment() {
     var api = new PostApi();
-    api.commentlist({ post_id: this.Base.options.id }, (commentlist) => {
+    api.commentlist({
+      post_id: this.Base.options.id,
+      orderby: "r_main.comment_time"
+    }, (commentlist) => {
       if (this.Base.options.comment_id != undefined) {
         this.Base.setMyData({
           comments: commentlist,
@@ -64,42 +101,63 @@ class Content extends AppBase {
     });
   }
   audioPlay() {
+    innerAudioContext.play();
+    this.Base.setMyData({
+      audioplay: true});
     videoctx.pause();
   }
-  audiotimeupdate(e){
-
+  audioPause() {
+    this.Base.setMyData({
+      audioplay: false
+    });
+    innerAudioContext.pause();
+  }
+  audiotimeupdate(e) {
+    
     var that = this;
-    that.Base.setMyData({ audio_duration: e.detail.duration,audio_value:e.detail.currentTime });
+    that.Base.setMyData({
+      audio_duration: innerAudioContext.duration,
+      audio_duration_str: dtime(innerAudioContext.duration),
+      audio_value: innerAudioContext.currentTime,
+      audio_value_str: dtime(innerAudioContext.currentTime)
+    });
   }
   aduio_slider(e) {
     var that = this;
     console.log(e);
     var currentTime = e.detail.value;
-    audioctx.seek(currentTime );
-    that.Base.setMyData({ audio_value:currentTime });
+    //audioctx.seek(currentTime);
+    innerAudioContext.seek(currentTime);
+    that.Base.setMyData({
+      audio_value: currentTime
+    });
   }
   mydownload() {
-    var that=this;
+    var that = this;
     var id = this.Base.getMyData().id;
     var attachment = this.Base.getMyData().attachment;
     var uploadpath = this.Base.getMyData().uploadpath;
     var downloadcount = parseInt(this.Base.getMyData().downloadcount);
     wx.showToast({
       title: '正在下载文件......',
-      icon:"none"
+      icon: "none"
     });
-    var url=uploadpath+"product/"+attachment;
+    var url = uploadpath + "product/" + attachment;
     console.log(attachment);
-    this.Base.download(url, (filepath)=>{
-      var productapi=new ProductApi();
-      productapi.download({ product_id: id},(ret)=>{
-        that.Base.setMyData({ downloadcount: downloadcount+1});
+    this.Base.download(url, (filepath) => {
+      var productapi = new ProductApi();
+      productapi.download({
+        product_id: id
+      }, (ret) => {
+        that.Base.setMyData({
+          downloadcount: downloadcount + 1
+        });
       });
       wx.showModal({
         title: '下载成功',
         content: '是否直接打开资料',
-        success(res){
-          if(res.confirm){
+        success(res) {
+          if (res.confirm) {
             wx.openDocument({
               filePath: filepath,
             })
@@ -108,34 +166,48 @@ class Content extends AppBase {
       })
     });
   }
-  showincomment(){
-    this.Base.setMyData({ incomment:true});
+  showincomment() {
+    this.Base.setMyData({
+      incomment: true
+    });
   }
-  commenttextchange(e){
-    this.Base.setMyData({ commenttext: e.detail.value });
+  commenttextchange(e) {
+    this.Base.setMyData({
+      commenttext: e.detail.value
+    });
   }
   hideincomment() {
-    this.Base.setMyData({ incomment: false });
+    this.Base.setMyData({
+      incomment: false
+    });
   }
-  comment(){
-    var commenttext=this.Base.getMyData().commenttext;
-    if(commenttext.trim()==""){
+  comment() {
+    var commenttext = this.Base.getMyData().commenttext;
+    if (commenttext.trim() == "") {
       wx.showToast({
         title: '请输入评论内容',
-        icon:"none"
+        icon: "none"
       });
       return;
     }
 
-    var api=new ProductApi();
-    api.comment({product_id:this.Base.options.id,comment:commenttext},()=>{
+    var api = new ProductApi();
+    api.comment({
+      product_id: this.Base.options.id,
+      comment: commenttext
+    }, () => {
       this.loadcomment();
-      this.Base.setMyData({ incomment: false, commenttext:"" });
+      this.Base.setMyData({
+        incomment: false,
+        commenttext: ""
+      });
     });
   }
   loadcomment() {
     var api = new PostApi();
-    api.commentlist({ post_id: this.Base.options.id+snumber }, (commentlist) => {
+    api.commentlist({
+      post_id: this.Base.options.id + snumber
+    }, (commentlist) => {
       if (this.Base.options.comment_id != undefined) {
         this.Base.setMyData({
           comments: commentlist,
@@ -150,33 +222,43 @@ class Content extends AppBase {
       }
     });
   }
-  videoplay(){
+  videoplay() {
+    this.Base.setMyData({
+      audioplay: false
+    });
     audioctx.pause();
   }
-  audioplay() {
-  }
-  fav(){
-    var fav=this.Base.getMyData().fav;
-    var api=new ProductApi();
-    api.fav({"product_id":this.Base.options.id},(ret)=>{
+  audioplay() {}
+  fav() {
+    var fav = this.Base.getMyData().fav;
+    var api = new ProductApi();
+    api.fav({
+      "product_id": this.Base.options.id
+    }, (ret) => {
 
       if (fav == "Y") {
-        this.Base.setMyData({ fav: "N" });
+        this.Base.setMyData({
+          fav: "N"
+        });
         this.Base.toast("取消收藏成功");
-      }else{
+      } else {
 
-        this.Base.setMyData({ fav: "Y" });
+        this.Base.setMyData({
+          fav: "Y"
+        });
         this.Base.toast("收藏成功");
       }
     });
   }
-  sharetotimes(){
+  sharetotimes() {
 
     var papi = new ProductApi();
-    papi.poster({ product_id: this.Base.options.id },(ret)=>{
-      var url = "https://cmsdev.app-link.org/Users/alucard263096/deky/upload/poster/" + this.Base.options.id+".png";
+    papi.poster({
+      product_id: this.Base.options.id
+    }, (ret) => {
+      var url = "https://cmsdev.app-link.org/Users/alucard263096/deky/upload/poster/" + ret.return;
       wx.navigateTo({
-        url:"/pages/photodownload/photodownload?url="+url,
+        url: "/pages/photodownload/photodownload?url=" + url,
       })
     });
   }
@@ -189,7 +271,10 @@ class Content extends AppBase {
     var comment = comments[seq];
     console.log(comment);
     var api = new PostApi();
-    api.commentlike({ comment_id: comment.id, post_id: comment.post_id }, (ret) => {
+    api.commentlike({
+      comment_id: comment.id,
+      post_id: comment.post_id
+    }, (ret) => {
       if (comments[seq].iliked == 'Y') {
 
         comments[seq].iliked = 'N';
@@ -199,7 +284,9 @@ class Content extends AppBase {
         comments[seq].iliked = 'Y';
         comments[seq].likecount = parseInt(comments[seq].likecount) + 1;
       }
-      that.Base.setMyData({ comments });
+      that.Base.setMyData({
+        comments
+      });
     });
   }
   likeSubComment(e) {
@@ -212,17 +299,24 @@ class Content extends AppBase {
     var comment = comments[seq_1].subcomments[seq_2];
     console.log(comment);
     var api = new PostApi();
-    api.commentlike({ comment_id: comment.id, post_id: comment.post_id }, (ret) => {
+    api.commentlike({
+      comment_id: comment.id,
+      post_id: comment.post_id
+    }, (ret) => {
       comments[seq_1].subcomments[seq_2].iliked = 'Y';
       comments[seq_1].subcomments[seq_2].likecount = parseInt(comments[seq_1].subcomments[seq_2].likecount) + 1;
-      that.Base.setMyData({ comments });
+      that.Base.setMyData({
+        comments
+      });
     });
   }
   reply(e) {
     var seq = e.currentTarget.id;
     var comments = this.Base.getMyData().comments;
     var comment = comments[seq];
-    this.Base.setMyData({ reply: comment });
+    this.Base.setMyData({
+      reply: comment
+    });
   }
   subreply(e) {
     var seq = e.currentTarget.id.split("_");
@@ -232,15 +326,23 @@ class Content extends AppBase {
     var comments = this.Base.getMyData().comments;
     var comment = comments[seq_1].subcomments[seq_2];
     comment.id = comments[seq_1].id;
-    this.Base.setMyData({ reply: comment });
+    this.Base.setMyData({
+      reply: comment
+    });
   }
   clearReply() {
-    this.Base.setMyData({ reply: null });
+    this.Base.setMyData({
+      reply: null
+    });
   }
   loadlikelist() {
     var api = new PostApi();
-    api.likelist({ post_id: this.Base.options.id }, (likelist) => {
-      this.Base.setMyData({ likelist });
+    api.likelist({
+      post_id: this.Base.options.id
+    }, (likelist) => {
+      this.Base.setMyData({
+        likelist
+      });
     });
   }
 
@@ -257,9 +359,13 @@ class Content extends AppBase {
         if (res.confirm) {
 
           var api = new PostApi();
-          api.deletepost({ idlist: comment.id }, (ret) => {
+          api.deletepost({
+            idlist: comment.id
+          }, (ret) => {
             comments.splice(seq, 1);
-            that.Base.setMyData({ comments });
+            that.Base.setMyData({
+              comments
+            });
           });
         }
       }
@@ -270,12 +376,21 @@ class Content extends AppBase {
   like() {
     var api = new PostApi();
     var that = this;
-    api.like({ post_id: this.Base.options.id+snumber }, (ret) => {
+    api.like({
+      post_id: this.Base.options.id + snumber
+    }, (ret) => {
       var like = this.Base.getMyData().like;
+      var likecount = this.Base.getMyData().likecount;
       if (like == 'Y') {
-        this.Base.setMyData({ like: "N" });
+        this.Base.setMyData({
+          like: "N",
+          likecount: likecount - 1
+        });
       } else {
-        this.Base.setMyData({ like: "Y" });
+        this.Base.setMyData({
+          like: "Y",
+          likecount: parseInt(likecount) + 1
+        });
       }
       that.loadlikelist();
     });
@@ -286,25 +401,40 @@ class Content extends AppBase {
     //this.loadlikelist();
   }
 }
-var snumber=100000000;
-var audioctx=null;
-var videoctx=null;
-var catc=null;
+
+function dtime(t) {
+  var t = parseInt(t);
+  var minute = parseInt(t / 60);
+  var second = parseInt(t % 60);
+  minute = minute <= 9 ? "0" + minute.toString() : minute.toString();
+  second = second <= 9 ? "0" + second.toString() : second.toString();
+
+  return minute + ":" + second;
+}
+
+const innerAudioContext = wx.createInnerAudioContext()
+
+
+
+var snumber = 100000000;
+var audioctx = null;
+var videoctx = null;
+var catc = null;
 var content = new Content();
 var body = content.generateBodyJson();
-body.onLoad = content.onLoad; 
-body.onMyShow = content.onMyShow; 
+body.onLoad = content.onLoad;
+body.onMyShow = content.onMyShow;
 body.mydownload = content.mydownload;
 body.showincomment = content.showincomment;
-body.hideincomment = content.hideincomment; 
+body.hideincomment = content.hideincomment;
 body.comment = content.comment;
-body.commenttextchange = content.commenttextchange; 
+body.commenttextchange = content.commenttextchange;
 body.loadcomment = content.loadcomment;
-body.videoplay = content.videoplay; 
+body.videoplay = content.videoplay;
 body.fav = content.fav;
 body.audioPlay = content.audioPlay;
-body.audiotimeupdate = content.audiotimeupdate; 
-body.aduio_slider = content.aduio_slider; 
+body.audiotimeupdate = content.audiotimeupdate;
+body.aduio_slider = content.aduio_slider;
 body.sharetotimes = content.sharetotimes;
 body.deletecomment = content.deletecomment;
 body.likeComment = content.likeComment;
@@ -312,7 +442,8 @@ body.reply = content.reply;
 body.clearReply = content.clearReply;
 body.likeSubComment = content.likeSubComment;
 body.subreply = content.subreply;
-body.loadlikelist = content.loadlikelist;
+body.loadlikelist = content.loadlikelist; 
 body.like = content.like;
+body.audioPause = content.audioPause;
 
 Page(body)

@@ -255,6 +255,7 @@ export class AppBase {
     return this.Page.data;
   }
   viewPhoto(e) {
+    console.log(e);
     var img = e.currentTarget.id;
     console.log(img);
     wx.previewImage({

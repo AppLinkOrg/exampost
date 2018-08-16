@@ -1,13 +1,29 @@
 <!--pages/product/product.wxml-->
 <import src="../../wxParse/wxParse.wxml" />
 
-<view class='white-block padding-20 h3'>
+<view class='white-block padding h3'>
   {{name}}
 </view>
-<view class='white-block flex-row flex-center padding-20'>
+<view class='white-block flex-row flex-center padding'>
   <view class='h6 txt-gray margin-right-10'>{{ref}}</view>
   <view class='h6 txt-gray margin-right-10'>{{cat_id_name}}</view>
   <view class='h6 txt-gray'>{{viewcount}}人阅读</view>
+  <view class='h6 txt-gray flex-row flex-center'>
+  <view class='flex-1 flex-row flex-center margin-left-10'  id="{{id+snumber}}" bindtap='like'>
+    <view class='txt-gray flex-1 text-center margin-right-10' wx:if="{{like=='N'}}">
+        <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
+      </view>
+      <view class='txt-light-primary flex-1 text-center margin-right-10'  wx:if="{{like=='Y'}}">
+        <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
+      </view>
+      <view class='txt-gray flex-1 text-center' wx:if="{{like=='N'}}">
+        {{likecount}}
+      </view>
+      <view class='txt-light-primary flex-1 text-center'  wx:if="{{like=='Y'}}">
+        {{likecount}}
+      </view>
+    </view>
+  </view>
   <!--
   <view class='h6 txt-gray margin-right-10'>{{published_date_formatting}}</view>-->
   <view class='text-right flex-1'>
@@ -15,22 +31,43 @@
     <image class='icon' wx:if="{{fav=='Y'}}" bindtap='fav' src='{{uploadpath}}resource/fav-a.png'></image>
   </view>
 </view>
-<view wx:if="{{audio!=''}}" class='white-block text-center padding-20'>
-  <audio class='fullimg' poster="{{uploadpath}}product/{{audiocover}}" name="{{audioname}}" author="{{audioauthor}}" src="{{uploadpath}}product/{{audio}}" id="myAudio" controls="{{true}}" loop bindtimeupdate='audiotimeupdate' bindplay='audioPlay' >
-</audio>
+<view wx:if="{{audio!=''}}" class='white-block  padding'>
+  <view class='border gray-block padding flex-row flex-center' style='border-radius:4rpx;'>
+    <view>
+      <image wx:if="{{audioplay==false}}" bindtap='audioPlay' class='icon-50' src='{{uploadpath}}resource/bofang2.png'  ></image>
+      <image wx:if="{{audioplay==true}}" bindtap='audioPause' class='icon-50' src='{{uploadpath}}resource/bofang3.png'  ></image>
+    </view>
+    <view class='flex-1'>
+      <view  style='margin-left:50rpx;'>
+        {{audioname}}
+      </view>
+      <view class='h6 txt-gray' style='margin-left:50rpx;margin-top:10rpx;'>
+        来自{{audioauthor}}
+      </view>
+      <view class='h6 txt-gray'>
  <slider bindchange="slider3change"  block-size='12' min='0' max='{{audio_duration}}' step='1' value='{{audio_value}}' bindchange='aduio_slider' />
+      </view>
+      <view class='flex-row flex-center' style='margin-left:50rpx;margin-right:50rpx;'>
+        <view class='flex-1 h6 txt-gray '>{{audio_value_str}}</view>
+        <view class='flex-1 h6 txt-gray  text-right'>{{audio_duration_str}}</view>
+      </view>
+    </view>
+  </view>
 </view>
-<view class='white-block padding-20'>
+<view class='white-block padding'>
   <template is="wxParse" data="{{wxParseData:content.nodes}}" />
 </view>
-<view wx:if="{{video!=''}}" class='white-block text-center padding-20'>
+<view wx:if="{{video!=''}}" class='white-block text-center padding'>
   <video id="myVideo" src="{{uploadpath}}product/{{video}}"  controls poster="{{uploadpath}}product/{{videocover}}" bindplay="videoplay"></video>
 </view>
 
-<ad unit-id="adunit-8dd882856e2ed548" class="white-block"></ad>
+<ad unit-id="adunit-2dd329f9775a4d95" class="white-block"></ad>
 
-<view class='padding h5'>
-  评论列表
+<view class='padding h5 flex-row flex-center'>
+  <view>留言评论 （{{comments.length}}）</view>
+  <navigator url='/pages/comment/comment?id={{id+snumber}}' class='h6 text-right flex-1'>
+    <image class='icon' src="{{uploadpath}}resource/comment.png"></image>
+  </navigator>
 </view>
 <view class='flex-row flex-center white-block' wx:if="{{comments.length==0}}">
   <view style='height:400rpx;'></view>
@@ -40,12 +77,12 @@
 <view class='white-block' wx:if="{{comments.length>0}}">
   <view class='padding white-block border-top' wx:for="{{comments}}" wx:key="k" wx:for-index="idx">
     <view class='flex-row'>
-      <view class='line-height-0 margin-right-10'>
+      <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}' class='line-height-0 margin-right-10'>
         <image class='icon-50' style='border-radius:50%;' src='{{item.member_avatarUrl}}'></image>
-      </view>
+      </navigator>
       <view class='margin-left-10 flex-1'>
         <view class=' flex-row flex-center'>
-          <view class='flex-1 h5 txt-light-primary'>{{item.member_nickName}}</view>
+          <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}' class='flex-1 h5 txt-light-primary'>{{item.member_nickName}}</navigator>
           <view class='line-height-0 margin-right-10'  bindtap='likeComment' id="{{idx}}" >
             <image class='icon' src='{{uploadpath}}resource/like2.png'  wx:if="{{item.iliked=='N'}}"></image>
             <image class='icon' src='{{uploadpath}}resource/like2-a.png'  wx:if="{{item.iliked=='Y'}}"></image>
@@ -67,11 +104,20 @@
         <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id={{item.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{item.member_nickName}}' class='margin-top-10' wx:if="{{item.mycreated=='N'}}">
           {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
         </navigator>
+        <block wx:if="{{item.reply_member_id>0}}">
+          <view class='margin-top-10 triangle_border_up'></view>
+        <view class='gray-deep-block padding  border-radius-10'>
+          <view class='h6 txt-gray' >{{item.replycomment_comment}}</view>
+        </view>
+        </block>
       </view>
     </view>
   </view>
 </view>
+<view style='height:104rpx;'></view>
 
+
+<!--
 <view style='height:104rpx;'></view>
 
 <view class='fixedbottom gray-block border-top'>
@@ -123,7 +169,7 @@
   </view>
 </view>
 
-
+-->
 
 <view style='height:100rpx;'>
 

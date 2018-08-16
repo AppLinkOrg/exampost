@@ -5,13 +5,13 @@
     <view class='text-center'>
       <image class='border-radius-50 icon-70 border-gray' src='{{memberinfo.avatarUrl}}'></image>
     </view>
-    <view class='h5 txt-white text-center margin-top'>
+    <view class='h5 txt-white text-center margin-top-10'>
       {{memberinfo.nickName}}
       <image class='icon-15' style='margin-left:10rpx;' src='{{uploadpath}}resource/sex-{{memberinfo.gender}}.png'></image>
     </view>
     <view class='margin-top-10 text-center'>
-      <button style='font-size:20rpx;' type='primary' size='mini' bindtap='addfriend' wx:if="{{memberinfo.followed==false}}">加关注</button>
-      <button style='font-size:20rpx;' type='primary' size='mini' wx:if="{{memberinfo.followed==true}}" bindtap='removefriend'>取消关注</button>
+      <button style='font-size:20rpx;'  size='mini' bindtap='addfriend' wx:if="{{memberinfo.followed==false}}">加关注</button>
+      <button style='font-size:20rpx;'  size='mini' wx:if="{{memberinfo.followed==true}}" bindtap='removefriend'>取消关注</button>
     </view>
     <view class='flex-row flex-center margin-top-10'>
       <navigator url='/pages/memberfollow/memberfollow?id={{id}}' class='flex-1 text-right' style='margin-right:30rpx;'>
@@ -31,17 +31,17 @@
 <view class='flex-row tabs'>
   <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="0">
     <view class='flex-1'></view>
-    <view class='tabtext {{currenttab==0?"active":""}}'>发布 {{list.length>0?list.length:""}}</view>
+    <view class='tabtext {{currenttab==0?"active":""}}'>我的发布 {{list.length>0?list.length:""}}</view>
     <view class='flex-1'></view>
   </view>
   <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="1">
     <view class='flex-1'></view>
-    <view class='tabtext {{currenttab==1?"active":""}}'>评论 {{allmycomment.length>0?allmycomment.length:""}}</view>
+    <view class='tabtext {{currenttab==1?"active":""}}'>我的评论 {{allmycomment.length>0?allmycomment.length:""}}</view>
     <view class='flex-1'></view>
   </view>
   <view class='flex-1 tab  flex-row ' bindtap='changeTab' id="2">
     <view class='flex-1'></view>
-    <view class='tabtext {{currenttab==2?"active":""}}'>赞 {{allmylike.length>0?allmylike.length:""}}</view>
+    <view class='tabtext {{currenttab==2?"active":""}}'>我的点赞 {{allmylike.length>0?allmylike.length:""}}</view>
     <view class='flex-1'></view>
   </view>
 </view>
@@ -62,12 +62,12 @@
       <view class='white-block padding-20 flex-row border-bottom' style='padding-bottom:30rpx;' wx:for="{{list}}" wx:key="k" wx:for-index="idx">
         <view class='flex-1' style='margin-left:30rpx;margin-right:20rpx;'>
 
-          <view url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
+          <navigator url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
             <view class='margin-top-10'>{{item.title}}</view>
-          </view>
+          </navigator>
           <block wx:if="{{item.video!=''}}">
             <view class='margin-top-10'>
-              <video style='width:80%;' src='{{uploadpath}}post/{{item.video}}'></video>
+              <image style='width:320rpx;height:180rpx;' src='{{uploadpath}}resource/playbg.png'></image>
             </view>
           </block>
           <block wx:if="{{item.images.length>0}}">
@@ -127,9 +127,12 @@
         </view>
       </view>
       <view class='padding white-block border-top' wx:for="{{allmycomment}}" wx:key='k' wx:for-index='idx'>
-        <view>
+        <navigator  url='/pages/info/info?id={{item.id}}' wx:if="{{item.ispost=='Y'}}">
           <block wx:if="{{item.reply=='Y'}}">回复
-            <text class='txt-light-primary'>{{item.replymember}}</text>：</block>{{item.comment}}</view>
+            <text class='txt-light-primary'>{{item.replymember}}</text>：</block>{{item.comment}}</navigator>
+        <navigator  url='/pages/product/product?id={{item.id}}' wx:if="{{item.ispost=='N'}}">
+          <block wx:if="{{item.reply=='Y'}}">回复
+            <text class='txt-light-primary'>{{item.replymember}}</text>：</block>{{item.comment}}</navigator>
         <view class='margin-top-10 triangle_border_up'></view>
         <view class='gray-deep-block padding  border-radius-10'>
           <navigator class='h6 txt-gray' url='/pages/info/info?id={{item.id}}' wx:if="{{item.ispost=='Y'}}">{{item.title}}</navigator>
@@ -151,8 +154,8 @@
         </view>
       </view>
       <view class='padding white-block border-top' wx:for="{{allmylike}}" wx:key='k' wx:for-index='idx'>
-        <view>
-          {{item.op}}</view>
+        <navigator url='/pages/{{item.pg}}/{{item.pg}}?id={{item.id}}'>
+          {{item.op}}</navigator>
         <view class='margin-top-10 triangle_border_up'></view>
         <view class='gray-deep-block padding  border-radius-10'>
           <navigator class='h6 txt-gray' url='/pages/{{item.pg}}/{{item.pg}}?id={{item.id}}' >{{item.ct}}</navigator>

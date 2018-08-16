@@ -3,26 +3,26 @@
   width: 120rpx;
 }
 .imgbg{
-  width: 220rpx;
-  height: 220rpx;
+  width: 200rpx;
+  height: 200rpx;
   margin-right: 20rpx;
   margin-top: 20rpx;
 }
 .imgbg image,video{
-  width: 220rpx;
-  height: 220rpx;
+  width: 200rpx;
+  height: 200rpx;
 }
 .imgbg_border{
-  width: 216rpx;
-  height: 216rpx;
+  width: 196rpx;
+  height: 196rpx;
   border:2rpx rgba(211, 211, 211, 0.5) solid;
   margin-top: 20rpx;
 }
 .addimg{
   margin-top: 20rpx;
   margin-left: 20rpx;
-  width: 180rpx;
-  height: 180rpx;
+  width: 160rpx;
+  height: 160rpx;
 }
 
 

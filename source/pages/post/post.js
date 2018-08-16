@@ -104,6 +104,7 @@ class Content extends AppBase {
       complete: function(res) {},
     })
   }
+  
   minusImg(e){
     var that=this;
     var seq=e.currentTarget.id;
@@ -115,7 +116,8 @@ class Content extends AppBase {
       }
     }
     that.Base.setMyData({ images: imgs});
-  } 
+  }
+
   minusVideo(){
     this.Base.setMyData({ video: '' });
   }

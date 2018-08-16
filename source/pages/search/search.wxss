@@ -98,8 +98,8 @@
   padding-bottom: 10rpx;
   padding-left: 20rpx;
   padding-right: 20rpx;
-  margin-top: 10rpx;
-  margin-right: 10rpx;
+  margin-top: 20rpx;
+  margin-right: 14rpx;
 }
 
 

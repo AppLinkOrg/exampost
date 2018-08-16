@@ -66,7 +66,8 @@ class Content extends AppBase {
     api.list({
       orderby: " r_main.post_time desc ",
       status: "A",
-      member_id: this.Base.options.id
+      onlymy:"Y",
+      fmember_id: this.Base.options.id
     }, (nlist) => {
 
       for (var i = 0; i < nlist.length; i++) {

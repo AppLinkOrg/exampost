@@ -1,15 +1,15 @@
 {
   "pages":[
     "pages/home/home",
+    "pages/times/times",
+    "pages/product/product",
+    "pages/info/info",
     "pages/memberinfo/memberinfo",
     "pages/member/member",
     "pages/photodownload/photodownload",
-    "pages/product/product",
     "pages/memberfans/memberfans",
     "pages/memberfollow/memberfollow",
-    "pages/info/info",
     "pages/comment/comment",
-    "pages/times/times",
     "pages/post/post",
     "pages/productfavlist/productfavlist",
     "pages/search/search",

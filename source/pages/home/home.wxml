@@ -1,9 +1,16 @@
 <view>
-  <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:420rpx;'>
+  <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:420rpx;' circular>
     <swiper-item wx:for="{{indexbanner}}" wx:key="k">
-      <view id="{{item.product_id}}" bindtap='gotoProduct' >
+      <block wx:if="{{item.gotosearch_value=='Y'}}">
+      <navigator  url='/pages/search/search' >
+        <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
+      </navigator>
+      </block>
+      <block wx:else>
+      <view id="{{item.product_id}}" bindtap='gotoProduct'>
         <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
       </view>
+      </block>
     </swiper-item>
   </swiper>
 </view>
@@ -16,10 +23,24 @@
     </view>
   </navigator>
 </view>
-<ad unit-id="adunit-8dd882856e2ed548" class="white-block"></ad>
+<ad unit-id="adunit-2dd329f9775a4d95" class="white-block"></ad>
 <view class="padding-20 h4 border-top">
   最新发布
 </view>
+<navigator url='/pages/product/product?id={{item.id}}' wx:for="{{toplist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
+  <view>
+    <image style='width:80rpx;position:absolute;margin-left:120rpx;margin-top:10rpx;' mode='widthFix' src='{{uploadpath}}resource/ontop.png' wx:if="{{item.ontop_value=='Y'}}"></image>
+    <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
+  </view>
+  <view class='flex-1'>
+    <view class='title'>{{item.name}}</view>
+    <view class='margin-top flex-row flex-bottom'>
+      <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
+      <view class='h6 txt-gray' style='margin-right:10rpx;' >{{item.ref}}</view>
+      <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+    </view>
+  </view>
+</navigator>
 <navigator url='/pages/product/product?id={{item.id}}' wx:for="{{productlist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
   <view>
     <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>

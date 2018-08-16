@@ -1,8 +1,16 @@
 // pages/content/content.js
-import { AppBase } from "../../appbase";
-import { ApiConfig } from "../../apis/apiconfig";
-import { InstApi } from "../../apis/inst.api.js";
-import { PostApi } from "../../apis/post.api.js";
+import {
+  AppBase
+} from "../../appbase";
+import {
+  ApiConfig
+} from "../../apis/apiconfig";
+import {
+  InstApi
+} from "../../apis/inst.api.js";
+import {
+  PostApi
+} from "../../apis/post.api.js";
 
 class Content extends AppBase {
   constructor() {
@@ -12,25 +20,39 @@ class Content extends AppBase {
     this.Base.Page = this;
     //options.id=5;
     super.onLoad(options);
-    this.Base.setMyData({ list: [], ontype: false, commenttext:""});
+    this.Base.setMyData({
+      toplist: [],
+      list: [],
+      ontype: false,
+      commenttext: ""
+    });
   }
   onMyShow() {
     var that = this;
 
 
     var instapi = new InstApi();
-    instapi.indexbanner({ displaytype: "times" }, (indexbanner) => {
-      that.Base.setMyData({ indexbanner: indexbanner });
+    instapi.indexbanner({
+      displaytype: "times"
+    }, (indexbanner) => {
+      that.Base.setMyData({
+        indexbanner: indexbanner
+      });
     });
 
 
-    if(AppBase.NEEDRELOADTIMES==true){
-      this.Base.setMyData({ list: [], ontype: false, commenttext: "" });
-      AppBase.NEEDRELOADTIMES=false;
+    if (AppBase.NEEDRELOADTIMES == true) {
+      this.Base.setMyData({
+        toplist: [],
+        list: [],
+        ontype: false,
+        commenttext: ""
+      });
+      AppBase.NEEDRELOADTIMES = false;
     }
     this.loaddata();
   }
-  
+
   loaddata() {
     var that = this;
     var api = new PostApi();
@@ -40,7 +62,7 @@ class Content extends AppBase {
     var json = {};
     if (list.length == 0) {
       json = {
-        intimes:"Y",
+        intimes: "Y",
         orderby: "post_time desc limit 0,15"
       };
     } else {
@@ -67,20 +89,42 @@ class Content extends AppBase {
 
           nlist[i].images = nlist[i].images.split(",");
         }
-        nlist[i].timeduration = time_ago(nlist[i].post_time_timespan);
-
+        if(nlist[i].title.length>136){
+          nlist[i].shorttitle = nlist[i].title.substr(0, 136);
+          nlist[i].showfulltitle = false;
+        }else{
+          nlist[i].showfulltitle = true;
+        }
       }
       for (var i = 0; i < list.length; i++) {
-        nlist.push(list.postlist[i]);
+        nlist.push(list[i]);
       }
       wx.hideTabBarRedDot({
         index: 2,
       })
-      that.Base.setMyData({ list: nlist });
+      that.Base.setMyData({
+        list: nlist
+      });
+
+      for (var i = 0; i < list.length; i++) {
+        nlist.push(list[i]);
+      }
+      wx.hideTabBarRedDot({
+        index: 2,
+      })
+      that.Base.setMyData({
+        list: nlist
+      });
     });
 
 
-
+    api.list({
+      ontop: "Y"
+    }, (toplist) => {
+      this.Base.setMyData({
+        toplist: toplist
+      });
+    });
 
   }
   onReachBottom() {
@@ -108,107 +152,148 @@ class Content extends AppBase {
         return;
       }
       for (var i = 0; i < nlist.length; i++) {
-        if (nlist[i].images==""){
+        if (nlist[i].images == "") {
 
           nlist[i].images = [];
-        }else{
+        } else {
 
           nlist[i].images = nlist[i].images.split(",");
         }
-        
-        nlist[i].timeduration = time_ago(nlist[i].post_time_timespan);
 
+        nlist[i].timeduration = time_ago(nlist[i].post_time_timespan);
+        if (nlist[i].title.length > 136) {
+          nlist[i].shorttitle = nlist[i].title.substr(0, 136);
+          nlist[i].showfulltitle = false;
+        } else {
+          nlist[i].showfulltitle = true;
+        }
+
+        
         list.push(nlist[i]);
       }
-      that.Base.setMyData({ list: list });
+      that.Base.setMyData({
+        list: list
+      });
     });
 
 
 
 
   }
-  onPullDownRefresh(){
-    this.Base.setMyData({list:[]});
+  onPullDownRefresh() {
+    this.Base.setMyData({
+      list: [],
+      toplist: []
+    });
     this.onMyShow();
   }
 
   like(e) {
     var id = e.currentTarget.id;
     var api = new PostApi();
-    api.like({ post_id: id },(ret)=>{
+    api.like({
+      post_id: id
+    }, (ret) => {
       var list = this.Base.getMyData().list;
       var UserInfo = this.Base.getMyData().UserInfo;
-      for(var i=0;i<list.length;i++){
-        if(list[i].id==id){
-          if (list[i].like=='N'){
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].id == id) {
+          if (list[i].like == 'N') {
             list[i].likelist.push(UserInfo);
             list[i].like = "Y";
-          }else{
+          } else {
             list[i].likelist.pop();
             list[i].like = "N";
           }
         }
       }
-      this.Base.setMyData({ list});
+      this.Base.setMyData({
+        list
+      });
     });
   }
-  
+
   gotoOntype(e) {
-    var id=e.currentTarget.id;
-    this.Base.setMyData({ ontype:true,comment_post_id:id });
+    var id = e.currentTarget.id;
+    this.Base.setMyData({
+      ontype: true,
+      comment_post_id: id
+    });
   }
   unontype() {
-    this.Base.setMyData({ ontype: false });
+    this.Base.setMyData({
+      ontype: false
+    });
   }
-  comment(){
+  comment() {
     var comment_post_id = this.Base.getMyData().comment_post_id;
     var commenttext = this.Base.getMyData().commenttext;
 
-    
+
     var api = new PostApi();
-    api.comment({ post_id: comment_post_id, comment: commenttext }, (ret) => {
+    api.comment({
+      post_id: comment_post_id,
+      comment: commenttext
+    }, (ret) => {
       var list = this.Base.getMyData().list;
       var UserInfo = this.Base.getMyData().UserInfo;
       for (var i = 0; i < list.length; i++) {
         if (list[i].id == comment_post_id) {
-          var com={comment:commenttext,nickName:UserInfo.nickName};
+          var com = {
+            comment: commenttext,
+            nickName: UserInfo.nickName
+          };
           list[i].commentlist.push(com);
         }
       }
-      this.Base.setMyData({ list, comment: commenttext, ontype: false  });
+      this.Base.setMyData({
+        list,
+        comment: commenttext,
+        ontype: false
+      });
     });
 
 
 
   }
 
-  changecommenttext(e){
-    var commenttext=e.detail.value;
-    this.Base.setMyData({ commenttext});
+  changecommenttext(e) {
+    var commenttext = e.detail.value;
+    this.Base.setMyData({
+      commenttext
+    });
   }
-  deletemypost(e){
-    var that=this;
-    var id=e.currentTarget.id;
+  deletemypost(e) {
+    var that = this;
+    var id = e.currentTarget.id;
     wx.showModal({
       title: '提示',
       content: '确定删除吗？',
-      success(res){
-        if(res.confirm){
-          var postapi=new PostApi();
-          postapi._delete({"idlist":id},(ret)=>{
-            
-            var list=[];
-            var olist=that.Base.getMyData().list;
-            for(var i=0;i<olist.length;i++){
-              if(olist[i].id!=id){
+      success(res) {
+        if (res.confirm) {
+          var postapi = new PostApi();
+          postapi._delete({
+            "idlist": id
+          }, (ret) => {
+
+            var list = [];
+            var olist = that.Base.getMyData().list;
+            for (var i = 0; i < olist.length; i++) {
+              if (olist[i].id != id) {
                 list.push(olist[i]);
               }
             }
-            that.Base.setMyData({list});
+            that.Base.setMyData({
+              list
+            });
           })
         }
       }
     })
+  }
+  viewphotos(e) {
+    console.log(e);
+    this.Base.viewGallary("post", e.target.dataset.images, e.currentTarget.id);
   }
 }
 var count = 0;
@@ -244,20 +329,21 @@ function time_ago(agoTime) {
 
 var content = new Content();
 var body = content.generateBodyJson();
-body.onLoad = content.onLoad; 
+body.onLoad = content.onLoad;
 body.onMyShow = content.onMyShow;
 body.onPullDownRefresh = content.onPullDownRefresh;
 body.onReachBottom = content.onReachBottom;
 body.onReachBottom = content.onReachBottom;
 
 body.changeCurrentTab = content.changeCurrentTab;
-body.changeTab = content.changeTab; 
+body.changeTab = content.changeTab;
 body.loaddata = content.loaddata;
-body.like = content.like; 
+body.like = content.like;
 body.gotoOntype = content.gotoOntype;
-body.unontype = content.unontype; 
-body.comment = content.comment; 
+body.unontype = content.unontype;
+body.comment = content.comment;
 body.changecommenttext = content.changecommenttext;
 body.deletemypost = content.deletemypost;
+body.viewphotos = content.viewphotos;
 
 Page(body)
