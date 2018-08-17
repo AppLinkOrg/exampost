@@ -25,9 +25,9 @@ class Content extends AppBase {
         that.Base.setMyData({ productlist: productlist });
       });
     }
-    instapi.productlist({ontop:"Y", orderby: "published_date desc " }, (toplist) => {
-      that.Base.setMyData({ toplist: toplist });
-    });
+    // instapi.productlist({ontop:"Y", orderby: "published_date desc " }, (toplist) => {
+    //   that.Base.setMyData({ toplist: toplist });
+    // });
   }
   onPullDownRefresh(){
     this.Base.setMyData({ productlist: [],toplist:[] });

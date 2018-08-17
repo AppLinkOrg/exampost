@@ -1,9 +1,9 @@
 {
   "pages":[
     "pages/home/home",
+    "pages/info/info",
     "pages/times/times",
     "pages/product/product",
-    "pages/info/info",
     "pages/memberinfo/memberinfo",
     "pages/member/member",
     "pages/photodownload/photodownload",
@@ -52,7 +52,7 @@
         "selectedIconPath": "images/icons/cat.png"
       },
       {
-        "text": "研友圈",
+        "text": "学习心得",
         "pagePath": "pages/times/times",
         "iconPath": "images/icons/quan-o.png",
         "selectedIconPath": "images/icons/quan.png"

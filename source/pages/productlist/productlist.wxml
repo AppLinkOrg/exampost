@@ -8,10 +8,13 @@
   </navigator>
 </view>
 <view class='flex-row  '>
-  <view style='width:170rpx;margin-right:4rpx;' class='white-block'>
+  <view style='width:176rpx;' class='white-block'>
     <scroll-view scroll-y style='height:calc( 100vh - 100rpx );width:100%' class='text-center'>
-      <view wx:for="{{catlist}}" wx:key="k" wx:for-index="idx" class='padding-20 {{item.active=="Y"?"txt-primary txt-bold":"h5"}}' id="{{idx}}" bindtap='catclick'>
+      <view wx:for="{{catlist}}" wx:key="k" wx:for-index="idx" class='padding-20 catitem {{item.active=="Y"?"txt-primary txt-bold catitem-active":"h5"}}' id="{{idx}}" bindtap='catclick'>
         {{item.name}}
+      </view>
+      <view class='catitem' style='height:calc( 100vh - 100rpx - {{81*catlist.length}}rpx );'>
+      
       </view>
     </scroll-view>
   </view>
@@ -32,7 +35,7 @@
               </view>
             </view>
             <view>
-    <image style='width:50rpx;position:absolute;margin-left:115rpx;margin-top:10rpx;' mode='widthFix' src='{{uploadpath}}resource/ontop.png' wx:if="{{subitem.ontop=='Y'}}"></image>
+    <image style='width:50rpx;position:absolute;margin-left:115rpx;margin-top:10rpx;' mode='widthFix' src='{{uploadpath}}resource/ontop2.png' wx:if="{{subitem.ontop=='Y'}}"></image>
               <image class='cover' src='{{uploadpath}}product/{{subitem.cover}}' mode="aspectFill"></image>
             </view>
           </navigator>

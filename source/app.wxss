@@ -33,12 +33,13 @@ page{
 .btn-primary-line::after {
   border-color: #1a237e;
 } 
+
 view,navigator,input,text,textarea{
   font-size: 32rpx;
   font-weight: 350;
   color: #2c2c2c;
-  word-break: break-all;
 }
+
 .flex-row{
   display: flex;
 }

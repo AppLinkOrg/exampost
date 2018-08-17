@@ -31,6 +31,7 @@ class Content extends AppBase {
     var that = this;
 
 
+
     var instapi = new InstApi();
     instapi.indexbanner({
       displaytype: "times"
@@ -89,8 +90,8 @@ class Content extends AppBase {
 
           nlist[i].images = nlist[i].images.split(",");
         }
-        if(nlist[i].title.length>136){
-          nlist[i].shorttitle = nlist[i].title.substr(0, 136);
+        if(nlist[i].title.length>30){
+          nlist[i].shorttitle = nlist[i].title.substr(0, 30);
           nlist[i].showfulltitle = false;
         }else{
           nlist[i].showfulltitle = true;
@@ -161,8 +162,8 @@ class Content extends AppBase {
         }
 
         nlist[i].timeduration = time_ago(nlist[i].post_time_timespan);
-        if (nlist[i].title.length > 136) {
-          nlist[i].shorttitle = nlist[i].title.substr(0, 136);
+        if (nlist[i].title.length > 30) {
+          nlist[i].shorttitle = nlist[i].title.substr(0, 30);
           nlist[i].showfulltitle = false;
         } else {
           nlist[i].showfulltitle = true;
@@ -343,7 +344,7 @@ body.gotoOntype = content.gotoOntype;
 body.unontype = content.unontype;
 body.comment = content.comment;
 body.changecommenttext = content.changecommenttext;
-body.deletemypost = content.deletemypost;
+body.deletemypost = content.deletemypost; 
 body.viewphotos = content.viewphotos;
 
 Page(body)

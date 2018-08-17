@@ -33,6 +33,9 @@ class Content extends AppBase {
 
   }
   onMyShow() {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
     var that = this;
     var mylocation = this.Base.getMyData().mylocation;
     if (mylocation == undefined) {
@@ -344,6 +347,31 @@ class Content extends AppBase {
       }
     })
   }
+
+
+  deletesubcomment(e) {
+    var seq = e.currentTarget.id.split("_");
+    var a = parseInt(seq[0]);
+    var b = parseInt(seq[1]);
+    var comments = [];
+    var that = this;
+    comments = this.Base.getMyData().comments;
+    var comment = comments[seq]["subcomments"][b];
+    wx.showModal({
+      title: '提示',
+      content: '是否确定删除',
+      success(res) {
+        if (res.confirm) {
+
+          var api = new PostApi();
+          api.deletecomment({ idlist: comment.id }, (ret) => {
+            comments.splice(seq, 1);
+            that.Base.setMyData({ comments });
+          });
+        }
+      }
+    })
+  }
   
   openshare(){
     this.Base.setMyData({ showshare:true });
@@ -361,8 +389,40 @@ class Content extends AppBase {
       var url = "https://cmsdev.app-link.org/Users/alucard263096/deky/upload/post/" + ret.return;
       wx.navigateTo({
         url: "/pages/photodownload/photodownload?url=" + url,
-      })
+      });
+
+      this.closeshare();
     });
+  }
+  onShareAppMessage(e) {
+    console.log("abbb");
+    console.log(e);
+    wx.updateShareMenu({
+      withShareTicket:true
+    });
+    var id=this.Base.getMyData().id;
+    var that=this;
+    return {
+      title: "aaa",
+      // 分享路径，房间名+用户uid
+      path: "/pages/live/live",
+      // 转发成功的回调函数
+      success: function (res) {
+        var api=new PostApi();
+        api.share({id:id});
+        //that.toast("分享成功");
+        that.closeshare();
+      },
+      fail: function (res) {
+      }
+    }
+
+  }
+  gotoComment(e){
+    var id=e.currentTarget.id;
+    wx.navigateTo({
+      url: '/pages/comment/comment?'+id,
+    })
   }
 }
 var content = new Content();
@@ -391,5 +451,7 @@ body.deletecomment = content.deletecomment;
 body.openshare = content.openshare; 
 body.closeshare = content.closeshare;
 body.sharetotimes = content.sharetotimes;
+body.onShareAppMessage = content.onShareAppMessage;
+body.gotoComment = content.gotoComment; 
 
 Page(body)

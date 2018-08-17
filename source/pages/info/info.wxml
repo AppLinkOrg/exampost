@@ -14,11 +14,13 @@
         </view>
       </view>
     </view>
-    <view class="flex-row" bindtap='openshare'>
-      <view class='line-height-0'>
-        <image class='icon' src='{{uploadpath}}resource/ff.png' style='margin-right:4rpx;'></image>
+    <view class="flex-row">
+      <view class='line-height-0'  id="{{id}}" bindtap='follow' wx:if="{{followed==false}}">
+        <image class='icon' src='{{uploadpath}}resource/fav.png' style='margin-right:4rpx;'></image>
       </view>
-      <view>分享</view>
+      <view class='line-height-0'  id="{{id}}" bindtap='follow' wx:if="{{followed==true}}">
+        <image class='icon' src='{{uploadpath}}resource/fav-a.png' style='margin-right:4rpx;'></image>
+      </view>
     </view>
   </view>
   <view class='margin-top'>
@@ -44,10 +46,16 @@
     </block>
   </view>
   <view class='margin-top-10 txt-gray flex-row flex-center'>
-    <view class='line-height-0' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
+    <view  bindtap='openshare' class='line-height-0' style='padding-right:30rpx;'>
+      <image class='icon' src='{{uploadpath}}resource/ff.png'></image>
+    </view>
+    <view  bindtap='openshare' class='txt-gray' style='margin-right:30rpx;'>
+      {{sharecount>0?sharecount:"分享"}}
+    </view>
+    <view class='line-height-0' style='padding-right:30rpx;margin-left:80rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
       <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
     </view>
-    <view class='line-height-0' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
+    <view class='line-height-0' style='padding-right:30rpx;margin-left:80rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
       <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
     </view>
     <view class='txt-gray' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
@@ -56,10 +64,10 @@
     <view class='txt-light-primary' style='margin-right:30rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
       {{likelist.length>0?likelist.length:"赞"}}
     </view>
-    <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='line-height-0' style='margin-right:30rpx;margin-left:80rpx;'>
+    <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='line-height-0' style='padding-right:30rpx;margin-left:80rpx;'>
       <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
     </navigator>
-    <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='txt-gray' style='margin-right:30rpx;'>
+    <navigator url='/pages/comment/comment?id={{id}}&reply_member_id=0&reply_comment_id=0' class='txt-gray' style='padding-right:30rpx;'>
       {{comments.length>0?comments.length:"评论"}}
     </navigator>
 
@@ -101,18 +109,14 @@
             删除
           </view>
         </view>
-        <view class='margin-top-10' wx:if="{{item.mycreated=='Y'}}">
-          {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
+        <view  class='margin-top-10'>
+          <navigator url='/pages/comment/comment?id={{id}}&reply_member_id={{item.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{item.member_nickName}}'>{{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}</navigator>
+          <view class='gray-block padding-20 margin-top-10' wx:if="{{item.subcomments.length>0}}">
+            <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{subitem.member_id}}' wx:for="{{item.subcomments}}" wx:for-item="subitem" wx:key="k2">
+              <text class='txt-light-primary'>{{subitem.member_nickName}}：</text><text class='h5' bindtap='gotoComment' id="id={{id}}&reply_member_id={{subitem.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{subitem.member_nickName}}">{{subitem.comment}}</text>
+            </navigator>
+          </view>
         </view>
-        <navigator url='/pages/comment/comment?id={{id}}&reply_member_id={{item.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{item.member_nickName}}' class='margin-top-10' wx:if="{{item.mycreated=='N'}}">
-          {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
-        </navigator>
-        <block wx:if="{{item.reply_member_id>0}}">
-          <view class='margin-top-10 triangle_border_up'></view>
-        <view class='gray-deep-block padding  border-radius-10'>
-          <view class='h6 txt-gray' >{{item.replycomment_comment}}</view>
-        </view>
-        </block>
       </view>
     </view>
   </view>
@@ -120,7 +124,7 @@
 
 <view style='height:104rpx;'></view>
 
-<view class='fixedbottom gray-block border-top'>
+<view class='fixedbottom gray-block border-top' wx:if="{{false}}">
   <view class=' padding flex-row flex-center'>
 
     <view class='flex-1 flex-row flex-center'>
