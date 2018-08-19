@@ -43,12 +43,12 @@
   </view>
 </navigator>
 
-<navigator url='/pages/content/content?keycode=quznaishuoming&title=关于研友圈' class='padding-20 margin-top  white-block  flex-row flex-center'>
+<navigator url='/pages/content/content?keycode=quznaishuoming&title=使用说明' class='padding-20 margin-top  white-block  flex-row flex-center'>
   <view class='line-height-0 margin-right-10'>
     <image class='icon' src='{{uploadpath}}resource/shuoming1.png' ></image>
   </view>
   <view class='flex-1'>
-    圈子说明
+    使用说明
   </view>
   <view class='line-height-0 margin-right-10'>
     <image class='icon-15' src='{{uploadpath}}resource/right.png' ></image>

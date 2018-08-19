@@ -19,6 +19,7 @@ class Content extends AppBase {
         currenttab: 1,
         reply:null,
         likelist:[],
+        showmorecomment:[],
         showshare: false
       });
     }else{
@@ -27,6 +28,7 @@ class Content extends AppBase {
         currenttab: 0,
         reply: null,
         likelist: [],
+        showmorecomment: [],
         showshare: false
       });
     }
@@ -402,15 +404,24 @@ class Content extends AppBase {
     });
     var id=this.Base.getMyData().id;
     var that=this;
+
+    var sharecount = parseInt(this.Base.getMyData().sharecount);
+
+    var api = new ProductApi();
+    api.share({ id: id });
+    //that.toast("分享成功");
+
+    that.Base.setMyData({ sharecount: ++sharecount });
+
+
     return {
-      title: "aaa",
-      // 分享路径，房间名+用户uid
-      path: "/pages/live/live",
       // 转发成功的回调函数
       success: function (res) {
         var api=new PostApi();
         api.share({id:id});
         //that.toast("分享成功");
+        var sharecount = parseInt(this.Base.getMyData().sharecount);
+        that.Base.setMyData({ sharecount: ++sharecount });
         that.closeshare();
       },
       fail: function (res) {
@@ -423,6 +434,13 @@ class Content extends AppBase {
     wx.navigateTo({
       url: '/pages/comment/comment?'+id,
     })
+  }
+  clickshowmorecomment(e){
+    var id=e.currentTarget.id;
+    var showmorecomment = this.Base.getMyData().showmorecomment;
+    showmorecomment[id]=1;
+    this.Base.setMyData({ showmorecomment});
+
   }
 }
 var content = new Content();
@@ -452,6 +470,7 @@ body.openshare = content.openshare;
 body.closeshare = content.closeshare;
 body.sharetotimes = content.sharetotimes;
 body.onShareAppMessage = content.onShareAppMessage;
-body.gotoComment = content.gotoComment; 
+body.gotoComment = content.gotoComment;
+body.clickshowmorecomment = content.clickshowmorecomment; 
 
 Page(body)

@@ -1,9 +1,9 @@
 {
   "pages":[
     "pages/home/home",
+    "pages/product/product",
     "pages/info/info",
     "pages/times/times",
-    "pages/product/product",
     "pages/memberinfo/memberinfo",
     "pages/member/member",
     "pages/photodownload/photodownload",

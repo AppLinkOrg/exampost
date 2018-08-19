@@ -35,7 +35,7 @@
               </view>
             </view>
             <view>
-    <image style='width:50rpx;position:absolute;margin-left:115rpx;margin-top:10rpx;' mode='widthFix' src='{{uploadpath}}resource/ontop2.png' wx:if="{{subitem.ontop=='Y'}}"></image>
+    <image style='width:50rpx;position:absolute;margin-left:115rpx;' mode='widthFix' src='{{uploadpath}}resource/ontop2.png' wx:if="{{subitem.ontop=='Y'}}"></image>
               <image class='cover' src='{{uploadpath}}product/{{subitem.cover}}' mode="aspectFill"></image>
             </view>
           </navigator>

@@ -8,22 +8,6 @@
   <view class='h6 txt-gray margin-right-10'>{{ref}}</view>
   <view class='h6 txt-gray margin-right-10'>{{cat_id_name}}</view>
   <view class='h6 txt-gray'>{{viewcount}}人阅读</view>
-  <view class='h6 txt-gray flex-row flex-center'>
-  <view class='flex-1 flex-row flex-center margin-left-10'  id="{{id+snumber}}" bindtap='like'>
-    <view class='txt-gray flex-1 text-center margin-right-10' wx:if="{{like=='N'}}">
-        <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
-      </view>
-      <view class='txt-light-primary flex-1 text-center margin-right-10'  wx:if="{{like=='Y'}}">
-        <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
-      </view>
-      <view class='txt-gray flex-1 text-center' wx:if="{{like=='N'}}">
-        {{likecount}}
-      </view>
-      <view class='txt-light-primary flex-1 text-center'  wx:if="{{like=='Y'}}">
-        {{likecount}}
-      </view>
-    </view>
-  </view>
   <!--
   <view class='h6 txt-gray margin-right-10'>{{published_date_formatting}}</view>-->
   <view class='text-right flex-1'>
@@ -63,11 +47,35 @@
 
 <ad unit-id="adunit-2dd329f9775a4d95" class="white-block"></ad>
 
+
 <view class='padding h5 flex-row flex-center'>
   <view>留言评论 （{{comments.length}}）</view>
-  <navigator url='/pages/comment/comment?id={{id+snumber}}' class='h6 text-right flex-1'>
-    <image class='icon' src="{{uploadpath}}resource/comment.png"></image>
-  </navigator>
+    <view class='flex-1'></view>
+    <!--
+    <view  bindtap='openshare' class='line-height-0' style='padding-right:10rpx;'>
+      <image class='icon' src='{{uploadpath}}resource/ff.png'></image>
+    </view>
+    <view  bindtap='openshare' class='txt-gray' style='margin-right:10rpx;'>
+      {{sharecount>0?sharecount:"分享"}}
+    </view>-->
+    <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id=0&reply_comment_id=0' class='line-height-0' style='padding-right:10rpx;margin-left:20rpx;'>
+      <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
+    </navigator>
+    <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id=0&reply_comment_id=0' class='txt-gray' style='padding-right:10rpx;'>
+      {{comments.length>0?comments.length:"评论"}}
+    </navigator>
+    <view class='line-height-0' style='padding-right:10rpx;margin-left:20rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
+      <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
+    </view>
+    <view class='line-height-0' style='padding-right:10rpx;margin-left:20rpx;' id="{{id+snumber}}" bindtap='like' wx:if="{{like=='Y'}}">
+      <image class='icon' src='{{uploadpath}}resource/like2.png'></image>
+    </view>
+    <view class='txt-gray' style='margin-right:10rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
+      {{likelist.length>0?likelist.length:"赞"}}
+    </view>
+    <view class='txt-light-primary' style='margin-right:10rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='Y'}}">
+      {{likelist.length>0?likelist.length:"赞"}}
+    </view>
 </view>
 <view class='flex-row flex-center white-block' wx:if="{{comments.length==0}}">
   <view style='height:400rpx;'></view>
@@ -98,18 +106,15 @@
             删除
           </view>
         </view>
-        <view class='margin-top-10' wx:if="{{item.mycreated=='Y'}}">
-          {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
+        <view  class='margin-top-10'>
+          <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id={{item.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{item.member_nickName}}'>{{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}</navigator>
+          <view class='gray-block padding-20 margin-top-10' wx:if="{{item.subcomments.length>0}}">
+            <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{subitem.member_id}}' wx:for="{{item.subcomments}}" wx:for-item="subitem" wx:key="k2" wx:for-index="sidx" wx:if="{{showmorecomment[item.id]==1||sidx<3}}">
+              <text class='txt-light-primary'>{{subitem.member_nickName}}：</text><text class='h5' bindtap='gotoComment' id="id={{id+snumber}}&reply_member_id={{subitem.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{subitem.member_nickName}}">{{subitem.comment}}</text>
+            </navigator>
+            <view bindtap='clickshowmorecomment' class='txt-primary h6 margin-top-10' wx:if="{{item.subcomments.length>3&&showmorecomment[item.id]!=1}}" id="{{item.id}}"  >查看剩余的{{item.subcomments.length-3}}条</view>
+          </view>
         </view>
-        <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id={{item.member_id}}&reply_comment_id={{item.id}}&reply_member_name={{item.member_nickName}}' class='margin-top-10' wx:if="{{item.mycreated=='N'}}">
-          {{item.reply_member_id>0?"回复"+item.replymember_nickName+"：":""}}{{item.comment}}
-        </navigator>
-        <block wx:if="{{item.reply_member_id>0}}">
-          <view class='margin-top-10 triangle_border_up'></view>
-        <view class='gray-deep-block padding  border-radius-10'>
-          <view class='h6 txt-gray' >{{item.replycomment_comment}}</view>
-        </view>
-        </block>
       </view>
     </view>
   </view>

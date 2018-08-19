@@ -21,7 +21,7 @@ class Content extends AppBase {
     super();
   }
   onLoad(options) {
-   // options.id = 5;
+    //options.id = 5;
     options.id = parseInt(options.id);
     this.Base.Page = this;
     this.Base.pagetitle = "";
@@ -40,7 +40,8 @@ class Content extends AppBase {
     this.Base.setMyData({
       currenttab: 0,
       reply: null,
-      likelist: []
+      likelist: [],
+      showmorecomment:[]
     });
   }
   onMyShow() {
@@ -66,7 +67,15 @@ class Content extends AppBase {
         innerAudioContext.onPause(that.audioPause);
         innerAudioContext.onTimeUpdate(that.audiotimeupdate);
         innerAudioContext.onCanplay(that.audiotimeupdate);
-
+        var durationget=setInterval(()=>{
+          if(innerAudioContext.duration>0){
+            that.Base.setMyData({
+              audio_duration: innerAudioContext.duration,
+              audio_duration_str: dtime(innerAudioContext.duration)
+            });
+            clearInterval(durationget);
+          }
+        },1000);
       }
 
       wx.setNavigationBarTitle({
@@ -259,7 +268,7 @@ class Content extends AppBase {
       var url = "https://cmsdev.app-link.org/Users/alucard263096/deky/upload/poster/" + ret.return;
       wx.navigateTo({
         url: "/pages/photodownload/photodownload?url=" + url,
-      })
+      });
     });
   }
 
@@ -400,6 +409,45 @@ class Content extends AppBase {
     //this.Base.setMyData({liked:true});
     //this.loadlikelist();
   }
+
+
+  onShareAppMessage(e) {
+    console.log("abbb");
+    console.log(e);
+    wx.updateShareMenu({
+      withShareTicket: true
+    });
+    var id = this.Base.getMyData().id;
+    var sharecount = parseInt(this.Base.getMyData().sharecount);
+
+    var api = new ProductApi();
+    api.share({ id: id });
+    //that.toast("分享成功");
+
+    var that = this;
+    that.Base.setMyData({ sharecount: ++sharecount });
+    return {
+      // 分享路径，房间名+用户uid
+      // 转发成功的回调函数
+      success: function (res) {
+        var api = new ProductApi();
+        var sharecount = parseInt(this.Base.getMyData().sharecount);
+        api.share({ id: id });
+        that.Base.setMyData({ sharecount: ++sharecount});
+        //that.toast("分享成功");
+      },
+      fail: function (res) {
+      }
+    }
+
+  }
+  clickshowmorecomment(e) {
+    var id = e.currentTarget.id;
+    var showmorecomment = this.Base.getMyData().showmorecomment;
+    showmorecomment[id] = 1;
+    this.Base.setMyData({ showmorecomment });
+
+  }
 }
 
 function dtime(t) {
@@ -445,5 +493,6 @@ body.subreply = content.subreply;
 body.loadlikelist = content.loadlikelist; 
 body.like = content.like;
 body.audioPause = content.audioPause;
+body.clickshowmorecomment = content.clickshowmorecomment;
 
 Page(body)
