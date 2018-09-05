@@ -72,11 +72,17 @@ class Content extends AppBase {
 
       for (var i = 0; i < nlist.length; i++) {
         if (nlist[i].images == "") {
-
           nlist[i].images = [];
         } else {
 
           nlist[i].images = nlist[i].images.split(",");
+        }
+
+        if (nlist[i].title.length > 30) {
+          nlist[i].shorttitle = nlist[i].title.substr(0, 30);
+          nlist[i].showfulltitle = false;
+        } else {
+          nlist[i].showfulltitle = true;
         }
 
         nlist[i].timeduration = time_ago(nlist[i].post_time_timespan);
@@ -135,7 +141,7 @@ class Content extends AppBase {
       });
       var memberinfo = that.Base.getMyData().memberinfo;
       memberinfo.followed = true;
-      memberinfo.fanscount = memberinfo.fanscount + 1;
+      memberinfo.fanscount = parseInt(memberinfo.fanscount) + 1;
       that.Base.setMyData({
         memberinfo: memberinfo
       });

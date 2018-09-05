@@ -15,8 +15,9 @@
     </swiper-item>
   </swiper>
 </view>
+<ad unit-id="adunit-2dd329f9775a4d95" class="white-block"></ad>
 
-<view class='text-center' wx:if="{{list.length==0}}">
+<view class='text-center' wx:if="{{toplist.length==0&&list.length==0}}">
   <view>
     <image class='egg' src='{{uploadpath}}resource/egg.png'></image>
   </view>
@@ -38,7 +39,8 @@
       </view>
     </view>
     <navigator url='/pages/info/info?id=shownext=Y&id={{item.id}}' class='margin-top-10'>
-      <text style='word-break:break-all;'>{{item.title}}</text>
+      <text style='word-break:break-all;'>{{item.showfulltitle==true?item.title:item.shorttitle+"..."}}</text>
+      <text class='txt-primary h6' wx:if="{{item.showfulltitle==false}}">查看全部</text>
     </navigator>
     <block wx:if="{{item.video!=''}}">
       <view class='margin-top-10'>
@@ -164,7 +166,7 @@
   </view>
 </view>
 
-<navigator url='/pages/post/post' class='fixfabu white-block padding-20 border-radius-50 line-height-0 text-center'>
+<navigator url='/pages/post/post' class='fixfabu white-block padding-20 border-radius-50 line-height-0 text-center' wx:if="{{instinfo.openbbs_value=='Y'}}">
   <image class='icon-30' style='margin:10rpx;' src='{{uploadpath}}resource/xie.png'></image>
 </navigator>
 

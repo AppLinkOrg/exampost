@@ -48,7 +48,7 @@
 
 
 <swiper indicator-dots="{{false}}" current='{{currenttab}}' bindchange="changeCurrentTab" class="maintab">
-  <swiper-item>
+  <swiper-item  style='height:100%'>
     <scroll-view scroll-y style='height:100%'>
 
       <view class='text-center' wx:if="{{list.length==0}}">
@@ -61,10 +61,10 @@
       </view>
       <view class='white-block padding-20 flex-row border-bottom' style='padding-bottom:30rpx;' wx:for="{{list}}" wx:key="k" wx:for-index="idx">
         <view class='flex-1' style='margin-left:30rpx;margin-right:20rpx;'>
-
-          <navigator url='/pages/info/info?id=shownext=Y&id={{item.id}}'>
-            <view class='margin-top-10'>{{item.title}}</view>
-          </navigator>
+        <navigator url='/pages/info/info?id=shownext=Y&id={{item.id}}' class='margin-top-10'>
+          <text style='word-break:break-all;'>{{item.showfulltitle==true?item.title:item.shorttitle+"..."}}</text>
+          <text class='txt-primary h6' wx:if="{{item.showfulltitle==false}}">查看全部</text>
+        </navigator>
           <block wx:if="{{item.video!=''}}">
             <view class='margin-top-10'>
               <image style='width:320rpx;height:180rpx;' src='{{uploadpath}}resource/playbg.png'></image>
@@ -117,7 +117,7 @@
 
     </scroll-view>
   </swiper-item>
-  <swiper-item>
+  <swiper-item style='height:100%'>
     <scroll-view scroll-y style='height:100%'>
       <view class='text-center' wx:if="{{allmycomment.length==0}}">
         <view>
@@ -134,9 +134,9 @@
           <block wx:if="{{item.reply=='Y'}}">回复
             <text class='txt-light-primary'>{{item.replymember}}</text>：</block>{{item.comment}}</navigator>
         <view class='margin-top-10 triangle_border_up'></view>
-        <view class='gray-deep-block padding  border-radius-10'>
-          <navigator class='h6 txt-gray' url='/pages/info/info?id={{item.id}}' wx:if="{{item.ispost=='Y'}}">{{item.title}}</navigator>
-          <navigator class='h6 txt-gray' url='/pages/product/product?id={{item.id}}' wx:if="{{item.ispost=='N'}}">{{item.title}}</navigator>
+        <view class='gray-deep-block padding border-radius-10'>
+          <navigator class='h6 txt-gray  twoline' url='/pages/info/info?id={{item.id}}' wx:if="{{item.ispost=='Y'}}">{{item.title}}</navigator>
+          <navigator class='h6 txt-gray twoline' url='/pages/product/product?id={{item.id}}' wx:if="{{item.ispost=='N'}}">{{item.title}}</navigator>
         </view>
         <view class='h6 txt-gray text-right margin-top-10'>{{item.comment_time_ago}}</view>
       </view>
@@ -144,7 +144,7 @@
 
     </scroll-view>
   </swiper-item>
-  <swiper-item>
+  <swiper-item  style='height:100%'>
     <scroll-view scroll-y style='height:100%'>
       <view class='text-center' wx:if="{{allmylike.length==0}}">
         <view>
@@ -157,8 +157,8 @@
         <navigator url='/pages/{{item.pg}}/{{item.pg}}?id={{item.id}}'>
           {{item.op}}</navigator>
         <view class='margin-top-10 triangle_border_up'></view>
-        <view class='gray-deep-block padding  border-radius-10'>
-          <navigator class='h6 txt-gray' url='/pages/{{item.pg}}/{{item.pg}}?id={{item.id}}' >{{item.ct}}</navigator>
+        <view class='gray-deep-block padding border-radius-10'>
+          <navigator class='h6 txt-gray twoline ' url='/pages/{{item.pg}}/{{item.pg}}?id={{item.id}}' >{{item.ct}}</navigator>
         </view>
         <view class='h6 txt-gray text-right margin-top-10'>{{item.comment_time_ago}}</view>
       </view>

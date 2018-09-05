@@ -59,3 +59,9 @@ audio{
 .gray-deep-block{
   background-color: #ececec;
 }
+
+.nostyle view,navigator,input,text,textarea{
+  color:inherit;
+  font-size:inherit;
+  font-weight:inherit;
+}

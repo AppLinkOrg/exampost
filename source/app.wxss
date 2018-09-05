@@ -1,4 +1,6 @@
 /**app.wxss**/
+@import "wxParse/wxParse.wxss";
+
 page{
   background: #f2f2f2;
 }
@@ -131,6 +133,13 @@ overflow:hidden;               /* 内容超出宽度时隐藏超出部分的内�
   text-decoration: line-through;
 }
 
+.twoline{
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2; 
+}
 button[type=primary]{
   background-color: #1a237e;
 }

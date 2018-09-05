@@ -52,7 +52,7 @@
         "selectedIconPath": "images/icons/cat.png"
       },
       {
-        "text": "学习心得",
+        "text": "考研心得",
         "pagePath": "pages/times/times",
         "iconPath": "images/icons/quan-o.png",
         "selectedIconPath": "images/icons/quan.png"

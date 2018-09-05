@@ -63,12 +63,14 @@ class Content extends AppBase {
     var json = {};
     if (list.length == 0) {
       json = {
+        ontop:"N",
         intimes: "Y",
         orderby: "post_time desc limit 0,15"
       };
     } else {
       var lastpost = list[0];
       json = {
+        ontop: "N",
         intimes: "Y",
         post_time_from: lastpost.post_time + ".99"
       }
@@ -122,6 +124,21 @@ class Content extends AppBase {
     api.list({
       ontop: "Y"
     }, (toplist) => {
+      for(var i=0;i<toplist.length;i++){
+        if (toplist[i].images == "") {
+
+          toplist[i].images = [];
+        } else {
+
+          toplist[i].images = toplist[i].images.split(",");
+        }
+        if (toplist[i].title.length > 30) {
+          toplist[i].shorttitle = toplist[i].title.substr(0, 30);
+          toplist[i].showfulltitle = false;
+        } else {
+          toplist[i].showfulltitle = true;
+        }
+      }
       this.Base.setMyData({
         toplist: toplist
       });
@@ -134,12 +151,16 @@ class Content extends AppBase {
     var api = new PostApi();
     var that = this;
     var list = this.Base.getMyData().list;
+    if(list.length==0){
+      return;
+    }
     var api = new PostApi();
     var lastpost = list[list.length - 1];
     console.log(lastpost.post_time_timespan);
     var lasttimespan = lastpost.post_time_timespan - 1;
     var lasttimespan_str = this.Base.util.FormatDateTime(new Date(lasttimespan * 1000)) + ".99";
     var json = {
+      ontop: "N",
       post_time_to: lasttimespan_str,
       intimes: "Y",
       orderby: "post_time desc limit 0,10"

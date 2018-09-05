@@ -9,7 +9,7 @@
   <view class='padding-10'></view>
 </view>
 
-<navigator url='/pages/memberinfo/memberinfo?id={{UserInfo.id}}' class='white-block padding-20 margin-top flex-row flex-center'>
+<navigator url='/pages/memberinfo/memberinfo?id={{UserInfo.id}}' class='white-block padding-20 margin-top flex-row flex-center' >
   <view class='line-height-0 margin-right-10'>
     <image class='icon' src='{{uploadpath}}resource/myhome2.png' ></image>
   </view>

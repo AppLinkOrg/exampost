@@ -38,7 +38,7 @@
     </view>
   </view>
 </view>
-<view class='white-block padding'>
+<view class='white-block padding nostyle'>
   <template is="wxParse" data="{{wxParseData:content.nodes}}" />
 </view>
 <view wx:if="{{video!=''}}" class='white-block text-center padding'>
