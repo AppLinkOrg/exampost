@@ -98,7 +98,7 @@
             <image class='icon' src='{{uploadpath}}resource/like2.png' wx:if="{{item.iliked=='N'}}"></image>
             <image class='icon' src='{{uploadpath}}resource/like2-a.png' wx:if="{{item.iliked=='Y'}}"></image>
           </view>
-          <view class='line-height-0' bindtap='likeComment' id="{{idx}}">
+          <view  bindtap='likeComment' id="{{idx}}">
             <text class='txt-gray' wx:if="{{item.iliked=='N'}}">{{item.likecount}}</text>
             <text class='txt-light-primary' wx:if="{{item.iliked=='Y'}}">{{item.likecount}}</text>
           </view>

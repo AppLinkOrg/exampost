@@ -92,7 +92,7 @@ class Content extends AppBase {
   loadcomment() {
     var api = new PostApi();
     api.commentlist({
-      post_id: this.Base.options.id,
+      post_id: parseInt(this.Base.options.id)+snumber,
       orderby: "r_main.comment_time"
     }, (commentlist) => {
       if (this.Base.options.comment_id != undefined) {
@@ -282,7 +282,7 @@ class Content extends AppBase {
     var api = new PostApi();
     api.commentlike({
       comment_id: comment.id,
-      post_id: comment.post_id
+      post_id: parseInt(comment.post_id)+snumber
     }, (ret) => {
       if (comments[seq].iliked == 'Y') {
 
@@ -347,7 +347,7 @@ class Content extends AppBase {
   loadlikelist() {
     var api = new PostApi();
     api.likelist({
-      post_id: this.Base.options.id
+      post_id: parseInt(this.Base.options.id)+snumber
     }, (likelist) => {
       this.Base.setMyData({
         likelist
