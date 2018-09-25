@@ -20,6 +20,9 @@ class Content extends AppBase {
   constructor() {
     super();
   }
+  innerAudioContext = null;
+  audiostate = false;
+  audiorecord = 0;
   onLoad(options) {
     //options.id = 5;
     options.id = parseInt(options.id);
@@ -27,7 +30,7 @@ class Content extends AppBase {
     this.Base.pagetitle = "";
     super.onLoad(options);
     this.Base.setMyData({
-      audioplay:false,
+      audioplay: false,
       comments: [],
       commenttext: "",
       audio: "",
@@ -36,12 +39,12 @@ class Content extends AppBase {
       audio_duration: 0,
       snumber: snumber
     });
-
+    this.innerAudioContext=wx.createInnerAudioContext();
     this.Base.setMyData({
       currenttab: 0,
       reply: null,
       likelist: [],
-      showmorecomment:[]
+      showmorecomment: []
     });
   }
   onMyShow() {
@@ -49,50 +52,60 @@ class Content extends AppBase {
     audioctx = wx.createAudioContext('myAudio');
     videoctx = wx.createVideoContext('myVideo');
 
+    console.log("audio play0");
     var that = this;
     var instapi = new InstApi();
-    instapi.product({
-      id: this.Base.options.id
-    }, (product) => {
-      product.id = parseInt(product.id);
-      var uploadpath = that.Base.getMyData().uploadpath;
+    var id = this.Base.getMyData().id;
+    if (id == undefined) {
 
-      that.Base.setMyData(product);
-      that.Base.pagetitle = product.name;
-      if (product.audio != "") {
-        //innerAudioContext.autoplay = true;
-        innerAudioContext.src = uploadpath + "product/" + product.audio;
+      instapi.product({
+        id: this.Base.options.id
+      }, (product) => {
+        product.id = parseInt(product.id);
+        var uploadpath = that.Base.getMyData().uploadpath;
 
-        innerAudioContext.onPlay(that.audioPlay);
-        innerAudioContext.onPause(that.audioPause);
-        innerAudioContext.onTimeUpdate(that.audiotimeupdate);
-        innerAudioContext.onCanplay(that.audiotimeupdate);
-        var durationget=setInterval(()=>{
-          if(innerAudioContext.duration>0){
-            that.Base.setMyData({
-              audio_duration: innerAudioContext.duration,
-              audio_duration_str: dtime(innerAudioContext.duration)
-            });
-            clearInterval(durationget);
-          }
-        },1000);
-      }
+        that.Base.setMyData(product);
+        that.Base.pagetitle = product.name;
+        if (product.audio != "") {
+          //innerAudioContext.autoplay = true;
+          this.innerAudioContext.src = uploadpath + "product/" + product.audio;
 
-      wx.setNavigationBarTitle({
-        title: product.name
+          this.innerAudioContext.onPlay(that.audioPlay);
+          this.innerAudioContext.onPause(that.audioPause);
+          this.innerAudioContext.onTimeUpdate(that.audiotimeupdate);
+          this.innerAudioContext.onCanplay(that.audiotimeupdate);
+          var durationget = setInterval(() => {
+            if (this.innerAudioContext.duration > 0) {
+              that.Base.setMyData({
+                audio_duration: this.innerAudioContext.duration,
+                audio_duration_str: dtime(this.innerAudioContext.duration)
+              });
+              clearInterval(durationget);
+            }
+          }, 1000);
+        }
+
+        wx.setNavigationBarTitle({
+          title: product.name
+        });
+        product.content = this.Base.util.HtmlDecode(product.content);
+        WxParse.wxParse('content', 'html', product.content, that, 10);
       });
-      product.content = this.Base.util.HtmlDecode(product.content);
-      WxParse.wxParse('content', 'html', product.content, that, 10);
-    });
+    }
 
 
     this.loadcomment();
     this.loadlikelist();
+   
+    if (this.audiostate == true) {
+      console.log("audio play");
+      this.audioPlay();
+    }
   }
   loadcomment() {
     var api = new PostApi();
     api.commentlist({
-      post_id: parseInt(this.Base.options.id)+snumber,
+      post_id: parseInt(this.Base.options.id) + snumber,
       orderby: "r_main.comment_time"
     }, (commentlist) => {
       if (this.Base.options.comment_id != undefined) {
@@ -110,25 +123,31 @@ class Content extends AppBase {
     });
   }
   audioPlay() {
-    innerAudioContext.play();
+    this.innerAudioContext.play();
     this.Base.setMyData({
-      audioplay: true});
+      audioplay: true
+    });
+    this.audiostate=true;
     videoctx.pause();
+  }
+  clickaudioPause() {
+    this.audiostate = false;
+    this.Base.audioPause();
   }
   audioPause() {
     this.Base.setMyData({
       audioplay: false
     });
-    innerAudioContext.pause();
+    this.innerAudioContext.pause();
   }
   audiotimeupdate(e) {
-    
+
     var that = this;
     that.Base.setMyData({
-      audio_duration: innerAudioContext.duration,
-      audio_duration_str: dtime(innerAudioContext.duration),
-      audio_value: innerAudioContext.currentTime,
-      audio_value_str: dtime(innerAudioContext.currentTime)
+      audio_duration: this.innerAudioContext.duration,
+      audio_duration_str: dtime(this.innerAudioContext.duration),
+      audio_value: this.innerAudioContext.currentTime,
+      audio_value_str: dtime(this.innerAudioContext.currentTime)
     });
   }
   aduio_slider(e) {
@@ -136,7 +155,7 @@ class Content extends AppBase {
     console.log(e);
     var currentTime = e.detail.value;
     //audioctx.seek(currentTime);
-    innerAudioContext.seek(currentTime);
+    this.innerAudioContext.seek(currentTime);
     that.Base.setMyData({
       audio_value: currentTime
     });
@@ -282,7 +301,7 @@ class Content extends AppBase {
     var api = new PostApi();
     api.commentlike({
       comment_id: comment.id,
-      post_id: parseInt(comment.post_id)+snumber
+      post_id: parseInt(comment.post_id) + snumber
     }, (ret) => {
       if (comments[seq].iliked == 'Y') {
 
@@ -347,7 +366,7 @@ class Content extends AppBase {
   loadlikelist() {
     var api = new PostApi();
     api.likelist({
-      post_id: parseInt(this.Base.options.id)+snumber
+      post_id: parseInt(this.Base.options.id) + snumber
     }, (likelist) => {
       this.Base.setMyData({
         likelist
@@ -421,23 +440,30 @@ class Content extends AppBase {
     var sharecount = parseInt(this.Base.getMyData().sharecount);
 
     var api = new ProductApi();
-    api.share({ id: id });
+    api.share({
+      id: id
+    });
     //that.toast("分享成功");
 
     var that = this;
-    that.Base.setMyData({ sharecount: ++sharecount });
+    that.Base.setMyData({
+      sharecount: ++sharecount
+    });
     return {
       // 分享路径，房间名+用户uid
       // 转发成功的回调函数
-      success: function (res) {
+      success: function(res) {
         var api = new ProductApi();
         var sharecount = parseInt(this.Base.getMyData().sharecount);
-        api.share({ id: id });
-        that.Base.setMyData({ sharecount: ++sharecount});
+        api.share({
+          id: id
+        });
+        that.Base.setMyData({
+          sharecount: ++sharecount
+        });
         //that.toast("分享成功");
       },
-      fail: function (res) {
-      }
+      fail: function(res) {}
     }
 
   }
@@ -445,7 +471,9 @@ class Content extends AppBase {
     var id = e.currentTarget.id;
     var showmorecomment = this.Base.getMyData().showmorecomment;
     showmorecomment[id] = 1;
-    this.Base.setMyData({ showmorecomment });
+    this.Base.setMyData({
+      showmorecomment
+    });
 
   }
 }
@@ -460,7 +488,7 @@ function dtime(t) {
   return minute + ":" + second;
 }
 
-const innerAudioContext = wx.createInnerAudioContext()
+
 
 
 
@@ -490,9 +518,10 @@ body.reply = content.reply;
 body.clearReply = content.clearReply;
 body.likeSubComment = content.likeSubComment;
 body.subreply = content.subreply;
-body.loadlikelist = content.loadlikelist; 
+body.loadlikelist = content.loadlikelist;
 body.like = content.like;
-body.audioPause = content.audioPause;
+body.audioPause = content.audioPause; 
 body.clickshowmorecomment = content.clickshowmorecomment;
+body.clickaudioPause = content.clickaudioPause;
 
 Page(body)

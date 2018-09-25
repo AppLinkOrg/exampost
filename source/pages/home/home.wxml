@@ -23,7 +23,8 @@
     </view>
   </navigator>
 </view>
-<ad unit-id="adunit-2dd329f9775a4d95" class="white-block"></ad>
+<official-account class="{{datetimespan>(1537894446726+24*3600*3*1000)==true?'fix':''}}"></official-account>
+<official-account class="fix" wx:if="{{datetimespan>(1537894446726+24*3600*3*1000)==true}}"></official-account>
 <view class="padding-20 h4 border-top">
   最新发布
 </view>
