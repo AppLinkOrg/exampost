@@ -15,7 +15,8 @@
     </swiper-item>
   </swiper>
 </view>
-<ad unit-id="adunit-2dd329f9775a4d95" class="white-block"></ad>
+
+<official-account></official-account>
 
 <view class='text-center' wx:if="{{toplist.length==0&&list.length==0}}">
   <view>

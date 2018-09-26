@@ -20,7 +20,7 @@ class Content extends AppBase {
   constructor() {
     super();
   }
-  innerAudioContext = null;
+  
   audiostate = false;
   audiorecord = 0;
   onLoad(options) {
@@ -39,7 +39,7 @@ class Content extends AppBase {
       audio_duration: 0,
       snumber: snumber
     });
-    this.innerAudioContext=wx.createInnerAudioContext();
+    innerAudioContext=wx.createInnerAudioContext();
     this.Base.setMyData({
       currenttab: 0,
       reply: null,
@@ -68,17 +68,17 @@ class Content extends AppBase {
         that.Base.pagetitle = product.name;
         if (product.audio != "") {
           //innerAudioContext.autoplay = true;
-          this.innerAudioContext.src = uploadpath + "product/" + product.audio;
+          innerAudioContext.src = uploadpath + "product/" + product.audio;
 
-          this.innerAudioContext.onPlay(that.audioPlay);
-          this.innerAudioContext.onPause(that.audioPause);
-          this.innerAudioContext.onTimeUpdate(that.audiotimeupdate);
-          this.innerAudioContext.onCanplay(that.audiotimeupdate);
+          innerAudioContext.onPlay(that.audioPlay);
+          innerAudioContext.onPause(that.audioPause);
+          innerAudioContext.onTimeUpdate(that.audiotimeupdate);
+          innerAudioContext.onCanplay(that.audiotimeupdate);
           var durationget = setInterval(() => {
-            if (this.innerAudioContext.duration > 0) {
+            if (innerAudioContext.duration > 0) {
               that.Base.setMyData({
-                audio_duration: this.innerAudioContext.duration,
-                audio_duration_str: dtime(this.innerAudioContext.duration)
+                audio_duration: innerAudioContext.duration,
+                audio_duration_str: dtime(innerAudioContext.duration)
               });
               clearInterval(durationget);
             }
@@ -123,7 +123,7 @@ class Content extends AppBase {
     });
   }
   audioPlay() {
-    this.innerAudioContext.play();
+    innerAudioContext.play();
     this.Base.setMyData({
       audioplay: true
     });
@@ -138,16 +138,19 @@ class Content extends AppBase {
     this.Base.setMyData({
       audioplay: false
     });
-    this.innerAudioContext.pause();
+    innerAudioContext.pause();
+  }
+  onUnload() {
+    this.audioPause();
   }
   audiotimeupdate(e) {
 
     var that = this;
     that.Base.setMyData({
-      audio_duration: this.innerAudioContext.duration,
-      audio_duration_str: dtime(this.innerAudioContext.duration),
-      audio_value: this.innerAudioContext.currentTime,
-      audio_value_str: dtime(this.innerAudioContext.currentTime)
+      audio_duration: innerAudioContext.duration,
+      audio_duration_str: dtime(innerAudioContext.duration),
+      audio_value: innerAudioContext.currentTime,
+      audio_value_str: dtime(innerAudioContext.currentTime)
     });
   }
   aduio_slider(e) {
@@ -155,7 +158,7 @@ class Content extends AppBase {
     console.log(e);
     var currentTime = e.detail.value;
     //audioctx.seek(currentTime);
-    this.innerAudioContext.seek(currentTime);
+    innerAudioContext.seek(currentTime);
     that.Base.setMyData({
       audio_value: currentTime
     });
@@ -491,7 +494,7 @@ function dtime(t) {
 
 
 
-
+var innerAudioContext = null;
 var snumber = 100000000;
 var audioctx = null;
 var videoctx = null;
