@@ -132,7 +132,7 @@ class Content extends AppBase {
   }
   clickaudioPause() {
     this.audiostate = false;
-    this.Base.audioPause();
+    this.audioPause();
   }
   audioPause() {
     this.Base.setMyData({
