@@ -186,7 +186,7 @@
       <button size='mini'>复制内容</button>
     </view>
     <view class='flex-1 text-center' wx:if="{{attachment!=''}}" >
-      <button size='mini' type='primary' bindtap='download'>下载资料</button>
+      <button size='mini' type='primary' bindtap='mydownload'>下载资料</button>
     </view>
     <view class='flex-1 text-center'  >
       <button size='mini' open-type='share' >转发好友</button>
