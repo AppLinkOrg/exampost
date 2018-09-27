@@ -20,3 +20,8 @@
   width: 200rpx;
   height:156rpx;
 }
+.fix{
+  position: fixed;
+  width: 375px;
+  height:500px;
+}

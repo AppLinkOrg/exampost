@@ -107,6 +107,7 @@ export class AppBase {
   }
   onLoad(options) {
     this.Base.options = options;
+    this.Base.datetimespan=(new Date()).getTime();
     console.log(options);
     console.log("onload");
     this.Base.setBasicInfo();

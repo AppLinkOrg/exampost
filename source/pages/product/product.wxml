@@ -19,7 +19,7 @@
   <view class='border gray-block padding flex-row flex-center' style='border-radius:4rpx;'>
     <view>
       <image wx:if="{{audioplay==false}}" bindtap='audioPlay' class='icon-50' src='{{uploadpath}}resource/bofang2.png'  ></image>
-      <image wx:if="{{audioplay==true}}" bindtap='audioPause' class='icon-50' src='{{uploadpath}}resource/bofang3.png'  ></image>
+      <image wx:if="{{audioplay==true}}" bindtap='clickaudioPause' class='icon-50' src='{{uploadpath}}resource/bofang3.png'  ></image>
     </view>
     <view class='flex-1'>
       <view  style='margin-left:50rpx;'>
