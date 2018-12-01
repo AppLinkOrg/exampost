@@ -1,0 +1,9 @@
+<!--pages/coming/coming.wxml-->
+<view class='text-center' style='margin-top:50px;' >
+  <view>
+    <image class='egg' src='{{uploadpath}}resource/coming.png'></image>
+  </view>
+  <view class='txt-gray h6 margin-top'>
+  此功能升级当中，稍后开放，敬请期待
+  </view>
+</view>

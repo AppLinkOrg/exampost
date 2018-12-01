@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/home/home",
+    "pages/coming/coming",
     "pages/product/product",
     "pages/info/info",
     "pages/times/times",
@@ -52,8 +53,8 @@
         "selectedIconPath": "images/icons/cat.png"
       },
       {
-        "text": "考研心得",
-        "pagePath": "pages/times/times",
+        "text": "刷题",
+        "pagePath": "pages/coming/coming",
         "iconPath": "images/icons/quan-o.png",
         "selectedIconPath": "images/icons/quan.png"
       },
