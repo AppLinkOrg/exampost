@@ -1,13 +1,13 @@
 export class ApiConfig {
 
   static GetApiUrl() {
-    return "https://cmsdev.app-link.org/alucard263096/deky/api/";
+    return "https://deky.dingerkaoyan.com.cn/api/";
   }
   static GetUploadPath() {
-    return "https://alioss.app-link.org/alucard263096/deky/";
+    return "https://deky.oss-cn-qingdao.aliyuncs.com/";
   }
   static GetFileUploadAPI() {
-    return "https://cmsdev.app-link.org/alucard263096/deky/fileupload";
+    return "https://deky.dingerkaoyan.com.cn/fileupload";
   }
 
   static GetHeader() {
