@@ -12,7 +12,7 @@ export class AppBase {
   static UserInfo = {};
   static NEEDRELOADTIMES=false;
   unicode = "deky";
-  needauth = true;
+  needauth = false;
   pagetitle=null;
   app = null;
   options = null;
@@ -174,6 +174,7 @@ export class AppBase {
           wx.getUserInfo({
             success: userres => {
               AppBase.UserInfo = userres.userInfo;
+              console.log('哈哈哈哈哈哈')
               console.log(userres);
 
               var memberapi = new MemberApi();

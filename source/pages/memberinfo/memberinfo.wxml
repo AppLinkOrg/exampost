@@ -1,5 +1,5 @@
-<!--pages/member/member.wxml-->
-<view class='line-height-0 backimg'>
+<!-- pages/member/member.wxml -->
+<!-- <view class='line-height-0 backimg'>
 
   <view class='padding'>
     <view class='text-center'>
@@ -165,4 +165,4 @@
 
     </scroll-view>
   </swiper-item>
-</swiper>
+</swiper> -->

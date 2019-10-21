@@ -31,7 +31,7 @@
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarBackgroundColor": "white",
+    "navigationBarBackgroundColor": "#ffffff",
     "enablePullDownRefresh": true
   },
   "tabBar": {
@@ -66,5 +66,9 @@
       }
     ]
   },
+  "navigateToMiniProgramAppIdList": [
+    "wxce8dfd9950dacbe7",
+    "wxcdcb21983d5da570"
+  ],
   "sitemapLocation": "sitemap.json"
 }

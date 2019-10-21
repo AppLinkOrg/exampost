@@ -12,6 +12,7 @@ class Content extends AppBase {
     //options.id=5;
     super.onLoad(options);
     this.Base.setMyData({toplist:[],productlist:[]});
+
   }
   onMyShow() {
     var that = this;
@@ -50,10 +51,27 @@ class Content extends AppBase {
       this.Base.setMyData({ productlist: productlist, reachmore:false });
     });
   }
+
+  hhhh(){
+    wx.showModal({
+      title: '提示',
+      content: "你还没有登录，请到我的页面点击授权并登录",
+      showCancel: false,
+      success(e) {
+        if (e.confirm) {
+           wx.reLaunch({
+             url: '/pages/member/member',
+           })
+        }
+      }
+    })
+  }
+
 }
 var content = new Content();
 var body = content.generateBodyJson();
 body.onLoad = content.onLoad; 
 body.onMyShow = content.onMyShow;
 body.onPullDownRefresh = content.onPullDownRefresh;
+body.hhhh = content.hhhh;
 Page(body)

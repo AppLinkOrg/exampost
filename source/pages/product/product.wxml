@@ -48,9 +48,9 @@
 <ad unit-id="adunit-2dd329f9775a4d95" class="white-block"></ad>
 
 
-<view class='padding h5 flex-row flex-center'>
-  <view>留言评论 （{{comments.length}}）</view>
-    <view class='flex-1'></view>
+<!-- <view class='padding h5 flex-row flex-center'>
+  <view>留言 </view>
+    <view class='flex-1'></view> -->
     <!--
     <view  bindtap='openshare' class='line-height-0' style='padding-right:10rpx;'>
       <image class='icon' src='{{uploadpath}}resource/ff.png'></image>
@@ -58,12 +58,12 @@
     <view  bindtap='openshare' class='txt-gray' style='margin-right:10rpx;'>
       {{sharecount>0?sharecount:"分享"}}
     </view>-->
-    <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id=0&reply_comment_id=0' class='line-height-0' style='padding-right:10rpx;margin-left:20rpx;'>
+    <!-- <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id=0&reply_comment_id=0' class='line-height-0' style='padding-right:10rpx;margin-left:20rpx;'>
       <image class='icon' src='{{uploadpath}}resource/comment2.png'></image>
     </navigator>
-    <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id=0&reply_comment_id=0' class='txt-gray' style='padding-right:10rpx;'>
-      {{comments.length>0?comments.length:"评论"}}
-    </navigator>
+    <navigator url='/pages/comment/comment?id={{id+snumber}}&reply_member_id=0&reply_comment_id=0' class='txt-gray' style='padding-right:10rpx;'> -->
+      <!-- {{comments.length>0?comments.length:"评论"}} -->
+    <!-- </navigator>
     <view class='line-height-0' style='padding-right:10rpx;margin-left:20rpx;' id="{{id}}" bindtap='like' wx:if="{{like=='N'}}">
       <image class='icon' src='{{uploadpath}}resource/like2-a.png'></image>
     </view>
@@ -81,8 +81,8 @@
   <view style='height:400rpx;'></view>
   <view class='flex-1 text-center h5 txt-gray'>还没有人评论</view>
   <view></view>
-</view>
-<view class='white-block' wx:if="{{comments.length>0}}">
+</view> -->
+<!-- <view class='white-block' wx:if="{{comments.length>0}}">
   <view class='padding white-block border-top' wx:for="{{comments}}" wx:key="k" wx:for-index="idx">
     <view class='flex-row'>
       <navigator url='/pages/memberinfo/memberinfo?id=shownext=Y&id={{item.member_id}}' class='line-height-0 margin-right-10'>
@@ -118,7 +118,7 @@
       </view>
     </view>
   </view>
-</view>
+</view> -->
 <view style='height:104rpx;'></view>
 
 

@@ -1,83 +1,90 @@
 <!--pages/member/member.wxml-->
 <view class='text-center white-block'>
   <view class='padding-20'>
-    <image class='icon-70 border-radius-50' src='{{UserInfo.avatarUrl}}' ></image>
+    <button wx:if="{{UserInfo==undefined}}" class="clear-button" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+      <image class='icon-70 border-radius-50' src='{{uploadpath}}resource/weidenglutouxiang'></image>
+       <view wx:if="{{UserInfo==undefined}}" class='padding-20'>
+    点击登录
   </view>
-  <view class='padding-20' >
+    </button>
+    <image wx:if="{{!(UserInfo==undefined)}}" class='icon-70 border-radius-50' src='{{UserInfo.avatarUrl}}'></image>
+  </view>
+ 
+
+  <view wx:if="{{!(UserInfo==undefined)}}" class='padding-20'>
     {{UserInfo.nickName}}
   </view>
   <view class='padding-10'></view>
 </view>
 
-<navigator url='/pages/memberinfo/memberinfo?id={{UserInfo.id}}' class='white-block padding-20 margin-top flex-row flex-center' >
+<!-- <navigator url='/pages/memberinfo/memberinfo?id={{UserInfo.id}}' class='white-block padding-20 margin-top flex-row flex-center'>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon' src='{{uploadpath}}resource/myhome2.png' ></image>
+    <image class='icon' src='{{uploadpath}}resource/myhome2.png'></image>
   </view>
   <view class='flex-1'>
     个人主页
   </view>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon-15' src='{{uploadpath}}resource/right.png' ></image>
+    <image class='icon-15' src='{{uploadpath}}resource/right.png'></image>
   </view>
-</navigator>
+</navigator> -->
 <navigator url='/pages/productfavlist/productfavlist' class='padding-20 white-block border-top  flex-row flex-center'>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon' src='{{uploadpath}}resource/fav.png' ></image>
+    <image class='icon' src='{{uploadpath}}resource/fav.png'></image>
   </view>
   <view class='flex-1'>
     我的收藏
   </view>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon-15' src='{{uploadpath}}resource/right.png' ></image>
+    <image class='icon-15' src='{{uploadpath}}resource/right.png'></image>
   </view>
 </navigator>
 <navigator url='/pages/viewhistory/viewhistory' class='padding-20 white-block border-top flex-row flex-center'>
   <view class='line-height-0 margin-right-10'>
-    <image class='hisicon' src='{{uploadpath}}resource/history.png' ></image>
+    <image class='hisicon' src='{{uploadpath}}resource/history.png'></image>
   </view>
   <view class='flex-1'>
     浏览记录
   </view>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon-15' src='{{uploadpath}}resource/right.png' ></image>
+    <image class='icon-15' src='{{uploadpath}}resource/right.png'></image>
   </view>
 </navigator>
 
 <navigator url='/pages/content/content?keycode=quznaishuoming&title=使用说明' class='padding-20 margin-top  white-block  flex-row flex-center'>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon' src='{{uploadpath}}resource/shuoming1.png' ></image>
+    <image class='icon' src='{{uploadpath}}resource/shuoming1.png'></image>
   </view>
   <view class='flex-1'>
     使用说明
   </view>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon-15' src='{{uploadpath}}resource/right.png' ></image>
+    <image class='icon-15' src='{{uploadpath}}resource/right.png'></image>
   </view>
 </navigator>
 <navigator url='/pages/content/content?keycode=aboutus&title=关于我们' class='padding-20 border-top  white-block  flex-row flex-center'>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon' src='{{uploadpath}}resource/aboutus.png' ></image>
+    <image class='icon' src='{{uploadpath}}resource/aboutus.png'></image>
   </view>
   <view class='flex-1'>
     关于我们
   </view>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon-15' src='{{uploadpath}}resource/right.png' ></image>
+    <image class='icon-15' src='{{uploadpath}}resource/right.png'></image>
   </view>
 </navigator>
 <navigator url='/pages/photodownload/photodownload?file={{instinfo.qrcode}}&model=inst' class='padding-20 border-top  white-block  flex-row flex-center'>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon' src='{{uploadpath}}resource/fenxiang.png' ></image>
+    <image class='icon' src='{{uploadpath}}resource/fenxiang.png'></image>
   </view>
   <view class='flex-1'>
     分享小程序
   </view>
   <view class='line-height-0 margin-right-10'>
-    <image class='icon-15' src='{{uploadpath}}resource/right.png' ></image>
+    <image class='icon-15' src='{{uploadpath}}resource/right.png'></image>
   </view>
 </navigator>
 
 <view class='txt-gray h6 text-center padding-20 margin-top'>
   丁迩考研版权所有
 </view>
-

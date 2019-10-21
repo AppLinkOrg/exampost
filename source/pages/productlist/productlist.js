@@ -12,8 +12,32 @@ class Content extends AppBase {
     //options.id=5;
     super.onLoad(options);
     this.Base.setMyData({ catlist: [] });
+
+
+     
+
+
+
   }
   onMyShow() {
+
+    console.log(AppBase.UserInfo.avatarUrl,"快快快")
+
+    // if (AppBase.UserInfo.avatarUrl == undefined) {
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: "你还没有登录，请到我的页面点击授权并登录",
+    //     showCancel: false,
+    //     success(e) {
+    //       if (e.confirm) {
+    //         wx.reLaunch({
+    //           url: '/pages/member/member',
+    //         })
+    //       }
+    //     }
+    //   })
+    // }
+
     var that = this;
     var catlist = this.Base.getMyData().catlist;
     if (catlist.length == 0) {

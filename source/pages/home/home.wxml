@@ -1,60 +1,126 @@
-<view>
-  <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:420rpx;' circular>
-    <swiper-item wx:for="{{indexbanner}}" wx:key="k">
-      <block wx:if="{{item.gotosearch_value=='Y'}}">
-      <navigator  url='/pages/search/search' >
-        <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
-      </navigator>
-      </block>
-      <block wx:else>
-      <view id="{{item.product_id}}" bindtap='gotoProduct'>
-        <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
-      </view>
-      </block>
-    </swiper-item>
-  </swiper>
-</view>
+<!-- <view  bindtap="hhhh">
+  <view>
+    <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:420rpx;' circular>
+      <swiper-item wx:for="{{indexbanner}}" wx:key="k">
+        <block wx:if="{{item.gotosearch_value=='Y'}}">
+          <navigator >
+            <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
+          </navigator>
+        </block>
+        <block wx:else>
+          <view id="{{item.product_id}}" >
+            <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
+          </view>
+        </block>
+      </swiper-item>
+    </swiper>
+  </view>
 
-<view >
-  <navigator url='/pages/search/search' class="searchbar white-block flex-row flex-center">
-    <view class="flex-1 h5 txt-gray">我想要找一下最新的考研资料</view>
-    <view class=" text-right line-height-0" >
-      <image src='{{uploadpath}}resource/search.png' class='icon'></image>
+  <view>
+    <navigator  class="searchbar white-block flex-row flex-center">
+      <view class="flex-1 h5 txt-gray">我想要找一下最新的考研资料</view>
+      <view class=" text-right line-height-0">
+        <image src='{{uploadpath}}resource/search.png' class='icon'></image>
+      </view>
+    </navigator>
+  </view>
+  <official-account></official-account>
+  <view class="padding-20 h4 border-top">
+    最新发布
+  </view>
+  <navigator wx:for="{{toplist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
+    <view>
+      <image style='width:80rpx;position:absolute;margin-left:120rpx;margin-top:10rpx;' mode='widthFix' src='{{uploadpath}}resource/ontop.png' wx:if="{{item.ontop_value=='Y'}}"></image>
+      <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
+    </view>
+    <view class='flex-1'>
+      <view class='title'>{{item.name}}</view>
+      <view class='margin-top flex-row flex-bottom'>
+        <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
+        <view class='h6 txt-gray' style='margin-right:10rpx;'>{{item.ref}}</view>
+        <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+      </view>
     </view>
   </navigator>
-</view>
-<official-account></official-account>
-<view class="padding-20 h4 border-top">
-  最新发布
-</view>
-<navigator url='/pages/product/product?id={{item.id}}' wx:for="{{toplist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
-  <view>
-    <image style='width:80rpx;position:absolute;margin-left:120rpx;margin-top:10rpx;' mode='widthFix' src='{{uploadpath}}resource/ontop.png' wx:if="{{item.ontop_value=='Y'}}"></image>
-    <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
-  </view>
-  <view class='flex-1'>
-    <view class='title'>{{item.name}}</view>
-    <view class='margin-top flex-row flex-bottom'>
-      <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
-      <view class='h6 txt-gray' style='margin-right:10rpx;' >{{item.ref}}</view>
-      <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+  <navigator  wx:for="{{productlist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
+    <view>
+      <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
     </view>
-  </view>
-</navigator>
-<navigator url='/pages/product/product?id={{item.id}}' wx:for="{{productlist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
-  <view>
-    <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
-  </view>
-  <view class='flex-1'>
-    <view class='title'>{{item.name}}</view>
-    <view class='margin-top flex-row flex-bottom'>
-      <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
-      <view class='h6 txt-gray' style='margin-right:10rpx;' >{{item.ref}}</view>
-      <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+    <view class='flex-1'>
+      <view class='title'>{{item.name}}</view>
+      <view class='margin-top flex-row flex-bottom'>
+        <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
+        <view class='h6 txt-gray' style='margin-right:10rpx;'>{{item.ref}}</view>
+        <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+      </view>
     </view>
+  </navigator>
+  <view wx:if="{{reachmore==true}}" class='txt-gray h6 text-center padding-20'>
+    加载中
   </view>
-</navigator>
-<view wx:if="{{reachmore==true}}" class='txt-gray h6 text-center padding-20'>
-  加载中
+</view> -->
+
+<view >
+  <view>
+    <swiper autoplay='true' indicator-dots='true' style='width:750rpx;height:420rpx;' circular>
+      <swiper-item wx:for="{{indexbanner}}" wx:key="k">
+        <block wx:if="{{item.gotosearch_value=='Y'}}">
+          <navigator url='/pages/search/search'>
+            <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
+          </navigator>
+        </block>
+        <block wx:else>
+          <view id="{{item.product_id}}" bindtap='gotoProduct'>
+            <image src='{{uploadpath}}indexbanner/{{item.img}}' style='width:750rpx;height:420rpx;' mode="aspectFill"></image>
+          </view>
+        </block>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <view>
+    <navigator url='/pages/search/search' class="searchbar white-block flex-row flex-center">
+      <view class="flex-1 h5 txt-gray">我想要找一下最新的考研资料</view>
+      <view class=" text-right line-height-0">
+        <image src='{{uploadpath}}resource/search.png' class='icon'></image>
+      </view>
+    </navigator>
+  </view>
+  <official-account></official-account>
+  <view class="padding-20 h4 border-top">
+    最新发布
+  </view>
+  <navigator url='/pages/product/product?id={{item.id}}' wx:for="{{toplist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
+    <view>
+      <image style='width:80rpx;position:absolute;margin-left:120rpx;margin-top:10rpx;' mode='widthFix' src='{{uploadpath}}resource/ontop.png' wx:if="{{item.ontop_value=='Y'}}"></image>
+      <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
+    </view>
+    <view class='flex-1'>
+      <view class='title'>{{item.name}}</view>
+      <view class='margin-top flex-row flex-bottom'>
+        <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
+        <view class='h6 txt-gray' style='margin-right:10rpx;'>{{item.ref}}</view>
+        <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+      </view>
+    </view>
+  </navigator>
+  <navigator url='/pages/product/product?id={{item.id}}' wx:for="{{productlist}}" wx:key="k" class='border-top white-block padding-20 flex-row '>
+    <view>
+      <image class='cover' src='{{uploadpath}}product/{{item.cover}}' mode="aspectFill"></image>
+    </view>
+    <view class='flex-1'>
+      <view class='title'>{{item.name}}</view>
+      <view class='margin-top flex-row flex-bottom'>
+        <view class='flex-1 h6 txt-gray'>{{item.published_date_formatting}}</view>
+        <view class='h6 txt-gray' style='margin-right:10rpx;'>{{item.ref}}</view>
+        <view class='h6 txt-gray'>{{item.cat_id_name}}</view>
+      </view>
+    </view>
+  </navigator>
+  <view wx:if="{{reachmore==true}}" class='txt-gray h6 text-center padding-20'>
+    加载中
+  </view>
 </view>
 
+
+<!-- <view class="sss" wx:if="{{UserInfo==undefined}}"  bindtap="hhhh"></view> -->

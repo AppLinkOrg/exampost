@@ -15,12 +15,24 @@ class Content extends AppBase {
   }
   onMyShow() {
     var that = this;
+   
+    console.log(this.Base.getMyData().UserInfo);
+    console.log(AppBase.UserInfo.avatarUrl);
+    console.log(5555555555550);
     
   }
   
+  getUserInfo(){
+    AppBase.UserInfo.openid=undefined;
+    console.log(1231321321);
+    this.onShow();
+  }
+  
+
 }
 var content = new Content();
 var body = content.generateBodyJson();
 body.onLoad = content.onLoad;
 body.onMyShow = content.onMyShow;
+body.getUserInfo = content.getUserInfo;
 Page(body)

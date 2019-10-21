@@ -25,3 +25,11 @@
   width: 375px;
   height:500px;
 }
+.sss{
+  position: fixed;
+  z-index: 100;
+  background: transparent; 
+  width: 100vw;
+  top: 0;
+  bottom: 0;
+}

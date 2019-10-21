@@ -253,6 +253,20 @@ class Content extends AppBase {
       }
     });
   }
+  hhhh() {
+    wx.showModal({
+      title: '提示',
+      content: "你还没有登录，请到我的页面点击授权并登录",
+      showCancel: false,
+      success(e) {
+        if (e.confirm) {
+          wx.reLaunch({
+            url: '/pages/member/member',
+          })
+        }
+      }
+    })
+  }
   videoplay() {
     this.Base.setMyData({
       audioplay: false
@@ -263,23 +277,42 @@ class Content extends AppBase {
   fav() {
     var fav = this.Base.getMyData().fav;
     var api = new ProductApi();
-    api.fav({
-      "product_id": this.Base.options.id
-    }, (ret) => {
+    if (AppBase.UserInfo.avatarUrl == undefined) {
+      wx.showModal({
+        title: '提示',
+        content: "你还没有登录，请到我的页面点击授权并登录",
+        showCancel: false,
+        success(e) {
+          if (e.confirm) {
+            wx.reLaunch({
+              url: '/pages/member/member',
+            })
+          }
+        }
+      })
+    }else {
 
-      if (fav == "Y") {
-        this.Base.setMyData({
-          fav: "N"
-        });
-        this.Base.toast("取消收藏成功");
-      } else {
+      api.fav({
+        "product_id": this.Base.options.id
+      }, (ret) => {
 
-        this.Base.setMyData({
-          fav: "Y"
-        });
-        this.Base.toast("收藏成功");
-      }
-    });
+        if (fav == "Y") {
+          this.Base.setMyData({
+            fav: "N"
+          });
+          this.Base.toast("取消收藏成功");
+        } else {
+
+          this.Base.setMyData({
+            fav: "Y"
+          });
+          this.Base.toast("收藏成功");
+        }
+      });
+      
+    }
+    
+
   }
   sharetotimes() {
 
@@ -526,5 +559,6 @@ body.like = content.like;
 body.audioPause = content.audioPause; 
 body.clickshowmorecomment = content.clickshowmorecomment;
 body.clickaudioPause = content.clickaudioPause;
+body.hhhh = content.hhhh;
 
 Page(body)

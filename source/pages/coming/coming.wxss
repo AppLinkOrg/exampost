@@ -1,1 +1,30 @@
 /* pages/coming/coming.wxss */
+
+.btns {
+  width: 60%;
+  /* border: 1rpx solid #eee; */
+   height: 200rpx;
+  line-height: 200rpx;
+  margin-bottom: 150rpx;
+  border-color: #1a237e;
+  background: #fff;
+   /* border: 2rpx solid black; */
+   box-shadow: 2rpx 2rpx 2rpx 2rpx #aeafb3;
+  color: #1a237e;
+  text-align: center;
+  border-radius: 50% !important;
+}
+
+.btns_02 {
+  width: 60%;
+  /* border: 1rpx solid #eee; */
+   height: 200rpx;
+   background: #1a237e;
+  line-height: 200rpx;
+  margin-bottom: 150rpx;
+  border-color: #43498b;
+  /* border: 2rpx solid black; */
+  color: #fff;
+  text-align: center;
+  border-radius: 100rpx !important;
+}

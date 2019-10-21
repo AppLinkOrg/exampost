@@ -1,7 +1,7 @@
 <!--pages/comment/comment.wxml-->
 <form  bindsubmit="confirm" bindreset="formReset" report-submit="{{true}}">
 <view class='padding white-block'>
-  <textarea placeholder='{{options.reply_member_id>0?"回复"+options.reply_member_name+"...":"写评论..."}}' name="comment" class='fullimg'  maxlength='-1'  auto-focus='{{true}}'></textarea>
+  <textarea placeholder='{{options.reply_member_id>0?"回复"+options.reply_member_name+"...":"留言将由管理员筛选后显示。"}}' name="comment" class='fullimg'  maxlength='-1'  auto-focus='{{true}}'></textarea>
 </view>
 <view class='flex-row flex-center'>
   <view class='padding-20 flex-1'>

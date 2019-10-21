@@ -48,6 +48,11 @@ view,navigator,input,text,textarea{
 .flex-wrap{
   flex-wrap: wrap;
 }
+.flex-column {
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 .flex-center{
   align-content: center;
   align-items: center;

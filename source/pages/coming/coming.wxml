@@ -1,9 +1,21 @@
 <!--pages/coming/coming.wxml-->
-<view class='text-center' style='margin-top:50px;' >
-  <view>
+<view class='flex-row flex-column' style='margin-top:150px;' >
+  <!-- <view>
     <image class='egg' src='{{uploadpath}}resource/coming.png'></image>
-  </view>
-  <view class='txt-gray h6 margin-top'>
+  </view> -->
+  <!-- <view class='txt-gray h6 margin-top'>
   此功能升级当中，稍后开放，敬请期待
-  </view>
+  </view> -->
+
+<!-- <navigator target = "miniProgram" app-id="wx18a2ac992306a5a4" path="pages/apps/largess/detail?accountId=2849563" open-type='navigate'>
+   
+</navigator> -->
+
+
+
+  <view bindtap="asadas" class="btns h4 ">考研刷题库</view>
+ 
+  <view bindtap="asad1as"  class="btns h4 ">考研模拟题</view>
+
+
 </view>
